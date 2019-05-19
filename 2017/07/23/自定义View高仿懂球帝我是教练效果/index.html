@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="自定义View," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言这几天很多欧洲球队来中国进行热身赛，不知道喜欢足球的各位小伙伴们有没有看球。喜欢足球的朋友可能知道懂球帝APP，鄙人也经常使用这个应用，里面有一个我是教练的功能挺好玩,就是可以模拟教练员的身份，排兵布阵；本着好奇心简单模仿了一下，在这里和大家分享。 效果图老规矩，先上效果图看看模仿的像不。   玩过我是教练这个功能的小伙伴可以对比一下。 总的来说，这样的一个效果，其实很简单，就是一个view随">
+<meta name="keywords" content="自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义View高仿懂球帝我是教练效果">
+<meta property="og:url" content="http://yoursite.com/2017/07/23/自定义View高仿懂球帝我是教练效果/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言这几天很多欧洲球队来中国进行热身赛，不知道喜欢足球的各位小伙伴们有没有看球。喜欢足球的朋友可能知道懂球帝APP，鄙人也经常使用这个应用，里面有一个我是教练的功能挺好玩,就是可以模拟教练员的身份，排兵布阵；本着好奇心简单模仿了一下，在这里和大家分享。 效果图老规矩，先上效果图看看模仿的像不。   玩过我是教练这个功能的小伙伴可以对比一下。 总的来说，这样的一个效果，其实很简单，就是一个view随">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/7/23/68d1796a8b77eaee289378a8686b508f">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/7/23/bd8a6abef46a6e25d06a447ec5e68c87">
+<meta property="og:updated_time" content="2019-05-19T09:22:10.253Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义View高仿懂球帝我是教练效果">
+<meta name="twitter:description" content="前言这几天很多欧洲球队来中国进行热身赛，不知道喜欢足球的各位小伙伴们有没有看球。喜欢足球的朋友可能知道懂球帝APP，鄙人也经常使用这个应用，里面有一个我是教练的功能挺好玩,就是可以模拟教练员的身份，排兵布阵；本着好奇心简单模仿了一下，在这里和大家分享。 效果图老规矩，先上效果图看看模仿的像不。   玩过我是教练这个功能的小伙伴可以对比一下。 总的来说，这样的一个效果，其实很简单，就是一个view随">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/7/23/68d1796a8b77eaee289378a8686b508f">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/23/自定义View高仿懂球帝我是教练效果/"/>
+
+
+
+
+
+  <title>自定义View高仿懂球帝我是教练效果 | 诗与远方</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/23/自定义View高仿懂球帝我是教练效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自定义View高仿懂球帝我是教练效果</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-23T23:16:47+08:00">
+                2017-07-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/23/自定义View高仿懂球帝我是教练效果/" class="leancloud_visitors" data-flag-title="自定义View高仿懂球帝我是教练效果">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这几天很多欧洲球队来中国进行热身赛，不知道喜欢足球的各位小伙伴们有没有看球。喜欢足球的朋友可能知道懂球帝APP，鄙人也经常使用这个应用，里面有一个我是教练的功能挺好玩,就是可以模拟教练员的身份，排兵布阵；本着好奇心简单模仿了一下，在这里和大家分享。</p>
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>老规矩，先上效果图看看模仿的像不。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/7/23/68d1796a8b77eaee289378a8686b508f" alt="add_player"></p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/7/23/bd8a6abef46a6e25d06a447ec5e68c87" alt="move_player"></p>
+<p>玩过我是教练这个功能的小伙伴可以对比一下。</p>
+<p>总的来说，这样的一个效果，其实很简单，就是一个view随着手指在屏幕上移动的效果，外加一个图片替换的动画。但就是这些看似简单的效果，在实现的过程中也是遇到了很多坑，涨了许多新姿势。好了，废话不说，代码走起(｡◕ˇ∀ˇ◕)。</p>
+<a id="more"></a>
+<h2 id="自定义View-BallGameView"><a href="#自定义View-BallGameView" class="headerlink" title="自定义View-BallGameView"></a>自定义View-BallGameView</h2><p>整个内容中最核心的就是一个自定义View-BallGameView，就是屏幕中绿色背景，有气泡和球员图片的整个view。</p>
+<p><em>说到自定义View，老生常谈，大家一直都在学习，却永远都觉得自己没有学会，但是自定义View的知识本来就很多呀，想要熟练掌握，必须假以时日</em>。</p>
+<p>既然是自定View就从大家最关心的两个方法 onMeasure和onDraw 两个方法说起。这里由于是纯粹继承自View，就不考虑onLayout的实现了。</p>
+<h4 id="测量-onMeasure"><a href="#测量-onMeasure" class="headerlink" title="测量-onMeasure"></a>测量-onMeasure</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> viewW = screenW;</span><br><span class="line">    <span class="keyword">int</span> viewH = (<span class="keyword">int</span>) (screenW * <span class="number">1.3</span>);</span><br><span class="line">    setMeasuredDimension(viewW, viewH);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里onMeasure()方法的实现很简单，简单的用屏幕的宽度规定了整个View 的宽高；至于1.3这个倍数，完全一个估算值，不必深究。</p>
+<h4 id="绘制-onDraw"><a href="#绘制-onDraw" class="headerlink" title="绘制-onDraw"></a>绘制-onDraw</h4><p>onDraw()方法是整个View中最核心的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line">        <span class="comment">//绘制背景</span></span><br><span class="line">        canvas.drawBitmap(backgroundBitmap, bitmapRect, mViewRect, mPaint);</span><br><span class="line">        <span class="comment">//绘制提示文字透明背景</span></span><br><span class="line">        canvas.drawRoundRect(mRoundRect, <span class="number">8</span>, <span class="number">8</span>, mRectPaint);</span><br><span class="line">        <span class="comment">//绘制底部提示文字 ( TextPiant 文字垂直居中实现 http://blog.csdn.net/hursing/article/details/18703599)</span></span><br><span class="line">        Paint.FontMetricsInt fontMetrics = mTipPaint.getFontMetricsInt();</span><br><span class="line">        <span class="keyword">float</span> baseY=(mRoundRect.bottom+mRoundRect.top)/<span class="number">2</span>-(fontMetrics.top+fontMetrics.bottom)/<span class="number">2</span>;</span><br><span class="line">        canvas.drawText(tips, screenW / <span class="number">2</span>, baseY, mTipPaint);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//绘制初始的11个气泡</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; players.length; i++) &#123;</span><br><span class="line">            <span class="comment">//绘制当前选中的球员</span></span><br><span class="line">            <span class="keyword">if</span> (i == currentPos) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (players[i].isSetReal()) &#123;</span><br><span class="line">                    <span class="comment">//绘制球员头像</span></span><br><span class="line">                    canvas.drawBitmap(players[i].getBitmap(), positions[i].x - playW / <span class="number">2</span>,</span><br><span class="line">                            positions[i].y - playW / <span class="number">2</span>, mPaint);</span><br><span class="line">                    <span class="comment">//绘制选中球员金色底座</span></span><br><span class="line">                    canvas.drawBitmap(playSelectedBitmap, positions[i].x - goldW / <span class="number">2</span>,</span><br><span class="line">                            positions[i].y - goldH / <span class="number">2</span>, mPaint);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//绘制球员姓名</span></span><br><span class="line">                    canvas.drawText(players[i].getName(), positions[i].x,</span><br><span class="line">                            positions[i].y + playW, mTextPaint);</span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    canvas.drawBitmap(selectedBitmap, positions[i].x - playW / <span class="number">2</span>,</span><br><span class="line">                            positions[i].y - playW / <span class="number">2</span>, mPaint);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                canvas.drawBitmap(players[i].getBitmap(), positions[i].x - playW / <span class="number">2</span>,</span><br><span class="line">                        positions[i].y - playW / <span class="number">2</span>, mPaint);</span><br><span class="line">                <span class="keyword">if</span> (players[i].isSetReal()) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//绘制球员姓名</span></span><br><span class="line">                    canvas.drawText(players[i].getName(), positions[i].x,</span><br><span class="line">                            positions[i].y + playW, mTextPaint);</span><br><span class="line">                    <span class="comment">//绘制已设置正常图片球员背景</span></span><br><span class="line">                    canvas.drawBitmap(playeBgBitmap, positions[i].x - grayW / <span class="number">2</span>,</span><br><span class="line">                            positions[i].y + <span class="number">200</span>, mPaint);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在onDraw方法里，我们主要使用了canvas.drawBitmap 方法，绘制了很多图片。下面就简单了解一下canvas.drawBitmap 里的两个重载方法。</p>
+<ul>
+<li>drawBitmap(Bitmap bitmap,Rect src,Rect dst,Paint paint) </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Draw the specified bitmap, scaling/translating automatically to fill</span></span><br><span class="line"><span class="comment">     * the destination rectangle. If the source rectangle is not null, it</span></span><br><span class="line"><span class="comment">     * specifies the subset of the bitmap to draw.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitmap The bitmap to be drawn</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> src    May be null. The subset of the bitmap to be drawn</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> dst    The rectangle that the bitmap will be scaled/translated</span></span><br><span class="line"><span class="comment">     *               to fit into</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> paint  May be null. The paint used to draw the bitmap</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawBitmap</span><span class="params">(@NonNull Bitmap bitmap, @Nullable Rect src, @NonNull Rect dst,</span></span></span><br><span class="line"><span class="function"><span class="params">            @Nullable Paint paint)</span> </span>&#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>drawBitmap(Bitmap bitmap,Rect src,Rect dst,Paint paint),这个重载方法主要是通过两个Rectangle 决定了bitmap以怎样的形式绘制出来。<strong>简单来说，src 这个长方形决定了“截取”bitmap的大小，dst 决定了最终绘制出来时Bitmap应该占有的大小。</strong>。就拿上面的代码来说</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">backgroundBitmap = BitmapFactory.decodeResource(res, R.drawable.battle_bg);</span><br><span class="line"><span class="comment">//确保整张背景图，都能完整的显示出来</span></span><br><span class="line">bitmapRect = <span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, backgroundBitmap.getWidth(), backgroundBitmap.getHeight());</span><br><span class="line"><span class="comment">//目标区域，在整个视图的大小中，绘制Bitmap</span></span><br><span class="line">mViewRect = <span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, viewW, viewH);</span><br><span class="line"><span class="comment">//绘制背景</span></span><br><span class="line">canvas.drawBitmap(backgroundBitmap, bitmapRect, mViewRect, mPaint);</span><br></pre></td></tr></table></figure>
+<p>bitmapRect 是整个backgroundBitmap的大小，mViewRect也就是我们在onMeasure里规定的整个视图的大小，这样相当于把battle_bg这张图片，以scaleType=”fitXY”的形式画在了视图大小的区域内。这样，你应该理解这个重载方法的含义了。</p>
+<ul>
+<li>drawBitmap(Bitmap bitmap, float left, float top, Paint paint)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Draw the specified bitmap, with its top/left corner at (x,y), using</span><br><span class="line"> * the specified paint, transformed by the current matrix.</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * @param bitmap The bitmap to be drawn</span><br><span class="line"> * @param left   The position of the left side of the bitmap being drawn</span><br><span class="line"> * @param top    The position of the top side of the bitmap being drawn</span><br><span class="line"> * @param paint  The paint used to draw the bitmap (may be null)</span><br><span class="line"> */</span><br><span class="line">public void drawBitmap(@NonNull Bitmap bitmap, float left, float top, @Nullable Paint paint) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个重载方法应该很容易理解了，left，top 规定了绘制Bitmap的左上角的坐标，然后按照其大小正常绘制即可。</p>
+<p>这里我们所有的气泡（球员位置）都是使用这个方法绘制的。足球场上有11个球员，因此我们通过数组预先定义了11个气泡的初始位置，然后通过其坐标位置，绘制他们。为了绘制精确，需要减去每张图片自身的宽高，这应该是很传统的做法了。</p>
+<p>同时，在之后的触摸反馈机制中，我们会根据手指的滑动，修改这些坐标值，这样就可以随意移动球员在场上的位置了；具体实现，结合代码中的注释应该很容易理解了，就不再赘述；可以查看完整源码<a href="https://github.com/REBOOTERS/AndroidAnimationExercise/blob/dev/app/src/main/java/home/smart/fly/animations/customview/views/BallGameView.java" target="_blank" rel="noopener">BallGameView</a>。</p>
+<h5 id="文字居中绘制"><a href="#文字居中绘制" class="headerlink" title="文字居中绘制"></a>文字居中绘制</h5><p>这里再说一个在绘制过程中遇到一个小问题，可以看到在整个视图底部，绘制了一个半透明的圆角矩形，并在他上面绘制了一行黄色的文字，这行文字在水平和垂直方向都是居中的；使用TextPaint 绘制文字实现水平居中是很容易的事情，只需要设置mTipPaint.setTextAlign(Paint.Align.CENTER)即可，但是在垂直方向实现居中，就没那么简单了，这里需要考虑一个文本绘制时<strong>基线</strong>的问题，具体细节可以参考<a href="http://blog.csdn.net/hursing/article/details/18703599" target="_blank" rel="noopener">这篇文章</a>，分析的很详细。</p>
+<p>我们在这里为了使文字在圆角矩形中居中，如下实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">canvas.drawRoundRect(mRoundRect, 8, 8, mRectPaint);</span><br><span class="line">Paint.FontMetricsInt fontMetrics = mTipPaint.getFontMetricsInt();</span><br><span class="line">float baseY = (mRoundRect.bottom + mRoundRect.top) / 2 - (fontMetrics.top + fontMetrics.bottom) / 2;</span><br><span class="line">canvas.drawText(tips, screenW / 2, baseY, mTipPaint);</span><br></pre></td></tr></table></figure>
+<p>圆角矩形的垂直中心点的基础上，再一次做修正，确保实现真正的垂直居中。</p>
+<p>好了，结合<a href="https://juejin.im/user/552f20a7e4b060d72a89d87f" target="_blank" rel="noopener">扔物线</a>大神所总结的自定义View关键步骤，以上两点算是完成了<strong>绘制和布局</strong>的工作,下面就看看<strong>触摸反馈</strong>的实现。</p>
+<h4 id="触摸反馈-onTouchEvent"><a href="#触摸反馈-onTouchEvent" class="headerlink" title="触摸反馈-onTouchEvent"></a>触摸反馈-onTouchEvent</h4><p>这里触摸反馈机制，使用到了GestureDetector这个类；这个类可以用来进行手势检测，用于辅助检测用户的单击、滑动、长按、双击等行为。内部提供了OnGestureListener、OnDoubleTapListener和OnContextClickListener三个接口，并提供了一系列的方法，比如常见的</p>
+<ul>
+<li>onSingleTapUp ： 手指轻触屏幕离开</li>
+<li>onScroll : 滑动</li>
+<li>onLongPress： 长按</li>
+<li>onFling： 按下后，快速滑动松开（类似切水果的手势）</li>
+<li>onDoubleTap : 双击</li>
+</ul>
+<p>可以看到，使用这个类可以更加精确的处理手势操作。</p>
+<p><strong>这里引入GestureDetector的原因是这样的，单独在onTouchEvent处理所有事件时，在手指点击屏幕的瞬间，很容易触发MotionEvent.ACTION_MOVE事件，导致每次触碰气泡，被点击气泡的位置都会稍微颤抖一下，位置发生轻微的偏移，体验十分糟糕。采用GestureDetector对手指滑动的处理，对点击和滑动的检测显得更加精确</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mValueAnimator != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mValueAnimator.isRunning()) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        m_gestureDetector.onTouchEvent(event);</span><br><span class="line">        <span class="keyword">int</span> lastX = (<span class="keyword">int</span>) event.getX();</span><br><span class="line">        <span class="keyword">int</span> lastY = (<span class="keyword">int</span>) event.getY();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; positions.length; i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> deltaX = positions[i].x - lastX;</span><br><span class="line">                <span class="keyword">int</span> deltaY = positions[i].y - lastY;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 手指 -- ACTION_DOWN 时，落在了某一个气泡上时，刷新选中气泡（球员）的bitmap</span></span><br><span class="line">                <span class="keyword">if</span> (Math.abs(deltaX) &lt; playW / <span class="number">2</span> &amp;&amp; Math.abs(deltaY) &lt; playW / <span class="number">2</span>) &#123;</span><br><span class="line">                    position = i;</span><br><span class="line">                    currentPos = i;</span><br><span class="line">                    invalidate();</span><br><span class="line">                    moveEnable = <span class="keyword">true</span>;</span><br><span class="line">                    Log.e(TAG, <span class="string">"onTouchEvent: position= "</span> + position);</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//没有点击中任意一个气泡，点击在外部是，重置气泡（球员）状态</span></span><br><span class="line">            resetBubbleView();</span><br><span class="line">            moveEnable = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里m_gestureDetector.onTouchEvent(event)，这样就可以让GestureDetector在他自己的回调方法OnGestureListener里，处理触摸事件。</p>
+<p>上面的逻辑很简单，动画正在进行是，直接返回。MotionEvent.ACTION_DOWN事件发生时的处理逻辑，通过注释很容易理解，就不再赘述。</p>
+<p>当我们点击到某个气泡时，就获取到了当前选中位置currentPos；下面看看GestureDetector的回调方法，是怎样处理滑动事件的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">GestureDetector.OnGestureListener onGestureListener = new GestureDetector.SimpleOnGestureListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) &#123;</span><br><span class="line">            if (moveEnable) &#123;</span><br><span class="line">                positions[position].x -= distanceX;</span><br><span class="line">                positions[position].y -= distanceY;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                //滑动时，考虑一下上下边界的问题，不要把球员移除场外</span><br><span class="line">                // 横向就不考虑了，因为底图是3D 摆放的，上窄下宽，无法计算</span><br><span class="line">                // 主要限制一下，纵向滑动值</span><br><span class="line">                if (positions[position].y &lt; minY) &#123;</span><br><span class="line">                    positions[position].y = minY;</span><br><span class="line">                &#125; else if (positions[position].y &gt; maxY) &#123;</span><br><span class="line">                    positions[position].y = maxY;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Log.e(TAG, &quot;onScroll: y=&quot; + positions[position].y);</span><br><span class="line"></span><br><span class="line">                //跟随手指，移动气泡（球员）</span><br><span class="line">                invalidate();;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<p>SimpleOnGestureListener 默认实现了OnGestureListener，OnDoubleTapListener, OnContextClickListener这三个接口中所有的方法，因此非常方便我们使用GestureDetector进行特定手势的处理。</p>
+<p>这里的处理很简单，当气泡被选中时moveEnable=true，通过onScroll回调方法返回的距离，不断更新当前位置的坐标，同时记得限制一下手势滑动的边界，总不能把球员移动到场地外面吧o(╯□╰)o，最后的postInvalidate()是关键，触发onDraw方法，实现重新绘制。</p>
+<p><strong>这里有一个细节，不知你发现没有，我们在更新坐标的时候，每次都是在当前坐标的位置，减去了滑动距离（distanceX/distanceY)。这是为什么(⊙o⊙)?，为什么不是加呢？</strong></p>
+<p>我们可以看看这个回调方法的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Notified when a scroll occurs with the initial on down &#123;<span class="doctag">@link</span> MotionEvent&#125; and the</span></span><br><span class="line"><span class="comment">  * current move &#123;<span class="doctag">@link</span> MotionEvent&#125;. The distance in x and y is also supplied for</span></span><br><span class="line"><span class="comment">  * convenience.</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> e1 The first down motion event that started the scrolling.</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> e2 The move motion event that triggered the current onScroll.</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> distanceX The distance along the X axis that has been scrolled since the last</span></span><br><span class="line"><span class="comment">  *              call to onScroll. This is NOT the distance between &#123;<span class="doctag">@code</span> e1&#125;</span></span><br><span class="line"><span class="comment">  *              and &#123;<span class="doctag">@code</span> e2&#125;.</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> distanceY The distance along the Y axis that has been scrolled since the last</span></span><br><span class="line"><span class="comment">  *              call to onScroll. This is NOT the distance between &#123;<span class="doctag">@code</span> e1&#125;</span></span><br><span class="line"><span class="comment">  *              and &#123;<span class="doctag">@code</span> e2&#125;.</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> true if the event is consumed, else false</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">boolean</span> <span class="title">onScroll</span><span class="params">(MotionEvent e1, MotionEvent e2, <span class="keyword">float</span> distanceX, <span class="keyword">float</span> distanceY)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里特定强调了<strong>This is NOT the distance between {@code e1}and {@code e2}</strong>，就是说这个距离并不是两次事件e1和e2 之间的距离。那么这个距离又是什么呢？那我们就找一找到底是在哪里触发了这个回调方法.</p>
+<p>最终在GestureDetector类的onTouchEvent()方法里找到了触发这个方法发生的地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	.....</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> pointerUp =</span><br><span class="line">                (action &amp; MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_UP;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> skipIndex = pointerUp ? ev.getActionIndex() : -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Determine focal point</span></span><br><span class="line">        <span class="keyword">float</span> sumX = <span class="number">0</span>, sumY = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> count = ev.getPointerCount();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (skipIndex == i) <span class="keyword">continue</span>;</span><br><span class="line">            sumX += ev.getX(i);</span><br><span class="line">            sumY += ev.getY(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> div = pointerUp ? count - <span class="number">1</span> : count;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span> focusX = sumX / div;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span> focusY = sumY / div;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> handled = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (action &amp; MotionEvent.ACTION_MASK) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">            <span class="keyword">if</span> (mInLongPress || mInContextClick) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">float</span> scrollX = mLastFocusX - focusX;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">float</span> scrollY = mLastFocusY - focusY;</span><br><span class="line">            <span class="keyword">if</span> (mIsDoubleTapping) &#123;</span><br><span class="line">                <span class="comment">// Give the move events of the double-tap</span></span><br><span class="line">                handled |= mDoubleTapListener.onDoubleTapEvent(ev);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mAlwaysInTapRegion) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> deltaX = (<span class="keyword">int</span>) (focusX - mDownFocusX);</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> deltaY = (<span class="keyword">int</span>) (focusY - mDownFocusY);</span><br><span class="line">                <span class="keyword">int</span> distance = (deltaX * deltaX) + (deltaY * deltaY);</span><br><span class="line">                <span class="keyword">if</span> (distance &gt; mTouchSlopSquare) &#123;</span><br><span class="line">                    handled = mListener.onScroll(mCurrentDownEvent, ev, scrollX, scrollY);</span><br><span class="line">                    mLastFocusX = focusX;</span><br><span class="line">                    mLastFocusY = focusY;</span><br><span class="line">                    mAlwaysInTapRegion = <span class="keyword">false</span>;</span><br><span class="line">                    mHandler.removeMessages(TAP);</span><br><span class="line">                    mHandler.removeMessages(SHOW_PRESS);</span><br><span class="line">                    mHandler.removeMessages(LONG_PRESS);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (distance &gt; mDoubleTapTouchSlopSquare) &#123;</span><br><span class="line">                    mAlwaysInBiggerTapRegion = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((Math.abs(scrollX) &gt;= <span class="number">1</span>) || (Math.abs(scrollY) &gt;= <span class="number">1</span>)) &#123;</span><br><span class="line">                handled = mListener.onScroll(mCurrentDownEvent, ev, scrollX, scrollY);</span><br><span class="line">                mLastFocusX = focusX;</span><br><span class="line">                mLastFocusY = focusY;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> handled;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里还涉及到多指触控的考虑，情况较为复杂；简单说一下结论，<strong>在ACTION_MOVE时，会从上一次手指离开的距离，减去此次手指触碰的位置；这样当scrollX&gt;0时，就是在向右滑动，反之向左；scrollY &gt; 0 时，是在向上滑动，反之向下</strong>；因此，这两个距离和我们习以为常的方向恰好都是相反的，因此，在更新坐标时，需要做相反的处理。</p>
+<p><strong>有兴趣的同学，可以把上面的“-”改成“+”，尝试运行一下代码，就会明白其中的道理了。</strong></p>
+<p>好了，到了这里按照<strong>绘制，布局，触摸反馈</strong>的顺序我们已经完成了BallGameView这个自定义View自己的内容了，但是我们还看到在点击下面的球员头像时，还有一个简单的动画，下面就看看动画是如何实现的。</p>
+<h2 id="动画效果"><a href="#动画效果" class="headerlink" title="动画效果"></a>动画效果</h2><p>首先说明一下，底部球员列表是一个横向的RecyclerView，这样一个横向滑动的双列展示的RecyclerView 应该很简单了，这里就不再详述。文末有源码，最后可以查看。</p>
+<p>这里看一下每一个RecyclerView中item的点击事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRVItemClick</span><span class="params">(ViewGroup parent, View itemView, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mPlayerBeanList.get(position).isSelected()) &#123;</span><br><span class="line">            Toast.makeText(mContext, <span class="string">"球员已被选择!"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            View avatar = itemView.findViewById(R.id.img);</span><br><span class="line">            <span class="keyword">int</span> width = avatar.getWidth();</span><br><span class="line">            <span class="keyword">int</span> height = avatar.getHeight();</span><br><span class="line">            Bitmap bitmap = Tools.View2Bitmap(avatar, width, height);</span><br><span class="line">            <span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">            itemView.getLocationOnScreen(location);</span><br><span class="line">            <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mGameView.updatePlayer(bitmap, mPlayerBeanList.get(position).getName(), location, content);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里可以看到调用了GameView的updatePlayer方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在下方球员区域，选中球员后，根据位置执行动画，将球员放置在选中的气泡中</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitmap      被选中球员bitmap</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name        被选中球员名字</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> location    被选中球员在屏幕中位置</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> contentView 根视图（方便实现动画）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updatePlayer</span><span class="params">(<span class="keyword">final</span> Bitmap bitmap, <span class="keyword">final</span> String name, <span class="keyword">int</span>[] location, <span class="keyword">final</span> ViewGroup contentView)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Path mPath = <span class="keyword">new</span> Path();</span><br><span class="line">        mPath.moveTo(location[<span class="number">0</span>] + bitmap.getWidth() / <span class="number">2</span>, location[<span class="number">1</span>] - bitmap.getHeight() / <span class="number">2</span>);</span><br><span class="line">        mPath.lineTo(positions[currentPos].x - playW / <span class="number">2</span>, positions[currentPos].y - playW / <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> ImageView animImage = <span class="keyword">new</span> ImageView(getContext());</span><br><span class="line">        animImage.setImageBitmap(bitmap);</span><br><span class="line">        RelativeLayout.LayoutParams params = <span class="keyword">new</span> RelativeLayout.LayoutParams(<span class="number">120</span>, <span class="number">120</span>);</span><br><span class="line">        contentView.addView(animImage, params);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span>[] animPositions = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">final</span> PathMeasure mPathMeasure = <span class="keyword">new</span> PathMeasure(mPath, <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">        mValueAnimator = ValueAnimator.ofFloat(<span class="number">0</span>, mPathMeasure.getLength());</span><br><span class="line">        mValueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">float</span> value = (<span class="keyword">float</span>) animation.getAnimatedValue();</span><br><span class="line">                mPathMeasure.getPosTan(value, animPositions, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">                animImage.setTranslationX(animPositions[<span class="number">0</span>]);</span><br><span class="line">                animImage.setTranslationY(animPositions[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        mValueAnimator.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">super</span>.onAnimationEnd(animation);</span><br><span class="line"></span><br><span class="line">                contentView.removeView(animImage);</span><br><span class="line"></span><br><span class="line">                players[currentPos].setBitmap(bitmap);</span><br><span class="line">                players[currentPos].setSetReal(<span class="keyword">true</span>);</span><br><span class="line">                players[currentPos].setName(name);</span><br><span class="line"></span><br><span class="line">                invalidate();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        mValueAnimator.setDuration(<span class="number">500</span>);</span><br><span class="line">        mValueAnimator.setInterpolator(<span class="keyword">new</span> AccelerateInterpolator());</span><br><span class="line">        mValueAnimator.start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个动画，简单来说就是一个一阶贝塞尔曲线。根据RecyclerView中item在屏幕中的位置，构造一个一模一样的ImageView添加到根视图中，然后通过一个属性动画，在属性值不断更新时，在回调方法中不断调用setTranslation方法，改变这个ImageView的位置，呈现出动画的效果。动画结束后，将这个ImageView从视图移除，同时气泡中的数据即可，最后再次invalidate导致整个视图重新绘制，这样动画完成时，气泡就被替换为真实的头像了。</p>
+<p>到这里，基本上所有功能，都实现了。最后就是把自己排出来的阵型，保存为图片分享给小伙伴了。这里主要说一下保存图片的实现；分享功能，就不作为重点讨论了。</p>
+<h2 id="自定义View保存为Bitmap"><a href="#自定义View保存为Bitmap" class="headerlink" title="自定义View保存为Bitmap"></a>自定义View保存为Bitmap</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">SavePicTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Bitmap</span>, <span class="title">Void</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(Bitmap... params)</span> </span>&#123;</span><br><span class="line">            Bitmap mBitmap = params[<span class="number">0</span>];</span><br><span class="line">            String filePath = <span class="string">""</span>;</span><br><span class="line">            Calendar now = <span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">            SimpleDateFormat simpleDate = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyyMMddHHmmss"</span>, Locale.getDefault());</span><br><span class="line">            String fileName = simpleDate.format(now.getTime());</span><br><span class="line">            <span class="comment">//保存在应用内目录，免去申请读取权限的麻烦</span></span><br><span class="line">            File mFile = <span class="keyword">new</span> File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName + <span class="string">".jpg"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                OutputStream mOutputStream = <span class="keyword">new</span> FileOutputStream(mFile);</span><br><span class="line">                mBitmap.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, mOutputStream);</span><br><span class="line">                mOutputStream.flush();</span><br><span class="line">                mOutputStream.close();</span><br><span class="line">                filePath = mFile.getAbsolutePath();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> filePath;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mGameView.setDrawingCacheEnabled(<span class="keyword">true</span>);</span><br><span class="line">Bitmap mBitmap = mGameView.getDrawingCache();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mBitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">new</span> SavePicTask().execute(mBitmap);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Toast.makeText(mContext, <span class="string">"fail"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一个典型的AsyncTask实现，文件流的输出，没什么多说的。主要是存储目录的选择，<strong>这里有个技巧，如果没有特殊限制，平时我们做开发的时候，可以 把一些存储路径做如下定义</strong></p>
+<ul>
+<li>mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)：代表/storage/emulated/0/Android/data/{packagname}/files/Pictures</li>
+<li>mContext.getExternalCacheDir() 代表 /storage/emulated/0/Android/data/{packagname}/cache</li>
+</ul>
+<p>对于mContext.getExternalFilesDir还可定义为Environment.DIRECTORY_DOWNLOADS，Environment.DIRECTORY_DOCUMENTS等目录，对应的文件夹名称也会变化。</p>
+<p>这个目录中的内容会随着用户卸载应用，一并删除。<strong>最重要的是，读写这个目录是不需要权限的，因此省去了每次做权限判断的麻烦，而且也避免了没有权限时的窘境</strong>。</p>
+<p>到这里，模仿功能，全部都实现了。下面稍微来一点额外的扩展。</p>
+<p>我们希望<strong>图片保存后可以在通知栏提示用户，点击通知栏后可以通过手机相册查看保存的图片。</strong></p>
+<h2 id="扩展-Android-Notification-amp-FileProvider-的使用"><a href="#扩展-Android-Notification-amp-FileProvider-的使用" class="headerlink" title="扩展-Android  Notification &amp; FileProvider 的使用"></a>扩展-Android  Notification &amp; FileProvider 的使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">private void SaveAndNotify() &#123;</span><br><span class="line">        if (!TextUtils.isEmpty(picUrl)) &#123;</span><br><span class="line">          </span><br><span class="line">            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);</span><br><span class="line">            mBuilder.setWhen(System.currentTimeMillis())</span><br><span class="line">                    .setTicker(&quot;下载图片成功&quot;)</span><br><span class="line">                    .setContentTitle(&quot;点击查看&quot;)</span><br><span class="line">                    .setSmallIcon(R.mipmap.app_start)</span><br><span class="line">                    .setContentText(&quot;图片保存在:&quot; + picUrl)</span><br><span class="line">                    .setAutoCancel(true)</span><br><span class="line">                    .setOngoing(false);</span><br><span class="line">            //通知默认的声音 震动 呼吸灯</span><br><span class="line">            mBuilder.setDefaults(NotificationCompat.DEFAULT_ALL);</span><br><span class="line"></span><br><span class="line">            Intent mIntent = new Intent();</span><br><span class="line">            mIntent.setAction(Intent.ACTION_VIEW);</span><br><span class="line">            Uri contentUri;</span><br><span class="line">            if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">                // 将文件转换成content://Uri的形式</span><br><span class="line">                contentUri = FileProvider.getUriForFile(mContext, getPackageName() + &quot;.provider&quot;, new File(picUrl));</span><br><span class="line">                // 申请临时访问权限</span><br><span class="line">                mIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                contentUri = Uri.fromFile(new File(picUrl));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            mIntent.setDataAndType(contentUri, &quot;image/*&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            PendingIntent mPendingIntent = PendingIntent.getActivity(mContext</span><br><span class="line">                    , 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);</span><br><span class="line">            mBuilder.setContentIntent(mPendingIntent);</span><br><span class="line">            Notification mNotification = mBuilder.build();</span><br><span class="line">            mNotification.flags |= Notification.FLAG_AUTO_CANCEL;</span><br><span class="line">            NotificationManager mManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);</span><br><span class="line">            mManager.notify(0, mNotification);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            T.showSToast(mContext, &quot;图片保存失败&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Android 系统中的通知栏，随着版本的升级，已经形成了固定了写法，在Builder模式的基础上，通过链式写法，可以非常方便的设置各种属性。这里重点说一下PendingIntent的用法，我们知道这个PendingIntent 顾名思义，就是处于Pending状态，当我们点击通知栏，就会触发他所包含的Intent。</p>
+<p>严格来说，通过自己的应用想用手机自带相册打开一张图片是无法实现的，因为无法保证每一种手机上面相册的包名是一样的，因此这里我们创建ACTION=Intent.ACTION_VIEW的 Intent，去匹配系统所有符合这个Action 的Activity，系统相册一定是其中之一。</p>
+<p>到这里，还有一定需要注意，Android 7.0 开始，无法以file://xxxx 形式向外部应用提供内容了，因此需要考虑使用FileProvider。当然，对这个问题，Google官方提供了完整的使用实例，实现起来都是套路，没有什么特别之处。</p>
+<p>重点记住下面的对应关系即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;root-path/&gt; 代表设备的根目录new File(&quot;/&quot;);</span><br><span class="line">&lt;files-path/&gt; 代表context.getFilesDir()</span><br><span class="line">&lt;cache-path/&gt; 代表context.getCacheDir()</span><br><span class="line">&lt;external-path/&gt; 代表Environment.getExternalStorageDirectory()</span><br><span class="line">&lt;external-files-path&gt;代表context.getExternalFilesDirs()</span><br><span class="line">&lt;external-cache-path&gt;代表getExternalCacheDirs()</span><br></pre></td></tr></table></figure>
+<p>按照上面，我们存储图片的目录，我们在file_path.xml 做如下定义即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">paths</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">external-path</span></span></span><br><span class="line"><span class="tag">        <span class="attr">name</span>=<span class="string">"root"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">path</span>=<span class="string">""</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">paths</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在AndroidManifest中完成如下配置 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Android 7.0 FileUriExposedException --&gt;</span><br><span class="line">&lt;provider</span><br><span class="line">    android:name=&quot;android.support.v4.content.FileProvider&quot;</span><br><span class="line">    android:authorities=&quot;$&#123;applicationId&#125;.provider&quot;</span><br><span class="line">    android:exported=&quot;false&quot;</span><br><span class="line">    android:grantUriPermissions=&quot;true&quot;&gt;</span><br><span class="line">    &lt;meta-data</span><br><span class="line">        android:name=&quot;android.support.FILE_PROVIDER_PATHS&quot;</span><br><span class="line">        android:resource=&quot;@xml/file_path&quot;/&gt;</span><br><span class="line">&lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+<p>这样，当Build.VERSION.SDK_INT大于等于24及Android7.0时，可以安心的使用FileProvider来和外部应用共享文件了。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>好了，从一个简单的自定义View 出发，又牵出了一大堆周边的内容。好在，总算完整的说完了。</p>
+<p><strong>特别申明</strong></p>
+<blockquote>
+<p>以上代码中所用到的图片资源，全部源自懂球帝APP内；此处对应用解包，只是本着学习的目的，没有其他任何用意。</p>
+</blockquote>
+<hr>
+<p><strong>源码地址：</strong> <a href="https://github.com/REBOOTERS/AndroidAnimationExercise" target="_blank" rel="noopener">Github-AndroidAnimationExercise</a>。</p>
+<p>有兴趣的同学欢迎 star &amp;  fork。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>加个鸡腿呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自定义View/" rel="tag"># 自定义View</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/19/仿简书长按文章生成图片效果/" rel="next" title="仿简书长按文章生成图片效果">
+                <i class="fa fa-chevron-left"></i> 仿简书长按文章生成图片效果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/28/Android 插件化和热修复的前生今世/" rel="prev" title="Android 插件化和热修复的前生今世">
+                Android 插件化和热修复的前生今世 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="九尾灵狐" />
+            
+              <p class="site-author-name" itemprop="name">九尾灵狐</p>
+              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">2.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义View-BallGameView"><span class="nav-number">3.</span> <span class="nav-text">自定义View-BallGameView</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测量-onMeasure"><span class="nav-number">3.0.1.</span> <span class="nav-text">测量-onMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制-onDraw"><span class="nav-number">3.0.2.</span> <span class="nav-text">绘制-onDraw</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#文字居中绘制"><span class="nav-number">3.0.2.1.</span> <span class="nav-text">文字居中绘制</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#触摸反馈-onTouchEvent"><span class="nav-number">3.0.3.</span> <span class="nav-text">触摸反馈-onTouchEvent</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动画效果"><span class="nav-number">4.</span> <span class="nav-text">动画效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义View保存为Bitmap"><span class="nav-number">5.</span> <span class="nav-text">自定义View保存为Bitmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展-Android-Notification-amp-FileProvider-的使用"><span class="nav-number">6.</span> <span class="nav-text">扩展-Android  Notification &amp; FileProvider 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

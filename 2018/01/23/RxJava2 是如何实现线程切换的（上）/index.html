@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android源码,RxJava2," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言通过前一篇的从观察者模式出发，聊聊RxJava,我们大致理解了RxJava的实现原理，在RxJava中可以非常方便的实现不同线程间的切换。subscribeOn 用于指定上游线程，observeOn 用于指定下游线程，多次用 subscribeOn 指定上游线程只有第一次有效，多次用 observeOn 指定下次线程，每次都有效；简直太方便了，比直接使用Handler省了不少力气，同时也不用去">
+<meta name="keywords" content="Android源码,RxJava2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2 是如何实现线程切换的 (上)">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/RxJava2 是如何实现线程切换的（上）/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言通过前一篇的从观察者模式出发，聊聊RxJava,我们大致理解了RxJava的实现原理，在RxJava中可以非常方便的实现不同线程间的切换。subscribeOn 用于指定上游线程，observeOn 用于指定下游线程，多次用 subscribeOn 指定上游线程只有第一次有效，多次用 observeOn 指定下次线程，每次都有效；简直太方便了，比直接使用Handler省了不少力气，同时也不用去">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/23/161239920cc6b9d9?w=910&h=525&f=png&s=42043">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/23/161239e8d8af610b?w=1280&h=610&f=png&s=218709">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/23/16123a868c390ac1?w=1127&h=525&f=png&s=51911">
+<meta property="og:updated_time" content="2019-05-19T09:22:10.245Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava2 是如何实现线程切换的 (上)">
+<meta name="twitter:description" content="前言通过前一篇的从观察者模式出发，聊聊RxJava,我们大致理解了RxJava的实现原理，在RxJava中可以非常方便的实现不同线程间的切换。subscribeOn 用于指定上游线程，observeOn 用于指定下游线程，多次用 subscribeOn 指定上游线程只有第一次有效，多次用 observeOn 指定下次线程，每次都有效；简直太方便了，比直接使用Handler省了不少力气，同时也不用去">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/1/23/161239920cc6b9d9?w=910&h=525&f=png&s=42043">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/23/RxJava2 是如何实现线程切换的（上）/"/>
+
+
+
+
+
+  <title>RxJava2 是如何实现线程切换的 (上) | 诗与远方</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/RxJava2 是如何实现线程切换的（上）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxJava2 是如何实现线程切换的 (上)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T00:07:46+08:00">
+                2018-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/23/RxJava2 是如何实现线程切换的（上）/" class="leancloud_visitors" data-flag-title="RxJava2 是如何实现线程切换的 (上)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过前一篇的<a href="https://juejin.im/post/5a521d68f265da3e4e25750e" target="_blank" rel="noopener">从观察者模式出发，聊聊RxJava</a>,我们大致理解了RxJava的实现原理，在RxJava中可以非常方便的实现不同线程间的切换。subscribeOn 用于指定上游线程，observeOn 用于指定下游线程，多次用 subscribeOn 指定上游线程只有第一次有效，多次用 observeOn 指定下次线程，每次都有效；简直太方便了，比直接使用Handler省了不少力气，同时也不用去关注内存泄漏的问题了。本篇就来看看在RxJava中上游是如何实现线程切换。</p>
+<a id="more"></a>
+<h2 id="RxJava-基础原理"><a href="#RxJava-基础原理" class="headerlink" title="RxJava 基础原理"></a>RxJava 基础原理</h2><p>为了方便后面的叙述，这里通过下面的UML图简单回顾一下上一篇的内容。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/23/161239920cc6b9d9?w=910&amp;h=525&amp;f=png&amp;s=42043" alt=""></p>
+<p><em>此图并没有完整的展现图中各个接口和类之间的各种关系，因为那样会导致整个图错综复杂，不便于查看，这里只绘制出了RxJava各个类之间核心关系网络</em></p>
+<p>从上面的UML图中可以看出，具体的实现类只有ObservableCreate和CreateEmitter。CreateEmitter是ObservableCreate的内部类（PlantUML 怎么绘制内部类，没搞懂，玩的转的同学请赐教呀(<em>^▽^</em>)）。</p>
+<p>上篇说过Observable创建的过程，可以简化如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable mObservable=<span class="keyword">new</span> ObservableCreate(<span class="keyword">new</span> ObservableOnSubscribe())</span><br></pre></td></tr></table></figure>
+<p>结合图可以更直观的体现出这一点。ObservableCreate 内部持有ObservableOnSubscribe的引用。</p>
+<p>当观察者订阅主题后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mObservable.subscribe(mObserver);</span><br></pre></td></tr></table></figure>
+<p>ObservableCreate 中的subscribeActual()方法就会执行，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</span><br><span class="line">    CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> CreateEmitter&lt;T&gt;(observer);</span><br><span class="line">    observer.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        source.subscribe(parent);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">        Exceptions.throwIfFatal(ex);</span><br><span class="line">        parent.onError(ex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个过程中会创建CreateEmitter 的实例，而这个CreateEmitter实现了Emitter和Disposable接口，同时又持有Observer的引用（当然这个引用是ObservableCreate传递给他的）。<strong>接着就会执行ObservableOnSubscribe的subscribe 方法</strong>，方法的参数即为刚刚创建的CreateEmitter 的实例，接着一系列连锁反应，Emitter 接口中的方法（onNext,onComplete等）开始执行，在CreateEmitter内部，Observer接口中对应的方法依次执行，这样就实现了一次从主题（上游）到观察者（下游）的事件传递。</p>
+<p><strong>source.subscribe(parent)</strong> </p>
+<p>这里的 source 是ObservableOnSubscribe的实例，parent是CreateEmitter的实例。上面加粗文本叙述的内容，就是这行代码，可以说这是整个订阅过程最核心的实现。</p>
+<p>好了，回顾完基础知识后，马上进入正题，看看RxJava是如何实现线程切换的。</p>
+<h2 id="RxJava-之-subscribeOn"><a href="#RxJava-之-subscribeOn" class="headerlink" title="RxJava 之 subscribeOn"></a>RxJava 之 subscribeOn</h2><p>我们知道正常情况下，所有的内容都是在主线程执行，既然这里提到了线程切换，那么必然是切换到了子线程，因此，这里需要关注线程的问题，我们就带着下面这几个问题去阅读代码。</p>
+<ul>
+<li>1.<strong>是哪个对象在什么时候创建了子线程，是一种怎样的方式创建的？</strong></li>
+<li>2.<strong>子线程又是如何启动的？</strong></li>
+<li>3.<strong>上游事件是怎么跑到子线程里执行的？</strong></li>
+<li>4.<strong>多次用 subscribeOn 指定上游线程为什么只有第一次有效 ?</strong></li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>首先看一下，日常开发中实现线程切换的具体实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">multiThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            e.onNext(<span class="string">"This msg from work thread :"</span> + Thread.currentThread().getName());</span><br><span class="line">            sb.append(<span class="string">"\nsubscribe: currentThreadName=="</span> + Thread.currentThread().getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">            .subscribeOn(Schedulers.newThread())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                    Log.e(TAG, <span class="string">"accept: s= "</span> + s);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码，使用过RxJava的同学再熟悉不过了，上游事件会在一个名为 RxNewThreadScheduler-1 的线程执行，下游线程会切换回我们熟悉的Android UI线程。</p>
+<p>我们就从subscribeOn(Schedulers.newThread()) 出发，看看这个代码的背后，到底发生了什么。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/23/161239e8d8af610b?w=1280&amp;h=610&amp;f=png&amp;s=218709" alt=""></p>
+<h3 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h3><p>这里我们先不管Schedulers.newThread() 是什么鬼，首先看看这个subscribeOn()方法。</p>
+<p><strong>Observable.java—  subscribeOn(Scheduler scheduler)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Observable&lt;T&gt; <span class="title">subscribeOn</span><span class="params">(Scheduler scheduler)</span> </span>&#123;</span><br><span class="line">    ObjectHelper.requireNonNull(scheduler, <span class="string">"scheduler is null"</span>);</span><br><span class="line">    <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableSubscribeOn&lt;T&gt;(<span class="keyword">this</span>, scheduler));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，这个方法需要一个Scheduler 类型的参数。</p>
+<p><strong>RxJavaPlugins.java— onAssembly(@NonNull Observable<t> source)</t></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">onAssembly</span><span class="params">(@NonNull Observable&lt;T&gt; source)</span> </span>&#123;</span><br><span class="line">    Function&lt;? <span class="keyword">super</span> Observable, ? extends Observable&gt; f = onObservableAssembly;</span><br><span class="line">    <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> apply(f, source);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>O(∩_∩)O哈哈~，是不是觉得似曾相识，和create操作符一个套路呀。因此，observeOn也可以简化如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> ObservableSubscribeOn&lt;T&gt;(<span class="keyword">this</span>, Schedulers.newThread());</span><br></pre></td></tr></table></figure>
+<p>这里你也许会有疑问，这个this是什么呢？其实这个this就是Observable，具体到上面的代码来说就是ObservableCreate，总之就是一个具体的Observable。</p>
+<p>接着看ObservableSubscribeOn 这个类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObservableSubscribeOn</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看一下 <strong>AbstractObservableWithUpstream.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; <span class="keyword">extends</span> <span class="title">Observable</span>&lt;<span class="title">U</span>&gt; <span class="keyword">implements</span> <span class="title">HasUpstreamObservableSource</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The source consumable Observable. */</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    AbstractObservableWithUpstream(ObservableSource&lt;T&gt; source) &#123;</span><br><span class="line">        <span class="keyword">this</span>.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; <span class="title">source</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看一下 <strong>HasUpstreamObservableSource.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Interface indicating the implementor has an upstream ObservableSource-like source available</span></span><br><span class="line"><span class="comment"> * via &#123;<span class="doctag">@link</span> #source()&#125; method.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> &lt;T&gt; the value type</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HasUpstreamObservableSource</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the upstream source of this Observable.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Allows discovering the chain of observables.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> the source ObservableSource</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">ObservableSource&lt;T&gt; <span class="title">source</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>饶了半天，ObservableSubscribeOn 原来和上一篇说的ObservableCreate一样，也是Observable的一个子类。只不过比ObservableCreate多实现了一个接口HasUpstreamObservableSource，这个接口很有意思，他的source()方法返回类型是ObservableSource（还记得这个类的角色吗？）。也就是说ObservableSubscribeOn这个Observable是一个拥有上游的Observable。他有一个非常关键的方法source()，这个方法的返回值就是ObservableSource，也就是说通过调用实现source方法，可以获取到上游的Observeable。<strong>AbstractObservableWithUpstream类继承HasUpstreamObservableSource 并实现了这个source方法，返回结果为ObservableSource，是通过其构造函数获取。</strong>，那么AbstractObservableWithUpstream的构造函数又是在哪里调用的呢？</p>
+<p>我们接着看ObservableSubscribeOn的具体实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObservableSubscribeOn</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Scheduler scheduler;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObservableSubscribeOn</span><span class="params">(ObservableSource&lt;T&gt; source, Scheduler scheduler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(source);</span><br><span class="line">        <span class="keyword">this</span>.scheduler = scheduler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(<span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> SubscribeOnObserver&lt;T&gt; parent = <span class="keyword">new</span> SubscribeOnObserver&lt;T&gt;(s);</span><br><span class="line">		<span class="comment">// observer 调用onSubscribe方法，获取上游的控制权</span></span><br><span class="line">        s.onSubscribe(parent);</span><br><span class="line"></span><br><span class="line">        parent.setDisposable(scheduler.scheduleDirect(<span class="keyword">new</span> SubscribeTask(parent)));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先看他的构造函数，参数source就是我们之前提到过的this，scheduler就是Schedulers.newThread()。同时调用了父类AbstractObservableWithUpstream的构造函数，这里结合之前的结论，我们可以确定通过这个构造函数，就创建出来了一个包含上游的ObservableSubscribeOn实例。</li>
+<li>再看实现订阅关系的关键方法subscribeActual()，在这里创建了一个SubscribeOnObserver的实例，SubscribeOnObserver 是AtomicReference的子类(保证原子性)，同时实现了 Observer接口 和 Disposable 接口；你可以把他理解成一个Observer。</li>
+</ul>
+<p>我们之前说过，subscribeActual()是实现上下游之间订阅关系的重要方法。因为只有真正实现了订阅关系，上下游之间才能连接起来。我们看这个方法的最后一句代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parent.setDisposable(scheduler.scheduleDirect(<span class="keyword">new</span> SubscribeTask(parent)));</span><br></pre></td></tr></table></figure>
+<p>这句代码，可以说就是非常关键，因为从这里开始了一系列的连锁反应。首先看一下SubscribeTask</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SubscribeTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SubscribeOnObserver&lt;T&gt; parent;</span><br><span class="line"></span><br><span class="line">    SubscribeTask(SubscribeOnObserver&lt;T&gt; parent) &#123;</span><br><span class="line">        <span class="keyword">this</span>.parent = parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        source.subscribe(parent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到这句 <strong>source.subscribe(parent)</strong>，是不是觉得似曾相识呢？</p>
+<p>SubscribeTask 实现了是Runnable接口，在其run方法中，定义了一个需要在线程中执行的任务。按照类的继承关系，很明显source 就是ObservableSubscribeOn 的上游Observable，parent是一个Observer。也就是说这个run方法要执行的内容就是实现ObservableSubscribeOn的上游和Observer的订阅。<strong>一旦某个线程执行了这个Runnable（SubscribeTask），就会触发了这个run方法，从而实现订阅</strong>，而一旦这个订阅实现，那么后面的流程就是上节所说的事情了。</p>
+<p><strong>这里可以解答第三个问题了，上游事件是怎么给弄到子线程里去的，这里很明显了，就是直接把订阅方法放在了一个Runnable中去执行，这样就一旦这个Runnable在某个子线程执行，那么上游所有事件只能在这个子线程中执行了。</strong></p>
+<p>好了，线程要执行的任务<strong>似乎</strong>创建完了，下面就接着找看看子线程是怎么创建的。回过头继续看刚才的方法，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scheduler.scheduleDirect(<span class="keyword">new</span> SubscribeTask(parent))</span><br></pre></td></tr></table></figure>
+<p><strong>Scheduler.java—-scheduleDirect</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Disposable <span class="title">scheduleDirect</span><span class="params">(@NonNull Runnable run)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> scheduleDirect(run, <span class="number">0L</span>, TimeUnit.NANOSECONDS);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> Disposable <span class="title">scheduleDirect</span><span class="params">(@NonNull Runnable run, <span class="keyword">long</span> delay, @NonNull TimeUnit unit)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Worker w = createWorker();</span><br><span class="line">	<span class="comment">// 对run进行了一次装饰</span></span><br><span class="line">       <span class="keyword">final</span> Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">       DisposeTask task = <span class="keyword">new</span> DisposeTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">       w.schedule(task, delay, unit);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">return</span> task;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="comment">// 抽象方法</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Worker <span class="title">createWorker</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>首先看一下Worker类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Sequential Scheduler for executing actions on a single thread or event loop.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * Disposing the &#123;<span class="doctag">@link</span> Worker&#125; cancels all outstanding work and allows resource cleanup.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">implements</span> <span class="title">Disposable</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(@NonNull Runnable run)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> schedule(run, <span class="number">0L</span>, TimeUnit.NANOSECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Disposable <span class="title">schedule</span><span class="params">(@NonNull Runnable run, <span class="keyword">long</span> delay, @NonNull TimeUnit unit)</span></span>;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Worker是Scheduler内部的一个静态抽象类，实现了Disposable接口，其schedule()方法也是抽象的。</p>
+<p>再看一下DisposeTask </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">DisposeTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span>, <span class="title">Disposable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Runnable decoratedRun;</span><br><span class="line">        <span class="keyword">final</span> Worker w;</span><br><span class="line"></span><br><span class="line">        Thread runner;</span><br><span class="line"></span><br><span class="line">        DisposeTask(Runnable decoratedRun, Worker w) &#123;</span><br><span class="line">            <span class="keyword">this</span>.decoratedRun = decoratedRun;</span><br><span class="line">            <span class="keyword">this</span>.w = w;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            runner = Thread.currentThread();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                decoratedRun.run();</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                dispose();</span><br><span class="line">                runner = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispose</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (runner == Thread.currentThread() &amp;&amp; w <span class="keyword">instanceof</span> NewThreadWorker) &#123;</span><br><span class="line">                ((NewThreadWorker)w).shutdown();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                w.dispose();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDisposed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> w.isDisposed();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>DisposeTask 又是一个Runnable，同时也实现了Disposable接口。可以看到在他的run方法中会执行decoratedRun的run方法，这个decoratedRun其实就是参数中传递进来的run，<strong>也就是说，执行了这个DisposeTask的run方法，就会触发SubscribeTask中的run方法</strong>，因此，我们就要关注是谁执行了这个DisposeTask。</p>
+<p>回到scheduleDirect()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> Disposable <span class="title">scheduleDirect</span><span class="params">(@NonNull Runnable run, <span class="keyword">long</span> delay, @NonNull TimeUnit unit)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">final</span> Worker w = createWorker();</span><br><span class="line"><span class="comment">// 对run进行了一次装饰</span></span><br><span class="line">      <span class="keyword">final</span> Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">      DisposeTask task = <span class="keyword">new</span> DisposeTask(decoratedRun, w);</span><br><span class="line"></span><br><span class="line">      w.schedule(task, delay, unit);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> task;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>scheduleDirect()方法的实现我们总结一下：</p>
+<ol>
+<li>创建一个Worker对象w,而在Scheduler类中createWorker()方法被定义为抽象方法，因此我们需要去Scheduler的具体实现中了解这个Worker的具体实现。</li>
+<li>对参数run通过RxJavaPlugins进行一次装饰，生成一个decoratedRun的Runnable（通过源码可以发现，其实什么也没干，就是原样返回）</li>
+<li>通过decoratedRun和w生成一个DisposeTask对象task</li>
+<li><strong>通过Worker的schedule方法开始执行这个task。</strong></li>
+</ol>
+<p>ε=(´ο｀*)))唉，说了这么久，子线程是如何创建的依然不清楚，无论是SubscribeTask还是DisposeTask只是定义会在某个子线程中执行的任务，并不代表子线程已被创建。但是通过以上代码，我们也可以收获一些有价值的结论：</p>
+<ul>
+<li>最终的Runnable任务，将由某个具体的Worker对象的scheduler()方法执行。</li>
+<li>这个scheduleDirect会返回一个Disposable对象，这样我们就可以通过Observer去控制整个上游的执行了。</li>
+</ul>
+<p>好了，到这里对于subscribeOn()方法的分析已经到了尽头，我们找了最终需要运行子任务的对象Worker,而这个Worker是个抽象类，因此我们需要关注Worker的具体实现了。</p>
+<p>下面我们就从刚才丢下的Schedulers.newThread() 换个角度来分析，看看能不能找到这个Worker的具体实现。</p>
+<h2 id="Schedulers-newThread"><a href="#Schedulers-newThread" class="headerlink" title="Schedulers.newThread()"></a>Schedulers.newThread()</h2><p>前面说了subscribeOn()方法需要一个Scheduler 类型的参数，然而通过前面的分析我们知道Scheduler是个抽象类，是无法被实例化的。因此，这里就从Schedulers类出发。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Static factory methods for returning standard Scheduler instances.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Schedulers</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注释很清楚，这个Schedulers就是一个用于生成Scheduler实例的静态工厂。</p>
+<p>下面我们就来看看，在这个工厂中newThread() 生成了一个什么样的Scheduler实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@NonNull</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Scheduler <span class="title">newThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> RxJavaPlugins.onNewThreadScheduler(NEW_THREAD);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">NEW_THREAD = RxJavaPlugins.initNewThreadScheduler(<span class="keyword">new</span> NewThreadTask());</span><br><span class="line"></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Scheduler</span>&gt; </span>&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> Scheduler <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> NewThreadHolder.DEFAULT;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadHolder</span> </span>&#123;</span><br><span class="line">       <span class="keyword">static</span> <span class="keyword">final</span> Scheduler DEFAULT = <span class="keyword">new</span> NewThreadScheduler();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>newThread() 方法经过层层委托处理(最终的创建方式，有点单例模式的意味)，最终我们需要的就是一个NewThreadScheduler的实例。</p>
+<p><strong>NewThreadScheduler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadScheduler</span> <span class="keyword">extends</span> <span class="title">Scheduler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> ThreadFactory threadFactory;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String THREAD_NAME_PREFIX = <span class="string">"RxNewThreadScheduler"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RxThreadFactory THREAD_FACTORY;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The name of the system property for setting the thread priority for this Scheduler. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_NEWTHREAD_PRIORITY = <span class="string">"rx2.newthread-priority"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> priority = Math.max(Thread.MIN_PRIORITY, Math.min(Thread.MAX_PRIORITY,</span><br><span class="line">                Integer.getInteger(KEY_NEWTHREAD_PRIORITY, Thread.NORM_PRIORITY)));</span><br><span class="line"></span><br><span class="line">        THREAD_FACTORY = <span class="keyword">new</span> RxThreadFactory(THREAD_NAME_PREFIX, priority);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NewThreadScheduler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(THREAD_FACTORY);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NewThreadScheduler</span><span class="params">(ThreadFactory threadFactory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.threadFactory = threadFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Worker <span class="title">createWorker</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> NewThreadWorker(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不出所料NewThreadScheduler 是Scheduler的一个子类，在他的静态代码块中构造了一个Priority=5的线程工厂。而在我们最最关注的<strong>createWorker()方法中他又用这个线程工厂创建了一个NewThreadWorker 的实例</strong>。下面就让我们看看最终的NewThreadWorker 做了些什么工作。</p>
+<p><strong>NewThreadWorker.java</strong>(节选关键内容)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NewThreadWorker</span> <span class="keyword">extends</span> <span class="title">Scheduler</span>.<span class="title">Worker</span> <span class="keyword">implements</span> <span class="title">Disposable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ScheduledExecutorService executor;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">boolean</span> disposed;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NewThreadWorker</span><span class="params">(ThreadFactory threadFactory)</span> </span>&#123;</span><br><span class="line">        executor = SchedulerPoolFactory.create(threadFactory);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(@NonNull <span class="keyword">final</span> Runnable run)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> schedule(run, <span class="number">0</span>, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispose</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!disposed) &#123;</span><br><span class="line">            disposed = <span class="keyword">true</span>;</span><br><span class="line">            executor.shutdownNow();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>众里寻他千百度，终于找到了Worker的实现了，同时再一次不出所料的又一次实现了Disposable接口，o(╥﹏╥)o。</p>
+<p>在其构造函数中，通过NewThreadScheduler中提供的线程工厂threadFactory创建了一个ScheduledExecutorService。</p>
+<p><strong>ScheduledExecutorService.java —create</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">create</span><span class="params">(ThreadFactory factory)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ScheduledExecutorService exec = Executors.newScheduledThreadPool(<span class="number">1</span>, factory);</span><br><span class="line">    <span class="keyword">if</span> (PURGE_ENABLED &amp;&amp; exec <span class="keyword">instanceof</span> ScheduledThreadPoolExecutor) &#123;</span><br><span class="line">        ScheduledThreadPoolExecutor e = (ScheduledThreadPoolExecutor) exec;</span><br><span class="line">        POOLS.put(e, exec);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> exec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用大名鼎鼎的Executors(Executor的工具类)，创建了一个核心线程为1的线程。 </p>
+<p><strong>至此，我们终于找到了第一个问题的答案，子线程是谁如何创建的；在NewThreadScheduler的createWorker()方法中，通过其构建好的线程工厂，在Worker实现类的构造函数中创建了一个ScheduledExecutorService的实例，是通过SchedulerPoolFactory创建的。</strong></p>
+<p>同时可以看到，通过执行dispose 方法，可以使用ScheduledExecutorService的shutdown()方法，停止线程的执行。</p>
+<p>线程已经创建好了，下面就来看看到底是谁启动了这个线程。前面我们说过，Worker的schedule()方法如果执行了，就会执行我们定义好的Runnable，通过这个Runnable中run方法的执行，就可以实现上下游订阅关系。下面就来看看这个scheduler()方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Disposable <span class="title">schedule</span><span class="params">(@NonNull <span class="keyword">final</span> Runnable action, <span class="keyword">long</span> delayTime, @NonNull TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (disposed) &#123;</span><br><span class="line">            <span class="keyword">return</span> EmptyDisposable.INSTANCE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> scheduleActual(action, delayTime, unit, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ScheduledRunnable <span class="title">scheduleActual</span><span class="params">(<span class="keyword">final</span> Runnable run, <span class="keyword">long</span> delayTime, @NonNull TimeUnit unit, @Nullable DisposableContainer parent)</span> </span>&#123;</span><br><span class="line">        Runnable decoratedRun = RxJavaPlugins.onSchedule(run);</span><br><span class="line"></span><br><span class="line">        ScheduledRunnable sr = <span class="keyword">new</span> ScheduledRunnable(decoratedRun, parent);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!parent.add(sr)) &#123;</span><br><span class="line">                <span class="keyword">return</span> sr;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Future&lt;?&gt; f;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (delayTime &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                f = executor.submit((Callable&lt;Object&gt;)sr);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                f = executor.schedule((Callable&lt;Object&gt;)sr, delayTime, unit);</span><br><span class="line">            &#125;</span><br><span class="line">            sr.setFuture(f);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RejectedExecutionException ex) &#123;</span><br><span class="line">            <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                parent.remove(sr);</span><br><span class="line">            &#125;</span><br><span class="line">            RxJavaPlugins.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sr;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>到这里，已经很明显了，在schedulerActual方法中，会通过刚才创建好的子线程对象executor通过submit或schedule执行一个Runnable任务（虽然这个Runnable对象再一次经过了各种装饰和包装，但其本质没有发生变化），并将执行结果封装后返回。而这个Runnable对象追根溯源来说，就是我们在ObservableSubscribeOn类中创建的一个SubscribeTask对象。因此，当这个子线程开始运行的时候就是执行SubscribeTask中run()方法的时机；一旦这个run方法执行，那么</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source.subscribe(parent)</span><br></pre></td></tr></table></figure>
+<p>这句最关键的代码就开始执行了，一切的一切又回到了我们上一篇那熟悉的流程了。</p>
+<p>好了，按照上面的流程捋下来，感觉还是有点分散，那么就用UML图看看整体的结构。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/1/23/16123a868c390ac1?w=1127&amp;h=525&amp;f=png&amp;s=51911" alt=""></p>
+<p>我们看最下面的ObservableSubscribeOn，<strong>他是subscribeOn 返回的Observable对象，他持有一个Scheduler 实例的引用，而这个Scheduler实例就是NewThreadScheduler(即Schedulers.newThreade())的一个实例。ObservableSubscribeOn 的subscribeActual方法，会触发NewThreadScheduler去执行SubscribeTask中定义的任务，而这个具体的任务又将由Worker类创建的子线程去执行。这样就把上游事件放到了一个子线程中实现。</strong></p>
+<p>至于最后一个问题，<strong>多次用 subscribeOn 指定上游线程为什么只有第一次有效?</strong>，看完通篇其实也很好理解了，因为上游Observable只有一个任务，就是subscribe(准确的来说是subscribeActual()），而subscribeOn 要做的事情就是把上游任务切换到一个指定线程里，那么一旦被切换到了某个指定的线程里，后面的切换不就是没有意义了吗。</p>
+<p>好了，至此上游事件切换到子线程的过程我们就明白了。下游事件又是如何切换的且听下回分解，本来想一篇写完的，结果发现越写越多，只能分成两篇了！！！o(╯□╰)o。</p>
+<h2 id="写在后面的话"><a href="#写在后面的话" class="headerlink" title="写在后面的话"></a>写在后面的话</h2><h4 id="关于Disposable"><a href="#关于Disposable" class="headerlink" title="关于Disposable"></a>关于Disposable</h4><p>在RxJava的分析中，我们经常会遇到Disposable这个单词，确切的说是接口，这里简单说一说这个接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Represents a disposable resource.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Disposable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dispose</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDisposed</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们知道，在Java中，类实现某个接口，通俗来说就是代表这个类多了一项功能，比如一个类实现Serializable接口，代表这个类是可以序列化的。这里Disposable也是代表一种能力，这个能力就是Disposable，就是代表一次性的，用后就丢弃的，比如一次性筷子，还有那啥。</p>
+<p>在RxJava中很多类都实现了这个接口，这个接口有两个方法，isDisposed()顾名思义返回当前类是否被抛弃，dispose()就是主动抛弃。因此，所有实现了这个接口的类，都拥有了这样一种能力，就是可以判断自己是否被抛弃，同时也可以主动抛弃自己。</p>
+<p>上一篇我们说了，Observer通过onSubscribe(@NonNull Disposable d)，会获得一个Disposable，这样就有能力控制上游的事件发送了。这样，我们就不难理解，为什么那么多类实现了这个接口，因为下游获取到的是一个拥有Disposable的对象，而一旦拥有了一个这样的对象，那么就可以通过下游控制上游了。可以说，这是RxJava对常规的观察者模式所做的最给力的改变。</p>
+<h4 id="关于各种ObservableXXX-subscribeXXX-ObserverXXX"><a href="#关于各种ObservableXXX-subscribeXXX-ObserverXXX" class="headerlink" title="关于各种ObservableXXX ,subscribeXXX,ObserverXXX"></a>关于各种ObservableXXX ,subscribeXXX,ObserverXXX</h4><p>在查看RxJava的源码时，可能很多人都和我一样，有一个巨大的困扰，就是这些类的名字好他妈难记，感觉长得都差不多，关键念起来好像也差不多。但其实本质上来说，RxJava对类的命名还是非常规范的，只是我们不太习惯而已。按照英文单词翻译：</p>
+<ul>
+<li>Observable 可观察的（主题 ，上游）</li>
+<li>Observer   观察者 （订阅者，下游）</li>
+<li>Subscribe  订阅</li>
+</ul>
+<p>其实就这么三个主语，其他的什么ObservableCreate，ObservableSubscribeOn，AbstractObservableWithUpstream，还有上面提到的Disposable，都是对各种各样的Observable和Observer的变形和修饰结果，只要理解这个类的核心含义是什么，就不会被这些名字搞晕了。</p>
+<p>RxJava 可以说是博大精深，以上所有分析完全是个人平时使用时的总结与感悟，有任何错误之处，还望各位读者提出，共同进步。</p>
+<p>关于RxJava 这里墙裂推荐一篇文章<a href="https://juejin.im/post/5a2549576fb9a04519696d45" target="_blank" rel="noopener">一篇不太一样的RxJava介绍</a>，感觉是自扔物线那篇之后，对RxJava思想感悟最深的一篇了。对RxJava 有兴趣的同学，可以多度几遍，每次都会有收获！！</p>
+<hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>加个鸡腿呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android源码/" rel="tag"># Android源码</a>
+          
+            <a href="/tags/RxJava2/" rel="tag"># RxJava2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/12/从观察者模式出发，聊聊RxJava/" rel="next" title="从观察者模式出发，聊聊RxJava2">
+                <i class="fa fa-chevron-left"></i> 从观察者模式出发，聊聊RxJava2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/01/2018-Book&Movie List/" rel="prev" title="2018-Book&Movie List">
+                2018-Book&Movie List <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="九尾灵狐" />
+            
+              <p class="site-author-name" itemprop="name">九尾灵狐</p>
+              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxJava-基础原理"><span class="nav-number">2.</span> <span class="nav-text">RxJava 基础原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxJava-之-subscribeOn"><span class="nav-number">3.</span> <span class="nav-text">RxJava 之 subscribeOn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">3.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribeOn"><span class="nav-number">3.2.</span> <span class="nav-text">subscribeOn</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schedulers-newThread"><span class="nav-number">4.</span> <span class="nav-text">Schedulers.newThread()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在后面的话"><span class="nav-number">5.</span> <span class="nav-text">写在后面的话</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于Disposable"><span class="nav-number">5.0.1.</span> <span class="nav-text">关于Disposable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于各种ObservableXXX-subscribeXXX-ObserverXXX"><span class="nav-number">5.0.2.</span> <span class="nav-text">关于各种ObservableXXX ,subscribeXXX,ObserverXXX</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="自定义View," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个生成图片分享的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。 但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，">
+<meta name="keywords" content="自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿简书长按文章生成图片效果">
+<meta property="og:url" content="http://yoursite.com/2017/03/19/仿简书长按文章生成图片效果/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个生成图片分享的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。 但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/3/19/5bfdffd406bed1f24293ff9cc5ffe3c8">
+<meta property="og:updated_time" content="2019-05-19T09:22:10.248Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="仿简书长按文章生成图片效果">
+<meta name="twitter:description" content="前言使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个生成图片分享的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。 但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/3/19/5bfdffd406bed1f24293ff9cc5ffe3c8">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/19/仿简书长按文章生成图片效果/"/>
+
+
+
+
+
+  <title>仿简书长按文章生成图片效果 | 诗与远方</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/仿简书长按文章生成图片效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">仿简书长按文章生成图片效果</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T22:07:46+08:00">
+                2017-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/19/仿简书长按文章生成图片效果/" class="leancloud_visitors" data-flag-title="仿简书长按文章生成图片效果">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个<strong>生成图片分享</strong>的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。</p>
+<p>但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，使用点击分享按钮生成图片功能；分享菜单包含的生成长图功能的确是可以的。但是，还是很怀念之前长按生成图片的功能，所以作为一名程序猿；怀着好奇的心情，决定自己去实现这样一个功能.</p>
+<h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>老规矩，首先看一下实现后的效果；虽然整体没有简书有范，个人感觉还是挺像的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/19/5bfdffd406bed1f24293ff9cc5ffe3c8" alt="效果图"></p>
+<a id="more"></a>
+<h2 id="文章页实现"><a href="#文章页实现" class="headerlink" title="文章页实现"></a>文章页实现</h2><h4 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h4><p>文章页内容的实现，没有什么难点。布局总的来说很简单，包含户信息和文章信息的一个LinearLayout，外加一个WebView即可。数据是根据布局中所需的内容，封装了一个HtmlBean 对象，而这个对象的则是通过使用Jsoup 解析当前页面的HTML文档内容获得（这里使用Jsoup 方式获取简书网页内容，只是个人学习，没有其他用意）。具体实现可查看<a href="https://github.com/REBOOTERS/AndroidAnimationExercise" target="_blank" rel="noopener">源码</a></p>
+<h4 id="长按菜单实现"><a href="#长按菜单实现" class="headerlink" title="长按菜单实现"></a>长按菜单实现</h4><p>这里特意说一下，长按弹出底部按钮的实现方式。一般情况下对于长按效果的实现，我们都会通过设置View的OnLongClickListene事件去实现相应的功能，但是对于这里的WebView可以如下实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mWebView.setOnCreateContextMenuListener(<span class="keyword">new</span> View.OnCreateContextMenuListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreateContextMenu</span><span class="params">(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)</span> </span>&#123;</span><br><span class="line">        genImg.setVisibility(View.VISIBLE);</span><br><span class="line">        T.showSToast(mContext, <span class="string">"再次点击文章可隐藏图片分享"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 点击隐藏底部按钮</span></span><br><span class="line">mWebView.setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                lastTime = SystemClock.uptimeMillis();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">                <span class="keyword">if</span> (SystemClock.uptimeMillis() - lastTime &lt; <span class="number">300</span>) &#123;</span><br><span class="line">                    genImg.setVisibility(View.GONE);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<hr>
+<p>这里通过监听WebView的ContextMenu 监听何时显示底部按钮；同时在onTouch方法中隐藏底部按钮。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">genImg.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        genImg.setVisibility(View.INVISIBLE);</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent(FakeJianShuActivity.<span class="keyword">this</span>, GenScreenShotActivity.class);</span><br><span class="line">        intent.putExtra(<span class="string">"data"</span>, mHtmlBean);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>点击底部的Button就会跳转到生成长图的界面，同时将之前获取到的HTMLBean对象传递过去。</p>
+<h2 id="长图效果实现"><a href="#长图效果实现" class="headerlink" title="长图效果实现"></a>长图效果实现</h2><p>这里首先说一下实现思路（思路来源于<a href="http://www.jianshu.com/p/c34aad68bf46" target="_blank" rel="noopener">此</a>）。</p>
+<ul>
+<li>首先通过WebView加载一个本地的Html页面，这个页面包含一些固定，定义了一些标签。然后根据传递过来的mHtmlBean 对象中的信息，通过执行JavaScript动态的替换静态HTML页面中的内容；</li>
+<li>关于黑白两种风格的实现，同样是WebView执行Js，动态替换HTML中CSS 样式，修改WebView的背景色呈现出两种不同的UI 效果。</li>
+<li>通过WebView的capturePicture 和Canvas 可以生成出当前WebView的Bitmap对象，有了这个Bitmap就可以图片保存的功能了。</li>
+</ul>
+<p>好了，下面就通过代码分别实现上述步骤。</p>
+<h4 id="Html-页面（JianShu-html）"><a href="#Html-页面（JianShu-html）" class="headerlink" title="Html 页面（JianShu.html）"></a>Html 页面（JianShu.html）</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"mark.png"</span> <span class="attr">width</span>=<span class="string">"13px"</span> <span class="attr">height</span>=<span class="string">"20px"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">style</span>=<span class="string">"position:absolute;top: 0px;left: 12px;margin-bottom: 15px;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">article</span> <span class="attr">id</span>=<span class="string">"content"</span> <span class="attr">style</span>=<span class="string">"margin: 25px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        function changeContent(content) &#123;</span></span><br><span class="line"><span class="undefined">            document.getElementById('content').innerHTML = content;</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个HTML页面的内容很简单，在整个文档左上角放置了一个小角标，就是简书APP生成长图时的那个mark.<br>同时定义了一个JavaScript 方法，功能也很简单，就是用传递的参数content替换article标签中的文档内容。 </p>
+<h4 id="自定义WebView"><a href="#自定义WebView" class="headerlink" title="自定义WebView"></a>自定义WebView</h4><p>为了方便，我们自定义WebView，这里看一下核心逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FakeWebView</span> <span class="keyword">extends</span> <span class="title">WebView</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isFirstLoad = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadData</span><span class="params">(HtmlBean bean)</span> </span>&#123;</span><br><span class="line">        assembleData(bean);</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">21</span>) &#123;</span><br><span class="line">            isFirstLoad = <span class="keyword">true</span>;</span><br><span class="line">            webView.setWebChromeClient(<span class="keyword">new</span> WebChromeClient() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> (newProgress == <span class="number">100</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (isFirstLoad) &#123;</span><br><span class="line">                            isFirstLoad = <span class="keyword">false</span>;</span><br><span class="line">                            Log.e(<span class="string">"TAG"</span>, <span class="string">"onProgressChanged"</span>);</span><br><span class="line">                            updateView();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            isFirstLoad = <span class="keyword">true</span>;</span><br><span class="line">            webView.setVisibility(View.INVISIBLE);</span><br><span class="line"></span><br><span class="line">            webView.setWebChromeClient(<span class="keyword">new</span> WebChromeClient() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> (newProgress == <span class="number">100</span>) &#123;</span><br><span class="line">                        updateView();</span><br><span class="line">                        <span class="keyword">if</span> (!isFirstLoad)</span><br><span class="line">                            webView.setVisibility(View.VISIBLE);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        webView.loadUrl(<span class="string">"file:///android_asset/JianShu.html"</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">assembleData</span><span class="params">(HtmlBean bean)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> String data = bean.getContent();</span><br><span class="line">        <span class="keyword">final</span> String title = bean.getTitle();</span><br><span class="line">        <span class="keyword">final</span> String username = bean.getUsername();</span><br><span class="line">        <span class="keyword">final</span> String publishTime = bean.getPublishTime();</span><br><span class="line">        String Title = <span class="string">"&lt;h2&gt;"</span> + title + <span class="string">"&lt;/h2&gt;"</span>;</span><br><span class="line">        String Footer = <span class="string">"&lt;p&gt;"</span> + username + <span class="string">"&lt;/p&gt;&lt;p&gt;"</span> + publishTime + <span class="string">"&lt;/p&gt;"</span>;</span><br><span class="line">        content = Title + data + Footer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mode == MODE_DAY) &#123;</span><br><span class="line">            webView.setBackgroundColor(Color.WHITE);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            webView.setBackgroundColor(Color.parseColor(<span class="string">"#263238"</span>));</span><br><span class="line">            content = <span class="string">"&lt;div style=\"color: gray;display: inline;\"&gt;"</span> + content + <span class="string">"&lt;/div&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        webView.loadUrl(<span class="string">"javascript:changeContent(\""</span> + content.replace(<span class="string">"\n"</span>, <span class="string">"\\n"</span>).replace(<span class="string">"\""</span>, <span class="string">"\\\""</span>).replace(<span class="string">"'"</span>, <span class="string">"\\'"</span>) + <span class="string">"\")"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这几个方法是生成长图最核心的方法。在loadData 方法中首先调用了assembleData，这个方法会根据mHtmlBean 这个对象中的数据拼接出一段 HTML 文档。在webView的loadUrl 方法中会从本地加载之前定义好的JianShu.html这个页面。然后在页面加载完成，即onProgressChanged 回调方法中newProgress 的值等于100时调用updateView方法；这个方法会根据当前设置的模式，设置WebView的背景，如果是夜间模式，则会对assembleData 中生成的文档外部在添加 一个灰色风格的div标签，将整个内容包在这个div标签中，最后WebView执行JS方法 changeContent，传递的参数就是之前我们拼接好的内容。这样整个WebView又会刷新一次，整个WebView的内容就是文章内容了。</p>
+<h4 id="GenScreenShotActivity"><a href="#GenScreenShotActivity" class="headerlink" title="GenScreenShotActivity"></a>GenScreenShotActivity</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    mFakeWebView = (FakeWebView) findViewById(R.id.fakeWebView);</span><br><span class="line">    bean = (HtmlBean) getIntent().getSerializableExtra(<span class="string">"data"</span>);</span><br><span class="line">    RadioGroup changeMode = (RadioGroup) findViewById(R.id.changeMode);</span><br><span class="line">    changeMode.setOnCheckedChangeListener(<span class="keyword">new</span> RadioGroup.OnCheckedChangeListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCheckedChanged</span><span class="params">(RadioGroup group, @IdRes <span class="keyword">int</span> checkedId)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (checkedId == R.id.rb_day) &#123;</span><br><span class="line">                mFakeWebView.setMode(FakeWebView.MODE_DAY);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                mFakeWebView.setMode(FakeWebView.MODE_NIGHT);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    mFakeWebView.loadData(bean);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> mode</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMode</span><span class="params">(@ViewMode <span class="keyword">int</span> mode)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.mode = mode;</span><br><span class="line">    updateView();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在Activity中，mFakeWebView对象通过上一个页面（文章页）传递的mHtmlBean 对象就可以更新当前视图了，同时可以通过RadioButton实现页面风格的切换。</p>
+<h4 id="保存图片"><a href="#保存图片" class="headerlink" title="保存图片"></a>保存图片</h4><p>距离我们最后的目标<strong>生成长图片</strong>，前面的工作可以说只是完成了50%，因为到目前为止我们只不过是在WebView中把整个文章内容加载出来而已；长图还没有呢。因此，下面的工作就是通过WebView 生成长图。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">getScreenView</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Picture snapShot = webView.capturePicture();</span><br><span class="line">    Bitmap bmp = Bitmap.createBitmap(snapShot.getWidth(),snapShot.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">    Canvas canvas = <span class="keyword">new</span> Canvas(bmp);</span><br><span class="line">    snapShot.draw(canvas);</span><br><span class="line">    <span class="keyword">return</span> bmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>WebVeiw 很人性化，通过这个方法，我们就可以获得当前WebView视图<strong>可见与不可见</strong>部分的Bitmap了。<br>其实通过WebView生成图片并不是一件难事，难得是如何把我们这里的图片保存下来；因为我们这里生成的是长图，如下图所示，这张照片的高度达到了惊人的。因此这里就要需要之前在<a href="http://www.jianshu.com/p/dc5e390d189a" target="_blank" rel="noopener">Bitmap 初探</a>中提到的第一种压缩方法进行文件大小的压缩了。具体实现，就不再重复贴出代码了，有兴趣的同学可参考文末Github源码。</p>
+<p>到这里，我们就完全实现了仿照简书长按生成图片的功能。那么回过头再来看，这样一个功能，为什么在我的手机上，简书APP的长按功能会有bug呢。</p>
+<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><p>文章详情页的WebView是系统自带的WebView，在加载带 代码的文章时，没有对代码类的内容做特殊的解析，因此无法对代码高亮显示。只是最为普通的文本进行了显示，因此生成的长图中代码也是普通文本。简书APP还是高大上呀，对代码的高亮显示正是棒棒哒！</p>
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p>一个偶然的机会，在尝试简书长按生成图片的功能时发现，原来简书是通过WebView选择的区域生成第二页的内容；因此当我在文章页空白区域长按后，点击生成图片时必然是只有空白的，只有底部的一些固定标签。因此，这应该不算是一个bug，只是为大家提供了一种更方便的功能，可以按自己喜欢的内容生成更有效的长图。</p>
+<hr>
+<p>最后 <a href="https://github.com/REBOOTERS/AndroidAnimationExercise" target="_blank" rel="noopener">Github AndroidAnimationExercise</a>，这是一个平常自己学习Android各种动画、自定义View的集合项目，有兴趣的同学欢迎 star &amp; fork 。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>加个鸡腿呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自定义View/" rel="tag"># 自定义View</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/01/2017-booklist/" rel="next" title="2017 booklist">
+                <i class="fa fa-chevron-left"></i> 2017 booklist
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/23/自定义View高仿懂球帝我是教练效果/" rel="prev" title="自定义View高仿懂球帝我是教练效果">
+                自定义View高仿懂球帝我是教练效果 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="九尾灵狐" />
+            
+              <p class="site-author-name" itemprop="name">九尾灵狐</p>
+              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#效果预览"><span class="nav-number">2.</span> <span class="nav-text">效果预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文章页实现"><span class="nav-number">3.</span> <span class="nav-text">文章页实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内容"><span class="nav-number">3.0.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#长按菜单实现"><span class="nav-number">3.0.2.</span> <span class="nav-text">长按菜单实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长图效果实现"><span class="nav-number">4.</span> <span class="nav-text">长图效果实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Html-页面（JianShu-html）"><span class="nav-number">4.0.1.</span> <span class="nav-text">Html 页面（JianShu.html）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义WebView"><span class="nav-number">4.0.2.</span> <span class="nav-text">自定义WebView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GenScreenShotActivity"><span class="nav-number">4.0.3.</span> <span class="nav-text">GenScreenShotActivity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保存图片"><span class="nav-number">4.0.4.</span> <span class="nav-text">保存图片</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷"><span class="nav-number">5.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后话"><span class="nav-number">6.</span> <span class="nav-text">后话</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
