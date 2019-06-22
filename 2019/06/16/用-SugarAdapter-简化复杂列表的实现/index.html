@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="注解、APT、SugarAdapter、RecyclerView," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在一个 App 中 Feed 流类型的页面非常依赖 RecyclerView 的使用，有大量的列表。而列表中卡片(即列表中的 Item，以下统称卡片)有很多种样式，并且不同的样式对应的不同的业务需求，使得 Adapter 的实现非常的爆炸，因此需要一种合适的方式去实现 Adapter。 本文结合日常开发的场景，简单分析一下，使用常规手法如何最大的程度的优化 RecyclerView 的 Ad">
+<meta name="keywords" content="注解、APT、SugarAdapter、RecyclerView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 SugarAdapter 简化复杂列表的实现">
+<meta property="og:url" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言在一个 App 中 Feed 流类型的页面非常依赖 RecyclerView 的使用，有大量的列表。而列表中卡片(即列表中的 Item，以下统称卡片)有很多种样式，并且不同的样式对应的不同的业务需求，使得 Adapter 的实现非常的爆炸，因此需要一种合适的方式去实现 Adapter。 本文结合日常开发的场景，简单分析一下，使用常规手法如何最大的程度的优化 RecyclerView 的 Ad">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/SugarAdapter.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/sugar.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/SugarAdapter.png">
+<meta property="og:image" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/news.jpg">
+<meta property="og:updated_time" content="2019-06-17T12:36:58.368Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用 SugarAdapter 简化复杂列表的实现">
+<meta name="twitter:description" content="前言在一个 App 中 Feed 流类型的页面非常依赖 RecyclerView 的使用，有大量的列表。而列表中卡片(即列表中的 Item，以下统称卡片)有很多种样式，并且不同的样式对应的不同的业务需求，使得 Adapter 的实现非常的爆炸，因此需要一种合适的方式去实现 Adapter。 本文结合日常开发的场景，简单分析一下，使用常规手法如何最大的程度的优化 RecyclerView 的 Ad">
+<meta name="twitter:image" content="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/SugarAdapter.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/"/>
+
+
+
+
+
+  <title>用 SugarAdapter 简化复杂列表的实现 | 诗与远方</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/16/用-SugarAdapter-简化复杂列表的实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用 SugarAdapter 简化复杂列表的实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T10:51:27+08:00">
+                2019-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/06/16/用-SugarAdapter-简化复杂列表的实现/" class="leancloud_visitors" data-flag-title="用 SugarAdapter 简化复杂列表的实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2019/06/16/用-SugarAdapter-简化复杂列表的实现/SugarAdapter.png" width="500"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在一个 App 中 Feed 流类型的页面非常依赖 RecyclerView 的使用，有大量的列表。而列表中卡片(即列表中的 Item，以下统称卡片)有很多种样式，并且不同的样式对应的不同的业务需求，使得 Adapter 的实现非常的爆炸，因此需要一种合适的方式去实现 Adapter。</p>
+<p>本文结合日常开发的场景，简单分析一下，使用常规手法如何最大的程度的优化 RecyclerView 的 Adapter 的实现。最后分析一下 SugarAdapter，看看使用它是如何解决常规实现痛点的。</p>
+<a id="more"></a>
+<!-- TOC -->
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#sugaradapter-%E6%98%AF%E4%BB%80%E4%B9%88">SugarAdapter 是什么 ？</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%84%E7%9A%84-adapter-%E6%9C%89%E4%BB%80%E4%B9%88%E7%97%9B%E7%82%B9">常规的 Adapter 有什么痛点</a><ul>
+<li><a href="#viewholder-%E7%9A%84%E6%9C%AC%E8%B4%A8">ViewHolder 的本质</a></li>
+</ul>
+</li>
+<li><a href="#sugaradapter-%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E4%BA%86%E8%BF%99%E4%BA%9B%E7%97%9B%E7%82%B9">SugarAdapter 如何解决了这些痛点</a><ul>
+<li><a href="#layout--viewholder">Layout &amp; ViewHolder</a></li>
+<li><a href="#sugaradapter">SugarAdapter</a><ul>
+<li><a href="#build-%E6%A8%A1%E5%BC%8F">Build 模式</a><ul>
+<li><a href="#container">Container</a></li>
+</ul>
+</li>
+<li><a href="#add-%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0">add() 的具体实现</a></li>
+<li><a href="#sugar">Sugar</a></li>
+</ul>
+</li>
+<li><a href="#%E7%97%9B%E7%82%B9%E5%A6%82%E4%BD%95%E8%A2%AB%E6%B6%88%E9%99%A4">痛点如何被消除</a><ul>
+<li><a href="#getitemviewtype">getItemViewType</a></li>
+<li><a href="#oncreateviewholder">onCreateViewHolder</a></li>
+<li><a href="#onbindviewholder">onBindViewHolder</a></li>
+<li><a href="#%E5%B0%8F%E7%BB%93">小结</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sugaradapter-%E8%BF%98%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88">SugarAdapter 还能做什么</a><ul>
+<li><a href="#%E4%B8%80%E7%A7%8D-%E6%95%B0%E6%8D%AE%E5%AF%B9%E5%BA%94%E4%B8%8D%E5%90%8C%E7%9A%84%E6%A0%B7%E5%BC%8F"><strong>“一种”</strong> 数据对应不同的样式</a><ul>
+<li><a href="#%E8%A7%84%E5%88%99">规则</a></li>
+</ul>
+</li>
+<li><a href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%9E%E8%B0%83-%E5%92%8C-lifecycleowner-%E7%9A%84%E6%94%AF%E6%8C%81">生命周期回调 和 Lifecycleowner 的支持。</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="SugarAdapter-是什么-？"><a href="#SugarAdapter-是什么-？" class="headerlink" title="SugarAdapter 是什么 ？"></a>SugarAdapter 是什么 ？</h2><blockquote>
+<p><a href="https://github.com/zhihu/SugarAdapter" target="_blank" rel="noopener">SugarAdapter</a>,        Make RecyclerView.Adapter Great Again!</p>
+</blockquote>
+<h2 id="常规的-Adapter-有什么痛点"><a href="#常规的-Adapter-有什么痛点" class="headerlink" title="常规的 Adapter 有什么痛点"></a>常规的 Adapter 有什么痛点</h2><p>面对一个有上百种卡片样式的 RecyclerView ，简单粗暴的做法可能就是把所有可能需要显示的 UI 元素怼在一个 xml 布局文件里，然后在 Adapter 里根据数据对 view 做 visible/invisible/gone 及 setXXX 的操作，这无疑是最糟糕的做法，代码会爆炸，性能更是堪忧，基本上就无法维护了。</p>
+<p>换个思路，本质上每一种卡片样式其实就是一种 ViewHolder（onCreateViewHolder 返回值是 Holder,至于为啥是 Holder，而不是直接返回 View，用过上古神器 ListView 的同学一定知道原因的） ，那么面对这么多的卡片样式，写一大堆 ViewHolder 就可以了，事实上在大部分时候，我们确实是这么做的，新的需求来了，添加一个新的 ViewHolder 或者是继承一个已有的 ViewHolder 做一下扩展就可以了。</p>
+<p>下面用最简单的代码，描述以下上述实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NormalAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">NormalAdapter</span>.<span class="title">MyHolder</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; datas = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_A = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_B = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NormalAdapter</span><span class="params">(List&lt;String&gt; datas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.datas = datas;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MyHolder <span class="title">onCreateViewHolder</span><span class="params">(@NonNull ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (viewType == VIEW_TYPE_A) &#123;</span><br><span class="line">            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_type_a, parent, <span class="keyword">false</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> HolderA(view);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (viewType == VIEW_TYPE_B) &#123;</span><br><span class="line">            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_type_b, parent, <span class="keyword">false</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> HolderB(view);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// more view_type stuff</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(@NonNull MyHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> viewType = getItemViewType(position);</span><br><span class="line">        <span class="keyword">if</span> (viewType == VIEW_TYPE_A) &#123;</span><br><span class="line">            <span class="comment">// data-to-ui  stuff</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// data-to-ui  stuff</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> VIEW_TYPE_A;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> VIEW_TYPE_B;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> datas.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">MyHolder</span><span class="params">(@NonNull View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderA</span> <span class="keyword">extends</span> <span class="title">MyHolder</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">HolderA</span><span class="params">(@NonNull View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderB</span> <span class="keyword">extends</span> <span class="title">MyHolder</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">HolderB</span><span class="params">(@NonNull View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>}</p>
+<p>如上，是 RecyclerView.Adapter 实现的常规操作。ViewHolderA 和 ViewHolderB 对应不同的卡片样式。如果有新的样式，继续添加即可。但是每添加一个新的 ViewHolder ,就需要改三个方法(getItemViewType,onCreateViewHolder,onBindViewHolder).当然，可以通过工厂方法等设计模式，修改具体创建 ViewHolder 的方法，但本质上要修改的地方不会变少。</p>
+<h3 id="ViewHolder-的本质"><a href="#ViewHolder-的本质" class="headerlink" title="ViewHolder 的本质"></a>ViewHolder 的本质</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    Object object = datas.get(position);</span><br><span class="line">    <span class="keyword">if</span> (object <span class="keyword">instanceof</span> ModelA) &#123;</span><br><span class="line">        <span class="keyword">return</span> VIEW_TYPE_A;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (object <span class="keyword">instanceof</span> ModelB) &#123;</span><br><span class="line">        <span class="keyword">return</span> VIEW_TYPE_B;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由于 RecyclerView 没有提供原生的方法用来为列表添加 Header 和 Footer ，因此有在 position 为 0 和列表末尾时，返回特定的 viewtype 来添加 Header 和 Footer 也是一种常规用法。</p>
+</blockquote>
+<p>假设，我们现在需要添加 ViewHolderC，我们需要以下几个步骤：</p>
+<ul>
+<li>从 getItemViewType 开始，确定 ViewType 的值。一般来说，会根据数据类型确定这个值。当然，这里不一定通过 instanceof 实现，也可以通过数据中特定字段实现，但本质是相同的，数据决定 viewType 类型。</li>
+<li>然后<strong>根据这个 ViewType</strong> 在 onCreateViewHolder 方法中确定其对应的 ViewHolder 的类型，更进一步来说是<strong>确定了要 inflate 的 xml 资源文件</strong>，通过这个 xml 对应的 view 创建 ViewHolder。</li>
+<li>最后，在 onBindViewHolder ，我们确定了最终需要使用的 ViewHolder 和 Model（数据类型），这里可能需要强转以下，但是只要以上两步没有错，那么这个强转是没有任何问题。</li>
+</ul>
+<p>但是，还是回到一开始要面对的问题，面对上百种的卡片样式，这种方式又变得不太友好，每次添加一个新的 ViewHolder，需要修改已有代码，无疑会带来不可预料的 bug。</p>
+<p>那么我们改如何面对这种情况呢？ 一种可行的解决方式 <a href="https://puke3615.github.io/2018/08/26/Android-RecyclerView-Architecture-Design/" target="_blank" rel="noopener">彻底解耦 RecyclerView.Adapter</a>,这篇文章中提到的解决方式其实和接下来要分析的 SugarAdapter 的思路大致相同，只不过 SugarAdapter 采用注解的方式，免去了自建工厂类的麻烦，实现更加的优雅，因此使用起来也更加的方便。</p>
+<h2 id="SugarAdapter-如何解决了这些痛点"><a href="#SugarAdapter-如何解决了这些痛点" class="headerlink" title="SugarAdapter 如何解决了这些痛点"></a>SugarAdapter 如何解决了这些痛点</h2><p>关于如何使用 SugarAdapter 及它可以覆盖哪些场景，这里就不再展开了，参考其 <a href="https://github.com/zhihu/SugarAdapter" target="_blank" rel="noopener">README 文档</a>，就可以非常简单而又快速的上手了,非常好用，墙裂推荐 ！！！</p>
+<h3 id="Layout-amp-ViewHolder"><a href="#Layout-amp-ViewHolder" class="headerlink" title="Layout &amp; ViewHolder"></a>Layout &amp; ViewHolder</h3><p>首先看一下如何创建一个 ViewHolder</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Layout</span>(R.layout.layout_bar)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">BarHolder</span> <span class="keyword">extends</span> <span class="title">SugarHolder</span>&lt;<span class="title">Bar</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span>(R.id.text)</span><br><span class="line">    <span class="keyword">public</span> AppCompatTextView mTextView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BarHolder</span><span class="params">(@NonNull View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(view);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onBindData</span><span class="params">(@NonNull Bar bar)</span> </span>&#123;</span><br><span class="line">        mTextView.setText(bar.getText());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看以看到，创建一个 ViewHolder 只需要做 4 件事情</p>
+<ul>
+<li>Layout 注解提供 ViewHolder 对应的 xml 布局文件</li>
+<li>继承 SugarHolder 并指定泛型的具体类型</li>
+<li>为用到的 View 加上 @ID 的注解，框架会自动帮你 fvb(当然，你也可以自己在构造函数里写 fvb；如果你在用 kotlin,忽略这条)</li>
+<li>实现 onBindData 方法，完成数据和 UI 的绑定。</li>
+</ul>
+<p>上面的注解在编译期，会生成如下的文件（关于 SugarAdapter 注解处理器如何解析注解及生成文件,可以参考<a href="https://rebooters.github.io/2019/06/04/SugarAdapter-%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">SugarAdapter 注解处理器分析</a>）</p>
+<p><strong>ContainerDelegateImpl.java</strong></p>
+<p>在 build/generated/source/apt/debug/com/zhihu/android/sugaradapter/ 目录下 （生成的代码是 ViewHolder 类名相关，不一定和这里完全相同，但方法体及实现是雷同的）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerDelegateImpl</span> <span class="keyword">implements</span> <span class="title">ContainerDelegate</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Class&lt;? extends SugarHolder&gt;, Integer&gt; mLayoutResMap;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Class&lt;? extends SugarHolder&gt;, Class&gt; mDataClassMap;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ContainerDelegateImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mLayoutResMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        mDataClassMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        mLayoutResMap.put(com.zhihu.android.sugaradapterdemo.holder.BarHolder.class, com.zhihu.android.sugaradapterdemo.R.layout.layout_bar);</span><br><span class="line">        mDataClassMap.put(com.zhihu.android.sugaradapterdemo.holder.BarHolder.class, com.zhihu.android.sugaradapterdemo.item.Bar.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;Class&lt;? extends SugarHolder&gt;, Integer&gt; getLayoutResMap() &#123;</span><br><span class="line">        <span class="keyword">return</span> mLayoutResMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;Class&lt;? extends SugarHolder&gt;, Class&gt; getDataClassMap() &#123;</span><br><span class="line">        <span class="keyword">return</span> mDataClassMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@LayoutRes</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getLayoutRes</span><span class="params">(@NonNull Class&lt;? extends SugarHolder&gt; holderClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mLayoutResMap.get(holderClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Class <span class="title">getDataClass</span><span class="params">(@NonNull Class&lt;? extends SugarHolder&gt; holderClass)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mDataClassMap.get(holderClass);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个文件通过 HashMap 建立了两个映射关系</p>
+<ul>
+<li>ViewHolder 和其对应的 xml 布局文件的 id</li>
+<li>ViewHolder 和其对应的 Model 类</li>
+</ul>
+<p><strong>BarHolder\$InjectDelegateImpl.java</strong></p>
+<p>在 build/generated/source/apt/debug/ 目录下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">BarHolder</span>$<span class="title">InjectDelegateImpl</span> <span class="keyword">implements</span> <span class="title">InjectDelegate</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@SuppressLint</span>(<span class="string">"ResourceType"</span>)</span><br><span class="line">    <span class="keyword">public</span> &lt;SH extends SugarHolder&gt; <span class="function"><span class="keyword">void</span> <span class="title">injectView</span><span class="params">(@NonNull SH sh, @NonNull View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sh <span class="keyword">instanceof</span> com.zhihu.android.sugaradapterdemo.holder.BarHolder) &#123;</span><br><span class="line">            com.zhihu.android.sugaradapterdemo.holder.BarHolder th = (com.zhihu.android.sugaradapterdemo.holder.BarHolder) sh;</span><br><span class="line">            th.mTextView = (androidx.appcompat.widget.AppCompatTextView) view.findViewById(com.zhihu.android.sugaradapterdemo.R.id.text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个文件，也是做了两件事</p>
+<ul>
+<li>ViewHolder 的强制类型转换</li>
+<li>ViewHolder 对应控件的 findViewById 操作</li>
+</ul>
+<p>下面就从 SugarAdapter 最基础的用法看看他的具体实现</p>
+<h3 id="SugarAdapter"><a href="#SugarAdapter" class="headerlink" title="SugarAdapter"></a>SugarAdapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        SugarAdapter adapter = SugarAdapter.Builder.with(list)</span><br><span class="line">                .add(FooHolder.class)</span><br><span class="line">                .add(BarHolder.class)</span><br><span class="line">                .build();</span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">        recyclerView.setAdapter(adapter);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            String text = String.valueOf(i);</span><br><span class="line">            list.add(i % <span class="number">2</span> == <span class="number">0</span> ? <span class="keyword">new</span> Foo(text) : <span class="keyword">new</span> Bar(text));</span><br><span class="line">        &#125;</span><br><span class="line">        adapter.notifyDataSetChanged();</span><br></pre></td></tr></table></figure>
+<p>以上就是 SugarAdapter 最基础的用法，可以看到创建 adapter 的操作非常简单。这里添加了两个 ViewHolder，数据类型也有两种，实际显示的 RecyclerView 会根据数据类型，分别显示这两种卡片。那么他是怎么做到呢，下面就从他的实现开始看看。</p>
+<p><img src="/2019/06/16/用-SugarAdapter-简化复杂列表的实现/sugar.png" height="300"></p>
+<h4 id="Build-模式"><a href="#Build-模式" class="headerlink" title="Build 模式"></a>Build 模式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SugarAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">SugarHolder</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"SugarAdapter"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> List&lt;?&gt; mList;</span><br><span class="line">        <span class="keyword">private</span> SparseArray&lt;Container&gt; mArray;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@NonNull</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Builder <span class="title">with</span><span class="params">(@NonNull List&lt;?&gt; list)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Builder(list);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">Builder</span><span class="params">(@NonNull List&lt;?&gt; list)</span> </span>&#123;</span><br><span class="line">            mList = list;</span><br><span class="line">            mArray = <span class="keyword">new</span> SparseArray&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@NonNull</span></span><br><span class="line">        <span class="keyword">public</span> &lt;SH extends SugarHolder&gt; <span class="function">Builder <span class="title">add</span><span class="params">(@NonNull Class&lt;SH&gt; holderClass)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> add(holderClass, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        <span class="meta">@NonNull</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> SugarAdapter <span class="title">build</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (mArray.size() &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"must add at least one Class&lt;? extends SugarHolder&gt;"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> SugarAdapter(mList, mArray);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本质上来说，SugarAdapter 是继承自 RecyclerView.Adapter，泛型里的 ViewHolder 用的是 SugarHolder。首先这里通过一个 Builder 模式构建了所有需的数据的集合。</p>
+<h5 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Class&lt;? extends SugarHolder&gt; mHolderClass;</span><br><span class="line">    <span class="keyword">private</span> Class&lt;?&gt; mDataClass;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mLayoutRes;</span><br><span class="line">    <span class="keyword">private</span> SugarHolder.OnCreatedCallback mCallback;</span><br><span class="line">    <span class="keyword">private</span> Object mData;</span><br><span class="line"></span><br><span class="line">    Container(<span class="meta">@NonNull</span> Class&lt;? extends SugarHolder&gt; holderClass,</span><br><span class="line">              <span class="meta">@NonNull</span> Class&lt;?&gt; dataClass, <span class="meta">@LayoutRes</span> <span class="keyword">int</span> layoutRes,</span><br><span class="line">              <span class="meta">@Nullable</span> SugarHolder.OnCreatedCallback callback) &#123;</span><br><span class="line">        mHolderClass = holderClass;</span><br><span class="line">        mDataClass = dataClass;</span><br><span class="line">        mLayoutRes = layoutRes;</span><br><span class="line">        mCallback = callback;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    .....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Container 是对所有需要用到的对象类型的包装.</p>
+<p><span id="sugar-add"></span></p>
+<h4 id="add-的具体实现"><a href="#add-的具体实现" class="headerlink" title="add() 的具体实现"></a>add() 的具体实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line">        <span class="keyword">public</span> &lt;SH extends SugarHolder&gt; <span class="function">Builder <span class="title">add</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">                @NonNull Class&lt;SH&gt; holderClass, @Nullable SugarHolder.OnCreatedCallback&lt;SH&gt; callback)</span> </span>&#123;</span><br><span class="line">            ContainerDelegate delegate = Sugar.INSTANCE.getContainerDelegate();</span><br><span class="line">            Class dataClass = delegate.getDataClass(holderClass);</span><br><span class="line">            <span class="keyword">int</span> layoutRes = delegate.getLayoutRes(holderClass);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (layoutRes == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(holderClass.getCanonicalName()</span><br><span class="line">                        + <span class="string">" must have an annotation @Layout(R.layout.*)"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            mArray.put(holderClass.hashCode(), <span class="keyword">new</span> Container(holderClass, dataClass, layoutRes, callback));</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>add 的实现很简单，就是通过 Sugar 这个单例类通过反射的方式获取到 ContainerDelegateImpl 的实例，<a href="">前面</a>已经说过了，<strong>这个实现其实就是一个 ViewHolder 和其对应的 数据类型及布局文件的一个映射集合。因此，这一步要做的就是通过 holder 从映射集合中获取到当前 ViewHolder 对应的数据类型和布局文件 xml 文件的 id</strong></p>
+<p><strong>关键的步骤</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class dataClass = delegate.getDataClass(holderClass);</span><br><span class="line"><span class="keyword">int</span> layoutRes = delegate.getLayoutRes(holderClass);</span><br></pre></td></tr></table></figure>
+<h4 id="Sugar"><a href="#Sugar" class="headerlink" title="Sugar"></a>Sugar</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Sugar &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ContainerDelegate mContainerDelegate;</span><br><span class="line">    <span class="keyword">private</span> Map&lt;Class&lt;? extends SugarHolder&gt;, InjectDelegate&gt; mInjectMap;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function">ContainerDelegate <span class="title">getContainerDelegate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mContainerDelegate == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Class delegateClass = Class.forName(<span class="string">"com.zhihu.android.sugaradapter.ContainerDelegateImpl"</span>);</span><br><span class="line">                mContainerDelegate = (ContainerDelegate) delegateClass.newInstance();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mContainerDelegate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，在 build 方法调用的瞬间，就如何解决了之前的痛点做好了铺垫。ViewHolder,Model.class,R.layout.xxx 之间的对应关系已经被梳理好，并保存在 mArray 这个集合中了。</p>
+<p><img src="/2019/06/16/用-SugarAdapter-简化复杂列表的实现/SugarAdapter.png"></p>
+<p>通过上图可以清晰看到各个之间的关系了，Sugar 可以理解为 SugarAdapter 和 SugarHolder 的代理类，方便其获取生成类的实例。最终在 SugarAdapter 的 mArray 集合中存储着所有关键信息，下面就看看这些关键信息是如何被使用的。</p>
+<h3 id="痛点如何被消除"><a href="#痛点如何被消除" class="headerlink" title="痛点如何被消除"></a>痛点如何被消除</h3><p>按照之前的常规的逻辑，痛点无非就是新增样式（ViewHolder）需要 getItemViewType,onCreateViewHolder,onBindViewHolder 这三个方法轮流改一遍。那么有了之前的铺垫，SugarAdapter 又是如解决这些痛点的呢？<br>我们还是回到 SugarAdapter 中。</p>
+<h4 id="getItemViewType"><a href="#getItemViewType" class="headerlink" title="getItemViewType"></a>getItemViewType</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(@IntRange(from = <span class="number">0</span>)</span> <span class="keyword">int</span> position) </span>&#123;</span><br><span class="line">        Object data = mList.get(position);</span><br><span class="line"></span><br><span class="line">        ....</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mArray.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> key = mArray.keyAt(i);</span><br><span class="line">            Container container = mArray.get(key);</span><br><span class="line">            <span class="keyword">if</span> (container.getDataClass() == data.getClass()) &#123;</span><br><span class="line">                container.setData(data);</span><br><span class="line">                <span class="keyword">return</span> key;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"getItemViewType failed, data: "</span> + data.getClass().getCanonicalName()</span><br><span class="line">                + <span class="string">", please make sure you have associated it with a Class&lt;? extends SugarHolder&gt;"</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>没错，就是这么简单。第一步，获取数据集合中，当前位置的数据类型，然后遍历之前保存好的 mArray 集合，找的那个与当前数据类型匹配的 key (也就是 viewtype) 返回即可。本质来说，确定 viewType 类型的方式还是没变，即数据决定类型，但是由于之前的一系列铺垫准备，现在这里就可以通过数据直接<strong>自动</strong>查找了。</p>
+<p><strong>回到之前 <a href="#sugar-add">add 方法</a> 的实现，可以看到，在进行 put 操作时，使用的 key 是 viewholder 实例的 hashcode(),因此 这里返回的其实就是 viewholder 的 hashcode</strong>，因此，可以理解为 SugarAdapter 是用 ViewHolder hashcode 作为 viewtype 的取值。</p>
+<h4 id="onCreateViewHolder"><a href="#onCreateViewHolder" class="headerlink" title="onCreateViewHolder"></a>onCreateViewHolder</h4><p>viewtype 确定了，那么就可以创建这个 type 对应的 ViewHolder 了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> SugarHolder <span class="title">onCreateViewHolder</span><span class="params">(@NonNull ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        Container container = mContainerArray.get(viewType);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            View view = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">int</span> layoutRes = container.getLayoutRes();</span><br><span class="line"></span><br><span class="line">            ... preInflate view stuff ...</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (view == <span class="keyword">null</span>) &#123;</span><br><span class="line">                view = inflateView(layoutRes, parent);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            SugarHolder holder = container.getHolderClass().getDeclaredConstructor(View.class).newInstance(view);</span><br><span class="line">            holder.setAdapter(<span class="keyword">this</span>);</span><br><span class="line">            holder.setData(container.getData()); <span class="comment">// makes SugarHolder#getData non-null</span></span><br><span class="line"></span><br><span class="line">            ... lifecycle and callback stuff ..</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> holder;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="meta">@NonNull</span> Exception e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"onCreateViewHolder failed, holder: "</span> + container.getHolderClass().getCanonicalName());</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里的 mContainerArray 其实就是之前一直在说的 mArray。<strong>是以 viewholder 的 hashcode (viewtype) 为 key ,Container(包含这个 viewholder 数据类型，自身，R.layout.xxx 等内容的包装类) 为值的一个 SparseArray。</strong></p>
+<p>因此，到了这里就很简单了，根据 viewtype 从 Container 的 map 集合中取出对应的 Container ，使用 <em>R.layout.xxx</em> inflate view, 然后创建 viewholder 的实例返回。当然为了性能提升，inflate view 之前，还会有 preInflate 的逻辑，具体细节可以参考源码，这里不做重点讨论。</p>
+<h4 id="onBindViewHolder"><a href="#onBindViewHolder" class="headerlink" title="onBindViewHolder"></a>onBindViewHolder</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onBindViewHolderInternal</span><span class="params">(@NonNull SugarHolder holder, <span class="keyword">int</span> position, @Nullable List&lt;Object&gt; payloads)</span> </span>&#123;</span><br><span class="line">        Object data = mList.get(position);</span><br><span class="line">        holder.setData(data); <span class="comment">// double check</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (payloads == <span class="keyword">null</span> || payloads.isEmpty()) &#123;</span><br><span class="line">            holder.onBindData(data, Collections.emptyList());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            holder.onBindData(data, payloads);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        holder.getLifecycleRegistry().handleLifecycleEvent(Lifecycle.Event.ON_START);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (SugarHolderListener listener : mSugarHolderListenerList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (listener.isInstance(holder)) &#123;</span><br><span class="line">                listener.onSugarHolderBindData(holder);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>到这里就很简单了，获取 position 对应的数据，调用 holder.onBindData 方法即可，还记得这个方法吗，就是在继承 SugarHolder 时需要实现 UI 和数据绑定的那个方法。</p>
+<p>可以看到，SugarAdapter 还帮我们添加了 lifecycle 相关的回调，包括在 onCreateViewHolder 时也会有 。因此使用 SugarAdapter 还可以方便的感知到更多的生命周期回调，获取到更多的方法执行结点。</p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>至此，我们了解到 <strong>SugarAdapter 解决痛点最关键，最核心的逻辑，就是在 add(SugarHolder holder) 的时候，根据编译期生成的文件，建立好了最终需要的对应关系集合（包含 Container 的 mArray）</strong>，从而在后续方法执行的时候，可以根据已有的对应关系，非常方便的自动实现 viewtype–&gt;view–&gt;viewholder–&gt;Data–&gt;UI 最终对应关系。</p>
+<h2 id="SugarAdapter-还能做什么"><a href="#SugarAdapter-还能做什么" class="headerlink" title="SugarAdapter 还能做什么"></a>SugarAdapter 还能做什么</h2><h3 id="“一种”-数据对应不同的样式"><a href="#“一种”-数据对应不同的样式" class="headerlink" title="“一种” 数据对应不同的样式"></a><strong>“一种”</strong> 数据对应不同的样式</h3><p>通过之前的分析，我们可以看到使用 SugarAdapter ，在其 getItemViewType 方法，会根据当前 position 从数据列表中获取当前位置的 Model，然后由这个 model 决定 viewType ，也就是说数据决定了在 RecyclerView 中当前这个 position 用哪种 ViewHolder。</p>
+<p>然而，有时候 ViewHolder (即卡片样式) 并不一定由完全数据类型决定，而是由 Model 中的某个字段的类型决定，甚至面临着相同的数据，在不同的位置需要不同的 ViewHolder,甚至极端情况下，相同位置需要使用的 ViewHolder 是需要动态变化的。</p>
+<p><img src="/2019/06/16/用-SugarAdapter-简化复杂列表的实现/news.jpg" height="300"></p>
+<p>比如图中常见的 feed 流式新闻，卡片 1 和 3 基本上是相同的，卡片 2 却是完全一种不同的样式。一般情况下，服务端下发的数据一定是同类型的，顶多加几个字段，区分一下这些内容。如上所说，SugarAdapter 是根据数据类型决定 ViewHolder，那么数据类型如果相同，那么该如何处理呢？这就要靠 Dispatcher 了。这里看一下官方的例子就明白了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">adapter.addDispatcher(Foo.class,<span class="keyword">new</span> SugarAdapter.Dispatcher&lt;Foo&gt;() &#123;</span><br><span class="line">           <span class="meta">@SuppressWarnings</span>(<span class="string">"ConstantConditions"</span>)</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="meta">@Nullable</span></span><br><span class="line">           <span class="keyword">public</span> Class&lt;? extends SugarHolder&gt; dispatch(<span class="meta">@NonNull</span> Foo foo) &#123;</span><br><span class="line">               <span class="keyword">return</span> Integer.parseInt(foo.getText()) % <span class="number">2</span> == <span class="number">0</span> ? FooHolder.class : FooHolder2.class;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+<p>同样的数据类型 Foo，但<strong>我们可以根据这个数据的细节，自己决定使用哪种类型的 ViewHolder</strong> (但前提是需要把用到 ViewHolder add 进去，否则是找不到的)</p>
+<h4 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h4><p>那么这个 Dispatcher 是如何的原理又是什么呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> Class&lt;? extends SugarHolder&gt; dispatch(<span class="meta">@NonNull</span> T data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先可以看到，他就是一个抽象类。SugarAdapter 内部维护着一个 Dispatcher 的集合。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> Map&lt;Class&lt;?&gt;, Dispatcher&lt;?&gt;&gt; mDispatcherMap;</span><br></pre></td></tr></table></figure>
+<p>当我们进行 addDispatcher 的操作时，就会把一个实际的 Dispatcher 实现添加到这个集合中。而在 onCreateViewHolder 方法执行时，会优先从这个 map 里获取对应的 ViewHolder，然后通过 viewholder 反向确定 viewtype 。这里这样做虽然有点绕，但是这样 dispatcher 就可以屏蔽数据决定 viewtype 的流程，从而巧妙地解决了<strong>同类型数据，需要不同样式</strong>的难题。</p>
+<p>如果找到了就直接返回 viewtype; 如果没找到就会从 mArray （所有对应关系的集合中）查找,不影响其余的类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(@IntRange(from = <span class="number">0</span>)</span> <span class="keyword">int</span> position) </span>&#123;</span><br><span class="line">        Object data = mList.get(position);</span><br><span class="line"></span><br><span class="line">        Class&lt;? extends SugarHolder&gt; holderClass = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (mDispatcherMap.containsKey(data.getClass())) &#123;</span><br><span class="line">            Dispatcher dispatcher = mDispatcherMap.get(data.getClass());</span><br><span class="line">            holderClass = dispatcher.dispatch(data);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (holderClass != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> key = holderClass.hashCode();</span><br><span class="line">            <span class="keyword">if</span> (mContainerArray.indexOfKey(key) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"getItemViewType() failed, holder: "</span> + holderClass.getCanonicalName()</span><br><span class="line">                        + <span class="string">", please make sure you have added it when build SugarAdapter."</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            mContainerArray.get(key).setData(data);</span><br><span class="line">            <span class="keyword">return</span> key;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ... search key from mArray stuff...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这就是 Dispatcher ，Dispatcher 就是用来动态分发 ViewHolder 的，具体如何动态分发，就看实际的场景了。</p>
+<h3 id="生命周期回调-和-Lifecycleowner-的支持。"><a href="#生命周期回调-和-Lifecycleowner-的支持。" class="headerlink" title="生命周期回调 和 Lifecycleowner 的支持。"></a>生命周期回调 和 Lifecycleowner 的支持。</h3><p>SugarAdapter 内部有很多回调，可以监听 SugarAdapter 执行的各个生命周期，这些生命周期和 RecyclerView 自身也是相关的。甚至如果你要使用 lifecycle-aware(生命周期可感知的)组件，也很非常方便的。更多细节可以参考 <a href="https://github.com/zhihu/SugarAdapter/blob/master/app/src/main/java/com/zhihu/android/sugaradapterdemo/MainActivity.java#L41" target="_blank" rel="noopener">具体实现</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，对于包含多种样式的 RecyclerView 来说，SugarAdapter 是比较合适的。更重要的是，SugarAdapter 为我们解决问题，提供了一种思路。对于一些需要重复执行，但又很有规律的代码逻辑；找到问题的本质，从最痛的地方出发，往往就能解决问题。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>加个鸡腿呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="九尾灵狐 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/注解、APT、SugarAdapter、RecyclerView/" rel="tag"># 注解、APT、SugarAdapter、RecyclerView</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/04/SugarAdapter-注解处理器分析/" rel="next" title="SugarAdapter 注解处理器分析">
+                <i class="fa fa-chevron-left"></i> SugarAdapter 注解处理器分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/21/安装-go2shell-到-Finder-工具栏的方法/" rel="prev" title=" 安装 go2shell 到 Finder 工具栏的方法">
+                 安装 go2shell 到 Finder 工具栏的方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="九尾灵狐" />
+            
+              <p class="site-author-name" itemprop="name">九尾灵狐</p>
+              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SugarAdapter-是什么-？"><span class="nav-number">2.</span> <span class="nav-text">SugarAdapter 是什么 ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常规的-Adapter-有什么痛点"><span class="nav-number">3.</span> <span class="nav-text">常规的 Adapter 有什么痛点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ViewHolder-的本质"><span class="nav-number">3.1.</span> <span class="nav-text">ViewHolder 的本质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SugarAdapter-如何解决了这些痛点"><span class="nav-number">4.</span> <span class="nav-text">SugarAdapter 如何解决了这些痛点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Layout-amp-ViewHolder"><span class="nav-number">4.1.</span> <span class="nav-text">Layout &amp; ViewHolder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SugarAdapter"><span class="nav-number">4.2.</span> <span class="nav-text">SugarAdapter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-模式"><span class="nav-number">4.2.1.</span> <span class="nav-text">Build 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Container"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">Container</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add-的具体实现"><span class="nav-number">4.2.2.</span> <span class="nav-text">add() 的具体实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sugar"><span class="nav-number">4.2.3.</span> <span class="nav-text">Sugar</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#痛点如何被消除"><span class="nav-number">4.3.</span> <span class="nav-text">痛点如何被消除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#getItemViewType"><span class="nav-number">4.3.1.</span> <span class="nav-text">getItemViewType</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onCreateViewHolder"><span class="nav-number">4.3.2.</span> <span class="nav-text">onCreateViewHolder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onBindViewHolder"><span class="nav-number">4.3.3.</span> <span class="nav-text">onBindViewHolder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">4.3.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SugarAdapter-还能做什么"><span class="nav-number">5.</span> <span class="nav-text">SugarAdapter 还能做什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#“一种”-数据对应不同的样式"><span class="nav-number">5.1.</span> <span class="nav-text">“一种” 数据对应不同的样式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#规则"><span class="nav-number">5.1.1.</span> <span class="nav-text">规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期回调-和-Lifecycleowner-的支持。"><span class="nav-number">5.2.</span> <span class="nav-text">生命周期回调 和 Lifecycleowner 的支持。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Router、APT、注解," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
+<meta name="keywords" content="Router、APT、注解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个简单的路由">
+<meta property="og:url" content="http://yoursite.com/2019/06/22/一个路由的诞生/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-22T09:20:10.867Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个简单的路由">
+<meta name="twitter:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/22/一个路由的诞生/"/>
+
+
+
+
+
+  <title>一个简单的路由 | 诗与远方</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/一个路由的诞生/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一个简单的路由</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T08:55:10+08:00">
+                2019-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/06/22/一个路由的诞生/" class="leancloud_visitors" data-flag-title="一个简单的路由">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 <a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a>, <a href="https://github.com/meituan/WMRouter" target="_blank" rel="noopener">WMRouter</a>,<a href="https://github.com/chenenyu/Router" target="_blank" rel="noopener">Router</a><a href="https://github.com/search?l=Java&amp;q=Router&amp;type=Repositories" target="_blank" rel="noopener">等等</a>。<br>这些路由框架，都是使用 APT 的原理来实现的。通过之前的 <a href="https://rebooters.github.io/2019/06/03/注解处理器APT初探" target="_blank" rel="noopener">注解处理器APT初探</a>、<a href="https://rebooters.github.io/2019/06/04/SugarAdapter-%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">SugarAdapter 注解处理器分析</a> ，我们对 APT 的使用有了一些认识。</p>
+<p>因此，这里我们简单尝试一下，实现一个<strong>史上最最简单</strong>的路由。通过这个过程我们可以了解一下，实现一个真正好用的路由，需要考虑哪些问题，又有哪些难点需要去处理。</p>
+<a id="more"></a>
+<!-- TOC -->
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#史上最简单路由的诞生">史上最简单路由的诞生</a><ul>
+<li><a href="#目标">目标</a></li>
+<li><a href="#路由表生成">路由表生成</a><ul>
+<li><a href="#注解定义">注解定义</a></li>
+<li><a href="#注解处理">注解处理</a></li>
+<li><a href="#生成代码">生成代码</a></li>
+<li><a href="#小结">小结</a></li>
+</ul>
+</li>
+<li><a href="#路由-api">路由 API</a><ul>
+<li><a href="#槽点">槽点</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#一个高效的路由应该是什么样子的">一个高效的路由应该是什么样子的</a><ul>
+<li><a href="#需求推动技术">需求推动技术</a></li>
+</ul>
+</li>
+<li><a href="#总结">总结</a></li>
+</ul>
+<!-- /TOC -->
+<h2 id="史上最简单路由的诞生"><a href="#史上最简单路由的诞生" class="headerlink" title="史上最简单路由的诞生"></a>史上最简单路由的诞生</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>作为史上最简单的路由，我们的目标很简单，<strong>用路由的方式实现 Activity 的跳转</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  mJump.setOnClickListener(v -&gt;</span><br><span class="line">        QRouterApi.go(<span class="keyword">this</span>, <span class="string">"/activity/second"</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@QRouter</span>(<span class="string">"/activity/second"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">  ....onCreate .... stuff ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述点击事件，可以正确跳转到 <strong>“/activity/second”</strong> 注解所在的 SecondActivity(假设我们现在无法直接依赖 SecondActivity.class,😎😎)</p>
+<p>下面就一步一步走，看看如何实现这个简单的小目标。</p>
+<h3 id="路由表生成"><a href="#路由表生成" class="headerlink" title="路由表生成"></a>路由表生成</h3><h4 id="注解定义"><a href="#注解定义" class="headerlink" title="注解定义"></a>注解定义</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> QRouter &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，为路由定义一个注解 QRouter，只接受一个参数，也就是路由地址。</p>
+<h4 id="注解处理"><a href="#注解处理" class="headerlink" title="注解处理"></a>注解处理</h4><p>关于注解处理器的使用细节这里就不再赘述，<a href="https://rebooters.github.io/2019/06/03/注解处理器APT初探" target="_blank" rel="noopener">注解处理器APT初探</a> 已经有过深入分析了。这里直接分析看看 process 如何实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv)</span> </span>&#123;</span><br><span class="line">      mMessager.printMessage(Diagnostic.Kind.NOTE, <span class="string">"processing...."</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      Set&lt;? extends Element&gt; elements = roundEnv.getElementsAnnotatedWith(QRouter.class);</span><br><span class="line">      <span class="keyword">for</span> (Element element : elements) &#123;</span><br><span class="line">          <span class="keyword">if</span> (element <span class="keyword">instanceof</span> TypeElement) &#123;</span><br><span class="line">              </span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span> (mQRouterCreatorProxy == <span class="keyword">null</span>) &#123;</span><br><span class="line">                  mQRouterCreatorProxy = <span class="keyword">new</span> QRouterCreatorProxy(mElementUtils, (TypeElement) element);</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              QRouter routerAnnotation = element.getAnnotation(QRouter.class);</span><br><span class="line">              String router = routerAnnotation.value();</span><br><span class="line">              String target = ((TypeElement) element).getQualifiedName().toString();</span><br><span class="line"></span><br><span class="line">              mQRouterCreatorProxy.putElement(router, target);</span><br><span class="line"></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              mMessager.printMessage(Diagnostic.Kind.ERROR, <span class="string">"annotation on mistake type, the type should be class"</span>);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      generateRouterTable();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里还是沿袭之前 BingView 的思路，用代理类 QRouterCreatorProxy 处理所有的关键信息，processor 将我们需要的信息，即</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> String router = routerAnnotation.value();</span><br><span class="line"> String target = ((TypeElement) element).getQualifiedName().toString();</span><br><span class="line">mQRouterCreatorProxy.putElement(router, target);</span><br></pre></td></tr></table></figure>
+<p>注解的路由地址和路由所在的目标类，通过 mQRouterCreatorProxy 做一次聚合。这样代理类包含了所有的路由信息，接下来就是通过这些信息，生成一些代码。</p>
+<p>那么要生成什么样的代码呢？想想我们的目标，<strong>通过路由打开 Activity</strong> 。那么我们很容易想到的一种做法，就是建立一个 路由和 Activity 的对应关系，然后通过这个关系找到对应的 Activity 。下面就按照这个思路来生成代码。</p>
+<h4 id="生成代码"><a href="#生成代码" class="headerlink" title="生成代码"></a>生成代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">generateRouterTable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TypeSpec typeSpec = mQRouterCreatorProxy.genCode();</span><br><span class="line">        String packageName = mQRouterCreatorProxy.getPackageName();</span><br><span class="line">        JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            javaFile.writeTo(mFiler);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>gencode 的实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRouterCreatorProxy</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String Q_ROUTER_CLASS_NAME = <span class="string">"QRouterTable"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TypeSpec <span class="title">genCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TypeSpec typeSpec = TypeSpec.classBuilder(Q_ROUTER_CLASS_NAME)</span><br><span class="line">                .addModifiers(Modifier.FINAL, Modifier.PUBLIC)</span><br><span class="line">                .addMethod(genRouterTable())</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> typeSpec;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里首先会生成一个名为 QRouterTable 的类，是 final 且 public 类型的，并且还包括一个方法，继续看</p>
+<ul>
+<li>genRouterTable 实现</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRouterCreatorProxy</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;String, String&gt; elements = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putElement</span><span class="params">(String router, String targetClass)</span> </span>&#123;</span><br><span class="line">        elements.put(router, targetClass);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> HashMap&lt;String, String&gt;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> MethodSpec <span class="title">genRouterTable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="comment">/*</span></span><br><span class="line"><span class="comment">         ```Map&lt;String, String&gt;</span></span><br></pre></td></tr></table></figure>
+<pre><code>     */
+    ParameterizedTypeName inputMapTypeOfGroup = ParameterizedTypeName.get(
+            ClassName.get(Map.class),
+            ClassName.get(String.class),
+            ClassName.get(String.class)
+    );
+
+    MethodSpec.Builder builder = MethodSpec.methodBuilder(&quot;map&quot;)
+            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+            .returns(inputMapTypeOfGroup);
+
+    builder.addCode(&quot;\n&quot;);
+    builder.addStatement(&quot;$T&lt;$T,$T&gt; tables=new $T()&quot;, HashMap.class, String.class, String.class, HashMap.class);
+    builder.addCode(&quot;\n&quot;);
+
+    for (String key : elements.keySet()) {
+        String target = elements.get(key);
+        String code = &quot;tables.put(\&quot;&quot; + key + &quot;\&quot;,\&quot;&quot; + target + &quot;\&quot;);\n&quot;;
+        builder.addCode(code);
+    }
+    builder.addCode(&quot;return tables;\n&quot;);
+    return builder.build();
+}
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">elements 这个散列表里存储的就是路由关系信息。</span><br><span class="line"></span><br><span class="line">- 首先会创建方法声明，是一个 名为 map 返回值为 HashMap&lt;String, String&gt;，final 且 public 类型的方法。</span><br><span class="line">- 然后，在方法体里通过 addStatement 初始化一个 HashMap&lt;String, String&gt; ，接下来就开始遍历 elements 这个 hashmap ，把之前存储的路由信息，转换成代码的方式进行存储。</span><br><span class="line">- 最后，返回第二步创建的 HashMap&lt;String, String&gt; 实例即可。</span><br><span class="line"></span><br><span class="line">最终我们要生成的代码如下 ：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line">public final class QRouterTable &#123;</span><br><span class="line">  public final Map&lt;String, String&gt; map() &#123;</span><br><span class="line"></span><br><span class="line">    HashMap&lt;String,String&gt; tables=new HashMap();</span><br><span class="line"></span><br><span class="line">    tables.put(&quot;/activity/simple&quot;,&quot;com.engineer.aptlite.SimpleActivity&quot;);</span><br><span class="line">    tables.put(&quot;/activity/second&quot;,&quot;com.engineer.aptlite.SecondActivity&quot;);</span><br><span class="line">    return tables;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>至此，我们已经生成了路由表（这里就是一个包含路由和目标 Class 关系的 HashMap)。可以看到，使用 javapoet 生成代码和我们手动写代码的思路是一样的，只不过手写的时候每一个子母都是我们敲出来的(ide 辅助生成，其实也可以理解为手动敲出来的代码吧 🤔🤔)，javapoet 通过某些特定的 api 可以帮助我们生成这些代码。本质上都是写文件的过程。javapoet 之于java 程序员，就如同 输入法之于铅笔、钢笔或毛笔吧。</p>
+<h3 id="路由-API"><a href="#路由-API" class="headerlink" title="路由 API"></a>路由 API</h3><p>路由表已经生成了，那么我们改如何使用这张路由表呢？ 想想我们的目标，<strong>通过路由打开 Activity</strong>，路由表里存着路由和目标 Class 的对应关系，那么事情就很简单了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QRouterApi</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">go</span><span class="params">(Activity activity, String route)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> begin = System.currentTimeMillis();</span><br><span class="line">            String log;</span><br><span class="line">            </span><br><span class="line">            Class tableClass = Class.forName(<span class="string">"com.engineer.aptlite.QRouterTable"</span>);</span><br><span class="line">            Method methodMap = tableClass.getMethod(<span class="string">"map"</span>, <span class="keyword">null</span>);</span><br><span class="line">            HashMap&lt;String, String&gt; tables = (HashMap&lt;String, String&gt;) methodMap.invoke(tableClass.newInstance(), <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">            System.err.println(<span class="string">"tables==="</span> + tables);</span><br><span class="line"></span><br><span class="line">            String target = tables.get(route);</span><br><span class="line"></span><br><span class="line">            log = String.format(Locale.CHINA, <span class="string">"use %f to find the target"</span>, <span class="number">1000f</span> * (System.currentTimeMillis() - begin));</span><br><span class="line">            System.err.println(log);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(target)) &#123;</span><br><span class="line">                Class targetClass = Class.forName(target);</span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent(activity, targetClass);</span><br><span class="line">                activity.startActivity(intent);</span><br><span class="line"></span><br><span class="line">                log = String.format(Locale.CHINA, <span class="string">"use %f to finish"</span>, <span class="number">1000f</span> * (System.currentTimeMillis() - begin));</span><br><span class="line">                System.err.println(log);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; </span><br><span class="line">        .... other execption stuff...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个静态方法 go(activity,route) 的核心</p>
+<ul>
+<li>Class tableClass = Class.forName(“com.engineer.aptlite.QRouterTable”); 加载路由表</li>
+<li>反射获取 hashmap 的实例</li>
+<li>String target = tables.get(route); 从 hashmap 中找到路由地址对应的 Class </li>
+<li>Class targetClass = Class.forName(target); 加载这个 Class</li>
+<li>创建 Intent 实例，然后 startActivity(intent) 实现 Activity 的跳转。</li>
+</ul>
+<p><strong>以上实现，为史上最简单、最丑陋且最低效路由跳转 Activity 的方法，看完之后，请立刻遗忘 😳😳</strong></p>
+<p>这样，我们通过调用 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QRouterApi.go(<span class="keyword">this</span>, <span class="string">"/activity/second"</span>)</span><br></pre></td></tr></table></figure>
+<p>就可以打开 @QRouter(“/activity/second”) 这个注解所在的 Activity 了。有兴趣的同学可以<a href="https://github.com/REBOOTERS/APT-Lite" target="_blank" rel="noopener">参考源码</a>，简单体验一下效果。</p>
+<h4 id="槽点"><a href="#槽点" class="headerlink" title="槽点"></a>槽点</h4><p>在我们思考什么是高效路由之前，首先简单总结一下这个史上最简单路由有哪些问题（以目标为导向来对比）</p>
+<ul>
+<li>go 方法多次使用发射，效率堪忧。目标 Class 其实是可以直接获取到，在编译期在 HashMap 中存储的时候，可以直接保存 Class，而不是 Class 路径的字符串。</li>
+<li>无法支持 startActivityForResult 的情景</li>
+<li>没有很好的容错机制</li>
+</ul>
+<h2 id="一个高效的路由应该是什么样子的"><a href="#一个高效的路由应该是什么样子的" class="headerlink" title="一个高效的路由应该是什么样子的"></a>一个高效的路由应该是什么样子的</h2><p>看完上面的实现，我们可以看到，如果只是为了简单纯粹的解耦，解决类依赖的问题，那么路由的实现其实是比较简单的。但实际情况中，并不是这样。一个高效的路由框架需要考虑的点其实很多。</p>
+<ul>
+<li><strong>支持数据通信</strong></li>
+</ul>
+<p>支持数据通信，其实是一件即可以很简单，又会很复杂的事情。路由地址本质上是一个字符串，对于基本的数据类型 int,float,char 以及 String ，我们可以把需要传递的参数直接写在路由地址上，或 path 或 query中。最终通过解析 URL 都是可以解析到的。但是对于对象来说，就比较难了。Android 中传递对象采用的 Intent 携带 bundle 的机制。路由地址仅仅是一个字符串，是无法直接完成对象传递的。那么是否有其他的方法呢？再有对于基础数据类型，如果区分参数和实际地址呢？</p>
+<ul>
+<li><strong>高效准确，不能比原生的跳转机制差</strong></li>
+</ul>
+<p>这个是必须的，使用路由，少不了路由匹配的过程，但并不能因此，导致页面跳转时间变长，让用户体验变得糟糕。</p>
+<ul>
+<li>有很好的容错机制，或者说是降级策略</li>
+</ul>
+<p>路由地址写错了，或着是目标路由因为某些原因不存在了，是否可以有很好的降级策略，而不是简单的报错或无响应。</p>
+<ul>
+<li>路由跳转有拦截机制或优先级机制</li>
+</ul>
+<p>在多人协作的开发中，路由地址同名是不太好避免的（一种可行的方案是把所有路由地址定义在一个公共的地方），对于已然无法改动的代码，是否可以通过添加 Interceptor(类似 OKHTTP 的思路) 或定义优先级的方式，解决有冲突的路由；或者因某些特殊业务的需求，可以更改路由原始的跳转行为。</p>
+<ul>
+<li>支持组件化（即多 module 的情形）</li>
+</ul>
+<p>组件化开发已经成为大型项目的标准，路由的 APT 实现是否可以完美应对多 module 情形下路由表的正确创建及查找解析。</p>
+<ul>
+<li>编译期生成代码，不要太耗时</li>
+</ul>
+<p>随着使用 APT 的库越来越多，在编译期要做的事情也越多越多，那么是否可以保证在编译期生成代码的过程，可以高效快速的完成（比如增量编译），保证开发人员的效率不受影响。</p>
+<p>更多。。。</p>
+<p>以上这些点，应该是一个合格的路由应该支持的基础功能（纯属个人观点，😎😎😎😎）。<a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a> 在 GitHub 已经有 1 万+ 的 star，说明他还是很受开发者认可的。它的实现是否满足了上述要求，以及它又有哪些独有的特点，我们可以带着这些疑问去学习一下他的实现。</p>
+<h3 id="需求推动技术"><a href="#需求推动技术" class="headerlink" title="需求推动技术"></a>需求推动技术</h3><p>很多时候，都是需求推动技术进步，没有完美的框架，很多时候都是需要基于特定的业务实施特定的方案，因此。路由也是这样。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>回归到本质，在注解处理器的 process 方法中，我们通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;? extends Element&gt; elements = roundEnv.getElementsAnnotatedWith(QRouter.class);</span><br></pre></td></tr></table></figure>
+<p>这里的 Element 包含着这个注解所在类的全部信息，包括他所在类以及他的父类等各种信息，有了这些信息我们可以做很多事情。</p>
+<p>就比如这里的 QRouter 注解，把这个注解打在 Activity 上，并在编译期生成路由表，而在运行时通过路由表里的信息，在特定的 API 里封装的 startActivity 这种类似模板的代码，对外暴露了更轻量级的 API，使得页面的跳转实现变得似乎简单了许多。<br>API.go 一行简单的代码简化了原本的复杂实现，对开发者来说更加友好了。</p>
+<p>路由的实现，在某些方面还是非常依赖具体业务规范的。没有完美的路由，只有合适的路由。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>加个鸡腿呗</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="九尾灵狐 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Router、APT、注解/" rel="tag"># Router、APT、注解</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/21/安装-go2shell-到-Finder-工具栏的方法/" rel="next" title=" 安装 go2shell 到 Finder 工具栏的方法">
+                <i class="fa fa-chevron-left"></i>  安装 go2shell 到 Finder 工具栏的方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="九尾灵狐" />
+            
+              <p class="site-author-name" itemprop="name">九尾灵狐</p>
+              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#史上最简单路由的诞生"><span class="nav-number">2.</span> <span class="nav-text">史上最简单路由的诞生</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标"><span class="nav-number">2.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由表生成"><span class="nav-number">2.2.</span> <span class="nav-text">路由表生成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注解定义"><span class="nav-number">2.2.1.</span> <span class="nav-text">注解定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注解处理"><span class="nav-number">2.2.2.</span> <span class="nav-text">注解处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成代码"><span class="nav-number">2.2.3.</span> <span class="nav-text">生成代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">2.2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由-API"><span class="nav-number">2.3.</span> <span class="nav-text">路由 API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#槽点"><span class="nav-number">2.3.1.</span> <span class="nav-text">槽点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个高效的路由应该是什么样子的"><span class="nav-number">3.</span> <span class="nav-text">一个高效的路由应该是什么样子的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需求推动技术"><span class="nav-number">3.1.</span> <span class="nav-text">需求推动技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
