@@ -1,92 +1,59 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
 
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="注解、反射、APT," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="前言从早期的 ButterKnife，Dagger2，EventBus 到如今的 ARouter, WMRouter ,SugarAdapter（也许还有其他的，平时关注较多的就是这些），借助注解处理器 APT,各路神仙开发了许多有用的工具、框架，解放了 Android 开发者的双手，让我们少写了很多冗余的代码，也使得组件化这样的开发思路可以大行其道。">
+  <meta name="description" content="前言从早期的 ButterKnife，Dagger2，EventBus 到如今的 ARouter, WMRouter ,SugarAdapter（也许还有其他的，平时关注较多的就是这些），借助注解处理器 APT,各路神仙开发了许多有用的工具、框架，解放了 Android 开发者的双手，让我们少写了很多冗余的代码，也使得组件化这样的开发思路可以大行其道。">
 <meta name="keywords" content="注解、反射、APT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="注解处理器APT初探">
 <meta property="og:url" content="http://yoursite.com/2019/06/03/注解处理器APT初探/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言从早期的 ButterKnife，Dagger2，EventBus 到如今的 ARouter, WMRouter ,SugarAdapter（也许还有其他的，平时关注较多的就是这些），借助注解处理器 APT,各路神仙开发了许多有用的工具、框架，解放了 Android 开发者的双手，让我们少写了很多冗余的代码，也使得组件化这样的开发思路可以大行其道。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/06/03/注解处理器APT初探/BindView_Proxy.png">
 <meta property="og:image" content="http://yoursite.com/2019/06/03/注解处理器APT初探/code-structure.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/06/03/注解处理器APT初探/BindView_Proxy.png">
@@ -97,39 +64,17 @@
 <meta name="twitter:description" content="前言从早期的 ButterKnife，Dagger2，EventBus 到如今的 ARouter, WMRouter ,SugarAdapter（也许还有其他的，平时关注较多的就是这些），借助注解处理器 APT,各路神仙开发了许多有用的工具、框架，解放了 Android 开发者的双手，让我们少写了很多冗余的代码，也使得组件化这样的开发思路可以大行其道。">
 <meta name="twitter:image" content="http://yoursite.com/2019/06/03/注解处理器APT初探/BindView_Proxy.png">
 
+<link rel="canonical" href="http://yoursite.com/2019/06/03/注解处理器APT初探/">
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
   };
 </script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2019/06/03/注解处理器APT初探/"/>
-
-
-
-
 
   <title>注解处理器APT初探 | 诗与远方</title>
   
@@ -139,227 +84,146 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
 
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+    <div>
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">诗与远方</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
   </div>
 
   <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
+
 
 <nav class="site-nav">
   
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
         <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
+  </li>
+  </ul>
 
-
-
-    </div>
-  
 </nav>
-
-
-
- </div>
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
+  <div class="posts-expand">
+      
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/03/注解处理器APT初探/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="">
       <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="诗与远方">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">注解处理器APT初探</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          注解处理器APT初探
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-03T22:02:02+08:00">
-                2019-06-03
-              </time>
-            
+              <span class="post-meta-item-text">发表于</span>
 
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/06/03/注解处理器APT初探/" class="leancloud_visitors" data-flag-title="注解处理器APT初探">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
+              <time title="创建时间：2019-06-03 22:02:02" itemprop="dateCreated datePublished" datetime="2019-06-03T22:02:02+08:00">2019-06-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-06-17 20:36:58" itemprop="dateModified" datetime="2019-06-17T20:36:58+08:00">2019-06-17</time>
+              </span>
 
           
 
         </div>
       </header>
-    
 
     
     
@@ -367,13 +231,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
+        <img src="/2019/06/03/注解处理器APT初探/BindView_Proxy.png" width="500">
 
-      
-        <p><img src="/2019/06/03/注解处理器APT初探/BindView_Proxy.png" width="500"></p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>从早期的 ButterKnife，Dagger2，EventBus 到如今的 <a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a>, <a href="https://github.com/meituan/WMRouter" target="_blank" rel="noopener">WMRouter</a> ,<a href="https://github.com/zhihu/SugarAdapter" target="_blank" rel="noopener">SugarAdapter</a>（也许还有其他的，平时关注较多的就是这些），借助注解处理器 APT,各路神仙开发了许多有用的工具、框架，解放了 Android 开发者的双手，让我们少写了很多冗余的代码，也使得组件化这样的开发思路可以大行其道。</p>
 <a id="more"></a>
+
 <!-- TOC -->
+
 <ul>
 <li><a href="#前言">前言</a></li>
 <li><a href="#注解处理器-apt-是什么能做什么-">注解处理器 APT 是什么，能做什么 ？</a><ul>
@@ -402,6 +266,9 @@
 <li><a href="#参考文档">参考文档</a></li>
 </ul>
 <!-- /TOC -->
+
+
+
 <p>试想，如果没有 ButterKnife 这样的神器，那么现在每一个 Android 开发者估计下辈子都会记得 findViewById 这个方法，真是能让人写的吐血的一个方法。（当然，现在上了 Kotlin 的车，这都不是问题了）。</p>
 <p>你能想象在 EventBus 尚未诞生的时候，我曾经为了把一个方法的值从某个  RecyclerView 的 Adapter 传递到另一个 Activity 的 Fragment 里写了多少层的回调吗？你能想象一个 Activity(Fragment) 的 onActivityResult 有 100 多行的条件判断(仅仅是返回值按 requestCode 取值，不包括任何业务逻辑)，去获取其他页面的各种返回值是多么的让人绝望吗？甚至有些时候还要考虑被启动的 Activity 在特定的启动模式下，onActivityResult 方法回调异常的情况，更是出现了无法实现业务需求的窘境 😢</p>
 <p>在组件化开发的早期，类依赖是最最痛苦的问题，两个从业务上已经剥离的组件，却因为要实现页面跳转（简单来说就是依赖 Activity 或 Fragment 类）而不得不产生依赖。路由框架在 Android 中的应用，完美的解决了这个问题。</p>
@@ -411,9 +278,11 @@
 <h2 id="APT-的作用"><a href="#APT-的作用" class="headerlink" title="APT 的作用"></a>APT 的作用</h2><blockquote>
 <p>APT(Annotation Processing Tool)即注解处理器，是一种处理注解的工具，确切的说它是 javac 的一个工具，它用来在编译时扫描和处理注解。注解处理器以 Java 代码(或者编译过的字节码)作为输入，生成.java 文件作为输出。简单来说就是在编译期，通过注解生成.java 文件。</p>
 </blockquote>
-<h1 id="注解处理器小试牛刀"><a href="#注解处理器小试牛刀" class="headerlink" title="注解处理器小试牛刀"></a>注解处理器小试牛刀</h1><p><span id="init-project"></span></p>
+<h1 id="注解处理器小试牛刀"><a href="#注解处理器小试牛刀" class="headerlink" title="注解处理器小试牛刀"></a>注解处理器小试牛刀</h1><span id="init-project">
+
 <h2 id="注解处理器工程的创建"><a href="#注解处理器工程的创建" class="headerlink" title="注解处理器工程的创建"></a>注解处理器工程的创建</h2><p>注解处理器的使用很简单，网上已经有很多的例子和实现，可以参考<a href="https://blog.csdn.net/lmj623565791/article/details/51931859" target="_blank" rel="noopener">Android 如何编写基于编译时注解的项目</a> ，<a href="https://mp.weixin.qq.com/s/ljJ1uBCinBLhCU6MtOApYA" target="_blank" rel="noopener">轻松打造一个自己的注解框架</a> 这两篇文章搭建一个合适的注解处理器框架。为了后续描述方便，这里也简单写了一个 <a href="https://github.com/REBOOTERS/APT-Lite" target="_blank" rel="noopener">Demo</a> ,代码已同步到Github <a href="https://github.com/REBOOTERS/APT-Lite" target="_blank" rel="noopener">APT-Lite</a> 仓库，可以参考。</p>
-<p><img src="/2019/06/03/注解处理器APT初探/code-structure.jpg"></p>
+<img src="/2019/06/03/注解处理器APT初探/code-structure.jpg">
+
 <p>一般来说按照上图</p>
 <ul>
 <li>apt-annotation (java module) 定义所有需要用到的注解（require）</li>
@@ -424,18 +293,22 @@
 <p>这样定义就足够了。就注解处理器实际要实现的业务功能，apt-library 可能需要定义在其他组件中，甚至某些注解处理要实现的功能，如果和业务有强绑定，这个 api 甚至都可能不存在，example(或 app) 作为验证（演示）注解功能的 module 是可以忽略的，因此注解处理器框架实际上就是一个纯 Java 项目。</p>
 <p><strong>关于在工程中这些模块的 build.gradle 中相互依赖关系及依赖哪些库，这里就不展开了，毕竟很简单，具体结合<a href="#init-project">上面的两篇文章</a>可以很轻松的完成配置</strong>。</p>
 <h2 id="小目标（BindView-amp-BindString"><a href="#小目标（BindView-amp-BindString" class="headerlink" title="小目标（BindView &amp; BindString)"></a>小目标（BindView &amp; BindString)</h2><p>简单起见，我们也从模仿 ButterKnife 开始，简单定义两个注解，BindView 和 BindString ，代码运行后可以实现 变量和 View 的自动绑定。</p>
-<p><span id="main-actvity-code"></span></p>
+<span id="main-actvity-code">
+
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BindView</span>(R.id.content)</span><br><span class="line">    <span class="meta">@BindString</span>(<span class="string">"Hello APT"</span>)</span><br><span class="line">    TextView mContent;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BindView</span>(R.id.name)</span><br><span class="line">    <span class="meta">@BindString</span>(<span class="string">"APT Success"</span>)</span><br><span class="line">    TextView mName;</span><br><span class="line"></span><br><span class="line">    ...<span class="keyword">else</span>...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>上述代码，在运行期可以正确的找的 id 为 content 和 name 的 TextView 并分别赋值为 “Hello APT” 和 “APT Success”</p>
 <h3 id="apt-annotaion"><a href="#apt-annotaion" class="headerlink" title="apt-annotaion"></a>apt-annotaion</h3><p>定义我们需要用到两个注解</p>
 <ul>
 <li>BindView</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BindView &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>BindString</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.FIELD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> BindString &#123;</span><br><span class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> ""</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="apt-processor"><a href="#apt-processor" class="headerlink" title="apt-processor"></a>apt-processor</h3><p>apt processor 的实现，是 APT 最核心的内容。但是要做的事情也很简单。就是继承 AbstractProcessor 类，并实现它的四个方法</p>
 <ul>
 <li>init</li>
@@ -445,29 +318,36 @@
 </ul>
 <p>这四个方法的定义及功能，就不展开说了，通过<a href="#refercen-doc">参考资料</a>中的内容，甚至其命名我们就可以知道这几个方法的作用是啥了。<br>为了方便，我们可以先简单的抽取一层 BaseProcessor。对于一些常用的初始化一些常用的成员变量。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 进行日志打印的接口</span></span><br><span class="line">    Messager mMessager;</span><br><span class="line">    <span class="comment">// Element 元素处理的接口</span></span><br><span class="line">    Elements mElementUtils;</span><br><span class="line">    <span class="comment">// 帮助文件生成的接口</span></span><br><span class="line">    Filer mFiler;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> SourceVersion <span class="title">getSupportedSourceVersion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SourceVersion.latestSupported();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessingEnvironment processingEnvironment)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.init(processingEnvironment);</span><br><span class="line"></span><br><span class="line">        mFiler = processingEnvironment.getFiler();</span><br><span class="line">        mMessager = processingEnvironment.getMessager();</span><br><span class="line">        mElementUtils = processingEnvironment.getElementUtils();</span><br><span class="line"></span><br><span class="line">        mMessager.printMessage(Diagnostic.Kind.NOTE, <span class="string">"init"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h4 id="BindViewProcessor"><a href="#BindViewProcessor" class="headerlink" title="BindViewProcessor"></a>BindViewProcessor</h4><p>下面就通过 BindViewProcessor 看看如何实现我们的目标。</p>
 <ul>
 <li>首先定义要支持的注解类型</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getSupportedAnnotationTypes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    HashSet&lt;String&gt; supportTypes = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    supportTypes.add(BindView.class.getCanonicalName());</span><br><span class="line">    supportTypes.add(BindString.class.getCanonicalName());</span><br><span class="line">    <span class="keyword">return</span> supportTypes;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>process 核心逻辑的处理</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; set, RoundEnvironment roundEnvironment)</span> </span>&#123;</span><br><span class="line">    mMessager.printMessage(Diagnostic.Kind.NOTE, <span class="string">"processing...."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 代理方法清空</span></span><br><span class="line">    mProxyProMap.clear();</span><br><span class="line">    <span class="comment">// 处理注解，完成需要生成代码的前期准备</span></span><br><span class="line">    assembleAnnotations(roundEnvironment);</span><br><span class="line">    <span class="comment">// 生成代码</span></span><br><span class="line">    genCodeAuto();</span><br><span class="line"></span><br><span class="line">    mMessager.printMessage(Diagnostic.Kind.NOTE, <span class="string">"process finish ..."</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><em>ps: 可能是受到<a href="https://github.com/hongyangAndroid" target="_blank" rel="noopener">鸿洋老师</a>这篇 <a href="https://blog.csdn.net/lmj623565791/article/details/51931859" target="_blank" rel="noopener">Android 如何编写基于编译时注解的项目</a>的影响，现在看到网上注解处理器的文章，都会新建 Proxy 通过代理模式来处理生成代码的核心逻辑，o(╥﹏╥)o。</em> 这里为了方便也是用代理类处理。</p>
 <ul>
 <li>assembleAnnotations() 对注解进行完全的处理</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> roundEnvironment 集中收集所有需要处理的 注解</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">assembleAnnotations</span><span class="params">(RoundEnvironment roundEnvironment)</span> </span>&#123;</span><br><span class="line">    processAnnotations(roundEnvironment, BindView.class);</span><br><span class="line">    processAnnotations(roundEnvironment, BindString.class);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">processAnnotations</span><span class="params">(RoundEnvironment roundEnvironment, Class&lt;? extends Annotation&gt; className)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    RParser parser = RParser.builder(processingEnv)</span><br><span class="line">            .setSupportedAnnotations(BindView.class)</span><br><span class="line">            .setSupportedTypes(<span class="string">"id"</span>)</span><br><span class="line">            .build();</span><br><span class="line"></span><br><span class="line">    parser.scan(roundEnvironment);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取所有打上 className 类型注解的元素</span></span><br><span class="line">    Set&lt;? extends Element&gt; elements = roundEnvironment.getElementsAnnotatedWith(className);</span><br><span class="line">    <span class="comment">// 遍历元素</span></span><br><span class="line">    <span class="keyword">for</span> (Element element : elements) &#123;</span><br><span class="line">        <span class="comment">// 因为 BindView 和 BindString 的 target 是 ElementType.FIELD，因此这里强转理论上是安全的，</span></span><br><span class="line">        <span class="comment">// 除非故意把注解打在了错误的位置</span></span><br><span class="line">        VariableElement variableElement = (VariableElement) element;</span><br><span class="line">        TypeElement classElement = (TypeElement) variableElement.getEnclosingElement();</span><br><span class="line">        String fullClassName = classElement.getQualifiedName().toString();</span><br><span class="line"></span><br><span class="line">        BindCreatorProxy proxy = mProxyProMap.get(fullClassName);</span><br><span class="line">        <span class="keyword">if</span> (proxy == <span class="keyword">null</span>) &#123;</span><br><span class="line">            proxy = <span class="keyword">new</span> BindCreatorProxy(mElementUtils, classElement);</span><br><span class="line">            mProxyProMap.put(fullClassName, proxy);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (className.getCanonicalName().equals(BindView.class.getCanonicalName())) &#123;</span><br><span class="line">            <span class="comment">// BindView 注解处理</span></span><br><span class="line">            BindView bindAnnotation = variableElement.getAnnotation(BindView.class);</span><br><span class="line">            <span class="keyword">int</span> id = bindAnnotation.value();</span><br><span class="line">            <span class="comment">// 返回当前的 id 的 human 值，类似 R.id.xxx</span></span><br><span class="line">            String idRes = getBindViewResId(parser, fullClassName, id);</span><br><span class="line">            ResModel model = <span class="keyword">new</span> ResModel(idRes, id, BindView.class);</span><br><span class="line">            proxy.putElement(model, variableElement);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (className.getCanonicalName().equals(BindString.class.getCanonicalName())) &#123;</span><br><span class="line">            <span class="comment">// BindString 注解处理</span></span><br><span class="line">            BindString bindAnnotation = variableElement.getAnnotation(BindString.class);</span><br><span class="line">            String str = bindAnnotation.value();</span><br><span class="line">            proxy.putElement(str, variableElement);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>为了便于理解上面的代码，可以看一下整个 apt-processor 的 UML 类图</p>
-<p><img src="/2019/06/03/注解处理器APT初探/BindView_Proxy.png"></p>
+<img src="/2019/06/03/注解处理器APT初探/BindView_Proxy.png">
+
 <p>总的来说，mProxyProMap 是以注解所在的类名为 key ，BindCreatorProxy 为值的一个 map。这样做为了方便以 @BindView,@BindString<br>注解所在的类为维度，解析注解生成代码。BindCreatorProxy 中的 putElements() 方法会保存注解对应的 value 和 element 的映射表（即一个 HaspMap）。</p>
 <ul>
 <li><p>getBindViewResId（）</p>
 <p>这里再来简单说一下 getBindViewResId 这个方法，这里其实是借用 <a href="https://github.com/HendraAnggrian/r-parser" target="_blank" rel="noopener">RParser</a>为了便于生成更加友好的代码。因为我们通过 R 文件直接获取到的 View 的 id 一般是无意义的一个数字，因此生成的文件一般会是类似</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.mName = target.findViewById(<span class="number">2131165246</span>);</span><br></pre></td></tr></table></figure>
+
 <p>这样的代码，理论上来说，这里的 id 是以什么样的形态存在，其实无所谓，但为了更加友好的阅读体验，我们可以再优化一下注解生成器把生成的代码变成这个样子</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target.mName=target.findViewById(com.engineer.aptlite.R.id.name);</span><br></pre></td></tr></table></figure>
+
 <p>这样的代码更接近我们最终想要看到的样子。</p>
 </li>
 </ul>
@@ -476,21 +356,28 @@
 <li>genCodeAuto() </li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">genCodeAuto</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String key : mProxyProMap.keySet()) &#123;</span><br><span class="line">            BindCreatorProxy proxyPro = mProxyProMap.get(key);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                JavaFile javaFile = JavaFile.builder(proxyPro.getPackageName(), proxyPro.generatorJavaCode()).build();</span><br><span class="line">                javaFile.writeTo(mFiler);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>这里遍历所有需要生成的类，分别为他们生成文件，proxyPro.generatorJavaCode() 的具体实现 </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TypeSpec <span class="title">generatorJavaCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        TypeSpec typeSpec = TypeSpec.classBuilder(mBindingClassName)</span><br><span class="line">                .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                .addModifiers(Modifier.FINAL)</span><br><span class="line">                .addMethod(generateViewBindMethod())</span><br><span class="line">                .addMethod(generateStringBindMethod())</span><br><span class="line">                .build();</span><br><span class="line">        <span class="keyword">return</span> typeSpec;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>这里使用 javapoet 实现,可以看到他的 API 设计命名还是很清晰的，基本上根据方法命名就可以知道需要做什么事情了，这里的实现就很简单了，具体细节就不展开了，可以参考<a href="https://github.com/REBOOTERS/APT-Lite/blob/master/apt-processor/src/main/java/com/engineer/apt_processor/creator/BindCreatorProxy.java#L53" target="_blank" rel="noopener">源码</a></p>
 <h5 id="生成的目标代码"><a href="#生成的目标代码" class="headerlink" title="生成的目标代码"></a>生成的目标代码</h5><p>以<a href="#main-actvity-code">上面我们制定的目标 MainActivity</a>为例，那么最终在编译期生成的代码就是这个样子：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.engineer.aptlite;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity_Binding</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindView</span><span class="params">(MainActivity target)</span> </span>&#123;</span><br><span class="line">    target.mContent=target.findViewById(com.engineer.aptlite.R.id.content);</span><br><span class="line">    target.mJump1=target.findViewById(com.engineer.aptlite.R.id.jump_1);</span><br><span class="line">    target.mGenCode=target.findViewById(com.engineer.aptlite.R.id.genCode);</span><br><span class="line">    target.mJump=target.findViewById(com.engineer.aptlite.R.id.jump);</span><br><span class="line">    target.mName=target.findViewById(com.engineer.aptlite.R.id.name);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindString</span><span class="params">(MainActivity target)</span> </span>&#123;</span><br><span class="line">    target.mName.setText(<span class="string">"APT Success"</span>);</span><br><span class="line"></span><br><span class="line">    target.mContent.setText(<span class="string">"Hello APT"</span>);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>这个文件在一般会在 <em>/app/build/generated/source/apt/debug/packagename/</em> 目录下。但其实也不用按照目录找，Android Studio 切换到 Android 目录视图下，在 generatedJava 包下即可非常方便的找到</strong></p>
 <p>可以看到和我们手写的基本差不多。代码可以正常运行，说明一切都正常，说明编译期生成的代码是有效的。</p>
-<p><img src="/2019/06/03/注解处理器APT初探/apt.png" height="200"></p>
+<img src="/2019/06/03/注解处理器APT初探/apt.png" height="200">
+
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用 APT 可以帮助我们在编译期预先完成一些重复性较强，且很有规律的事情，生成一些辅助性的代码，最终在我们编码的时候，可以借助这些辅助类更高效和准确的完成工作。例如 SugarAdapter 通过在编译期生成的文件，解决了 RecyclerView 需要多种类型的 Item 时，Adapter 实现爆炸的问题。有兴趣的同学可以看看<a href="https://rebooters.github.io/2019/06/16/%E7%94%A8-SugarAdapter-%E7%AE%80%E5%8C%96%E5%A4%8D%E6%9D%82%E5%88%97%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">用 SugarAdapter 简化复杂列表的实现</a></p>
 <h1 id="注解处理器在-Kotlin-中的使用注意事项"><a href="#注解处理器在-Kotlin-中的使用注意事项" class="headerlink" title="注解处理器在 Kotlin 中的使用注意事项"></a>注解处理器在 Kotlin 中的使用注意事项</h1><p>在常规的 java 版本的 Android 项目中，为了引入带有注解处理器的库，一般会最 build.gradle 的 dependencies 闭包中会使用annotationProcessor 来使用注解处理器，比如 glide 的依赖 </p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">  implementation <span class="string">'com.github.bumptech.glide:glide:4.9.0'</span></span><br><span class="line">  annotationProcessor <span class="string">'com.github.bumptech.glide:compiler:4.9.0'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>在 Kotlin 中需要替换为 kapt 了。具体来说，首先需要添加 kapt 的插件</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'kotlin-kapt'</span></span><br></pre></td></tr></table></figure>
+
 <p>然后将所有需要使用 annotationProcessor 的地方替换为 kapt 即可。</p>
-<p><span id="refercen-doc"></span></p>
+<span id="refercen-doc">
+
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
 <li><a href="https://blog.csdn.net/lmj623565791/article/details/51931859" target="_blank" rel="noopener">Android 如何编写基于编译时注解的项目</a></li>
 <li><a href="https://mp.weixin.qq.com/s/cZf87Du11cqWD0GF2PmPyw" target="_blank" rel="noopener">APT 注解处理器，让你的代码变得更简单</a></li>
@@ -499,274 +386,163 @@
 <li><a href="https://mp.weixin.qq.com/s/fJKAwpqn_hXRXRS4oh1dEw" target="_blank" rel="noopener">在 Android 中优雅地使用注解</a></li>
 <li><a href="https://www.2cto.com/kf/201608/536317.html" target="_blank" rel="noopener">自定义注解之编译时注解(RetentionPolicy.CLASS)（三）—— 常用接口介绍</a></li>
 </ul>
-
-      
+</span></span></span>
     </div>
+
     
     
     
 
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>加个鸡腿呗</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
-        <p>微信支付</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="九尾灵狐 支付宝"/>
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/注解、反射、APT/" rel="tag"># 注解、反射、APT</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/06/02/Debug技巧/" rel="next" title="Debug技巧">
-                <i class="fa fa-chevron-left"></i> Debug技巧
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/注解、反射、APT/" rel="tag"># 注解、反射、APT</a>
           </div>
 
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/04/SugarAdapter-注解处理器分析/" rel="prev" title="SugarAdapter 注解处理器分析">
-                SugarAdapter 注解处理器分析 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-    <div class="comments" id="comments">
-    </div>
-  
-
-
-
-        </div>
         
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/02/Debug技巧/" rel="prev" title="Debug技巧">
+      <i class="fa fa-chevron-left"></i> Debug技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/04/SugarAdapter-注解处理器分析/" rel="next" title="SugarAdapter 注解处理器分析">
+      SugarAdapter 注解处理器分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
 
-  <aside id="sidebar" class="sidebar">
-    
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/uploads/avatar.jpg"
-                alt="九尾灵狐" />
-            
-              <p class="site-author-name" itemprop="name">九尾灵狐</p>
-              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">37</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器-APT-是什么，能做什么-？"><span class="nav-number">2.</span> <span class="nav-text">注解处理器 APT 是什么，能做什么 ？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#APT-处理哪种类型的注解"><span class="nav-number">2.1.</span> <span class="nav-text">APT 处理哪种类型的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APT-的作用"><span class="nav-number">2.2.</span> <span class="nav-text">APT 的作用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器小试牛刀"><span class="nav-number">3.</span> <span class="nav-text">注解处理器小试牛刀</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解处理器工程的创建"><span class="nav-number">3.1.</span> <span class="nav-text">注解处理器工程的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小目标（BindView-amp-BindString"><span class="nav-number">3.2.</span> <span class="nav-text">小目标（BindView &amp; BindString)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-annotaion"><span class="nav-number">3.2.1.</span> <span class="nav-text">apt-annotaion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-processor"><span class="nav-number">3.2.2.</span> <span class="nav-text">apt-processor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BindViewProcessor"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">BindViewProcessor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代码生成"><span class="nav-number">3.2.2.1.1.</span> <span class="nav-text">代码生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成的目标代码"><span class="nav-number">3.2.2.1.2.</span> <span class="nav-text">生成的目标代码</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器在-Kotlin-中的使用注意事项"><span class="nav-number">5.</span> <span class="nav-text">注解处理器在 Kotlin 中的使用注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器-APT-是什么，能做什么-？"><span class="nav-number">2.</span> <span class="nav-text">注解处理器 APT 是什么，能做什么 ？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#APT-处理哪种类型的注解"><span class="nav-number">2.1.</span> <span class="nav-text">APT 处理哪种类型的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APT-的作用"><span class="nav-number">2.2.</span> <span class="nav-text">APT 的作用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器小试牛刀"><span class="nav-number">3.</span> <span class="nav-text">注解处理器小试牛刀</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注解处理器工程的创建"><span class="nav-number">3.1.</span> <span class="nav-text">注解处理器工程的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小目标（BindView-amp-BindString"><span class="nav-number">3.2.</span> <span class="nav-text">小目标（BindView &amp; BindString)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-annotaion"><span class="nav-number">3.2.1.</span> <span class="nav-text">apt-annotaion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-processor"><span class="nav-number">3.2.2.</span> <span class="nav-text">apt-processor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BindViewProcessor"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">BindViewProcessor</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代码生成"><span class="nav-number">3.2.2.1.1.</span> <span class="nav-text">代码生成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生成的目标代码"><span class="nav-number">3.2.2.1.2.</span> <span class="nav-text">生成的目标代码</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解处理器在-Kotlin-中的使用注意事项"><span class="nav-number">5.</span> <span class="nav-text">注解处理器在 Kotlin 中的使用注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
       <!--/noindex-->
-      
 
-      
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
 
     </div>
   </aside>
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
-
-  
 </div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
   <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
-
-
-
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
 
         
 
@@ -776,34 +552,18 @@
 
 
 
-        
+
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
   </div>
 
   
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
 
 
 
@@ -820,542 +580,8 @@
 
 
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.json";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-  
-
-  
 
   
 

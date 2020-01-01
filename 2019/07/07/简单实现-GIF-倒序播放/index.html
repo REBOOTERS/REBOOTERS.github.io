@@ -1,92 +1,59 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
 
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="GIF、Glide、Android," />
-
-
-
-
-
-
-
-
-
-
-<meta name="description" content="前言经常在网上看到一些有意思的 GIF 图，有些 GIF 图倒放之后，甚至变得更有意思，简直是每日的快乐源泉; 比如下面这个  正放的时候很搞笑，很悲催；倒放的时候居然很炫酷，简直比段誉的凌波微步还牛逼，有没有一种盖世神功已练成的感觉 😎😎😎😎😎，是不是可以和绿巨人一战 😀😀。">
+  <meta name="description" content="前言经常在网上看到一些有意思的 GIF 图，有些 GIF 图倒放之后，甚至变得更有意思，简直是每日的快乐源泉; 比如下面这个  正放的时候很搞笑，很悲催；倒放的时候居然很炫酷，简直比段誉的凌波微步还牛逼，有没有一种盖世神功已练成的感觉 😎😎😎😎😎，是不是可以和绿巨人一战 😀😀。">
 <meta name="keywords" content="GIF、Glide、Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单实现 GIF 图的倒序播放">
 <meta property="og:url" content="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言经常在网上看到一些有意思的 GIF 图，有些 GIF 图倒放之后，甚至变得更有意思，简直是每日的快乐源泉; 比如下面这个  正放的时候很搞笑，很悲催；倒放的时候居然很炫酷，简直比段誉的凌波微步还牛逼，有没有一种盖世神功已练成的感觉 😎😎😎😎😎，是不是可以和绿巨人一战 😀😀。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/haha.gif">
 <meta property="og:image" content="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/haha_revert.gif">
 <meta property="og:image" content="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/haha1.gif">
@@ -100,39 +67,17 @@
 <meta name="twitter:description" content="前言经常在网上看到一些有意思的 GIF 图，有些 GIF 图倒放之后，甚至变得更有意思，简直是每日的快乐源泉; 比如下面这个  正放的时候很搞笑，很悲催；倒放的时候居然很炫酷，简直比段誉的凌波微步还牛逼，有没有一种盖世神功已练成的感觉 😎😎😎😎😎，是不是可以和绿巨人一战 😀😀。">
 <meta name="twitter:image" content="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/haha.gif">
 
+<link rel="canonical" href="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/">
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Gemini',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
   };
 </script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/"/>
-
-
-
-
 
   <title>简单实现 GIF 图的倒序播放 | 诗与远方</title>
   
@@ -142,227 +87,146 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
 
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+    <div>
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">诗与远方</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
   </div>
 
   <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
+
 
 <nav class="site-nav">
   
-
-  
-    <ul id="menu" class="menu">
-      
-        
+  <ul id="menu" class="menu">
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
         <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
 
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
-    </ul>
-  
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
+  </li>
+  </ul>
 
-
-
-    </div>
-  
 </nav>
-
-
-
- </div>
+</div>
     </header>
 
-    <main id="main" class="main">
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          <div id="content" class="content">
+          
+
+          <div class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
+  <div class="posts-expand">
+      
   
   
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/07/简单实现-GIF-倒序播放/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="">
       <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="诗与远方">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">简单实现 GIF 图的倒序播放</h1>
-        
+        <h1 class="post-title" itemprop="name headline">
+          简单实现 GIF 图的倒序播放
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-07T16:13:17+08:00">
-                2019-07-07
-              </time>
-            
+              <span class="post-meta-item-text">发表于</span>
 
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/07/07/简单实现-GIF-倒序播放/" class="leancloud_visitors" data-flag-title="简单实现 GIF 图的倒序播放">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
+              <time title="创建时间：2019-07-07 16:13:17" itemprop="dateCreated datePublished" datetime="2019-07-07T16:13:17+08:00">2019-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-23 08:35:41" itemprop="dateModified" datetime="2019-07-23T08:35:41+08:00">2019-07-23</time>
+              </span>
 
           
 
         </div>
       </header>
-    
 
     
     
@@ -370,20 +234,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>经常在网上看到一些有意思的 GIF 图，有些 GIF 图倒放之后，甚至变得更有意思，简直是每日的快乐源泉;</p>
 <p>比如下面这个</p>
 <p><img src="/2019/07/07/简单实现-GIF-倒序播放/haha.gif" width="250" height="200"><img src="/2019/07/07/简单实现-GIF-倒序播放/haha_revert.gif" width="250" height="200"></p>
 <p>正放的时候很搞笑，很悲催；倒放的时候居然很炫酷，简直比段誉的凌波微步还牛逼，有没有一种盖世神功已练成的感觉 😎😎😎😎😎，是不是可以和绿巨人一战 😀😀。</p>
 <a id="more"></a>
+
 <p>再来一个</p>
 <p><img src="/2019/07/07/简单实现-GIF-倒序播放/haha1.gif" width="200" height="300"><img src="/2019/07/07/简单实现-GIF-倒序播放/haha1_revert.gif" width="200" height="300"></p>
 <p>小男生的快乐与悲伤居然如此简单，嘤嘤婴 😊😊😊😊</p>
 <p>🤣🤣🤣🤣🤣🤣🤣🤣，真是能让人笑上三天三夜。下面就来看看如何实现 GIF 图的倒放。</p>
 <p><strong>以下所有实现细节源码已同步至 GitHub 仓库，可参考最后<a href="#源码">源码</a></strong></p>
 <!-- TOC -->
+
 <ul>
 <li><a href="#前言">前言</a></li>
 <li><a href="#gif-是怎么播放的如何把gif倒序">GIF 是怎么播放的，如何把GIF倒序？</a></li>
@@ -405,13 +268,18 @@
 <li><a href="#参考文档">参考文档</a></li>
 </ul>
 <!-- /TOC -->
+
+
 <h2 id="GIF-是怎么播放的，如何把GIF倒序？"><a href="#GIF-是怎么播放的，如何把GIF倒序？" class="headerlink" title="GIF 是怎么播放的，如何把GIF倒序？"></a>GIF 是怎么播放的，如何把GIF倒序？</h2><p>想要倒放 GIF 图，首先了解一下 GIF 的原理；这里建议看看这篇来自腾讯手Q团队的文章<a href="https://www.cnblogs.com/qcloud1001/p/6647080.html" target="_blank" rel="noopener">浓缩的才是精华：浅析GIF格式图片的存储和压缩</a>。总的来说，GIF 和图通图片最大的不同点就是它是由许多帧组成的。既然如此我们很容易想到，从 GIF 里把所有帧拿出来，然后倒序组合这些帧，然后在合成一张 GIF 不就可以了吗？</p>
 <p>是的，道理就是就么简单。如果你现在去 Google GIF 倒序的实现，会看到很多 Python 的实现版本，类似如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image, ImageSequence</span><br><span class="line"></span><br><span class="line">path = sys.path[<span class="number">0</span>]                          <span class="comment"># 设置路径 -- 系统当前路径</span></span><br><span class="line">dirs = os.listdir(path)                     <span class="comment"># 获取该路径下的文件</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> dirs:                              <span class="comment"># 循环读取所有文件</span></span><br><span class="line">    <span class="keyword">if</span> os.path.splitext(i)[<span class="number">1</span>] == <span class="string">".gif"</span>:    <span class="comment"># 筛选gif文件</span></span><br><span class="line">        print(i)                            <span class="comment"># 输出所有的gif文件名</span></span><br><span class="line">        <span class="comment">#将gif倒放保存</span></span><br><span class="line">        <span class="keyword">with</span> Image.open(i) <span class="keyword">as</span> im:</span><br><span class="line">            <span class="keyword">if</span> im.is_animated:</span><br><span class="line">                frames = [f.copy() <span class="keyword">for</span> f <span class="keyword">in</span> ImageSequence.Iterator(im)]</span><br><span class="line">                frames.reverse()  <span class="comment"># 内置列表倒序</span></span><br><span class="line">                frames[<span class="number">0</span>].save(<span class="string">'./save/reverse_'</span>+i+<span class="string">'.gif'</span>,save_all=<span class="keyword">True</span>, append_images=frames[<span class="number">1</span>:])<span class="comment"># 保存</span></span><br></pre></td></tr></table></figure>
+
 <p> 不得不说，Python 的各种三方库的确很强大，几行代码就实现了 GIF 倒序的功能。但是作为一个稍微有点追求的人，难道就到此为止了吗？下次如果有个好玩的 GIF 图片，如果想看倒序图，难道还要打开电脑用用上述脚本转一次吗？</p>
-<p> <img src="/2019/07/07/简单实现-GIF-倒序播放/no_way.jpeg" width="200"></p>
+ <img src="/2019/07/07/简单实现-GIF-倒序播放/no_way.jpeg" width="200">
+
 <p> 尤其是作为一个 Android 开发者，这种事情用手机不也能做吗？为了每日的快乐源泉，就算天崩地裂，海枯石烂也要做出来（其实好像也不是很难o(╯□╰)o）</p>
-<p> <img src="/2019/07/07/简单实现-GIF-倒序播放/go.gif" width="200"></p>
+ <img src="/2019/07/07/简单实现-GIF-倒序播放/go.gif" width="200">
+
 <p>好了，不吹牛逼了，下面来看看怎么实现。</p>
 <h2 id="GIF-倒放的实现"><a href="#GIF-倒放的实现" class="headerlink" title="GIF 倒放的实现"></a>GIF 倒放的实现</h2><p>上面已经说过了，要实现 GIF 的倒序需要做三件事</p>
 <ul>
@@ -421,25 +289,35 @@
 </ul>
 <p>上面两步，对集合逆序不是什么难事，主要看看如何实现第一步和第三步。</p>
 <h3 id="从-GIF-图里把每一帧抠出来"><a href="#从-GIF-图里把每一帧抠出来" class="headerlink" title="从 GIF 图里把每一帧抠出来"></a>从 GIF 图里把每一帧抠出来</h3><p>这个听起来很复杂，做起来好像也挺难，Android 没有提供类似的 API 可以做这件事，平时加载图片用的三方库 Glide，Fresco 等貌似也没有提供可以做类似事情的接口。但其实我们稍微深入看一下三方库是实现 GIF 播放的代码，就会找到突破口，这里以 Glide 为例,假设你研究过 Glide 的源码（如果没有看过，也不要紧，可以<a href="#get-frame-code">略过这段，直接看实现</a>）</p>
-<h4 id="GifFrameLoader-loadNextFrame"><a href="#GifFrameLoader-loadNextFrame" class="headerlink" title="GifFrameLoader.loadNextFrame"></a>GifFrameLoader.loadNextFrame</h4><p>在 GifFrameLoader 的 loadNextFrame 实现中（我们可以猜测到这就是 Glide 加载每一帧图片的实现）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadNextFrame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isRunning || isLoadPending) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (startFromFirstFrame) &#123;</span><br><span class="line">      Preconditions.checkArgument(</span><br><span class="line">          pendingTarget == <span class="keyword">null</span>, <span class="string">"Pending target must be null when starting from the first frame"</span>);</span><br><span class="line">      gifDecoder.resetFrameIndex();</span><br><span class="line">      startFromFirstFrame = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pendingTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">      DelayTarget temp = pendingTarget;</span><br><span class="line">      pendingTarget = <span class="keyword">null</span>;</span><br><span class="line">      onFrameReady(temp);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    isLoadPending = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// Get the delay before incrementing the pointer because the delay indicates the amount of time</span></span><br><span class="line">    <span class="comment">// we want to spend on the current frame.</span></span><br><span class="line">    <span class="keyword">int</span> delay = gifDecoder.getNextDelay();</span><br><span class="line">    <span class="keyword">long</span> targetTime = SystemClock.uptimeMillis() + delay;</span><br><span class="line"></span><br><span class="line">    gifDecoder.advance();</span><br><span class="line">    next = <span class="keyword">new</span> DelayTarget(handler, gifDecoder.getCurrentFrameIndex(), targetTime);</span><br><span class="line">    requestBuilder.apply(signatureOf(getFrameSignature())).load(gifDecoder).into(next);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="GifFrameLoader-loadNextFrame"><a href="#GifFrameLoader-loadNextFrame" class="headerlink" title="GifFrameLoader.loadNextFrame"></a>GifFrameLoader.loadNextFrame</h4><p>在 GifFrameLoader 的 loadNextFrame 实现中（我们可以猜测到这就是 Glide 加载每一帧图片的实现）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">loadNextFrame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!isRunning || isLoadPending) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (startFromFirstFrame) &#123;</span><br><span class="line">      Preconditions.checkArgument(</span><br><span class="line">          pendingTarget == <span class="keyword">null</span>, <span class="string">"Pending target must be null when starting from the first frame"</span>);</span><br><span class="line">      gifDecoder.resetFrameIndex();</span><br><span class="line">      startFromFirstFrame = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (pendingTarget != <span class="keyword">null</span>) &#123;</span><br><span class="line">      DelayTarget temp = pendingTarget;</span><br><span class="line">      pendingTarget = <span class="keyword">null</span>;</span><br><span class="line">      onFrameReady(temp);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    isLoadPending = <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// Get the delay before incrementing the pointer because the delay indicates the amount of time</span></span><br><span class="line">    <span class="comment">// we want to spend on the current frame.</span></span><br><span class="line">    <span class="keyword">int</span> delay = gifDecoder.getNextDelay();</span><br><span class="line">    <span class="keyword">long</span> targetTime = SystemClock.uptimeMillis() + delay;</span><br><span class="line"></span><br><span class="line">    gifDecoder.advance();</span><br><span class="line">    next = <span class="keyword">new</span> DelayTarget(handler, gifDecoder.getCurrentFrameIndex(), targetTime);</span><br><span class="line">    requestBuilder.apply(signatureOf(getFrameSignature())).load(gifDecoder).into(next);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
 <p>可以看到具体的实现是由 gifDecoder 这个对象实现的。这里最关键的一句就是 </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gifDecoder.advance();</span><br></pre></td></tr></table></figure>
+
 <p>我们可以看看这个方法的定义 </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Move the animation frame counter forward.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">advance</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>就是跳转到下一帧的意思。</p>
 <p>好了，至此我们知道如果可以获取到 GifDeCoder 和 GifFrameLoader 的实例，那么就可以手动控制和获取 GIF 图里每一帧了。但是，我们回过去看 Glide 提供的 API 发现，我们没有办法直接获取 GifFrameLoader 和 GifDeCoder，因为在源码里这些变量都是 private 的。🤦‍🤦‍🤦‍ ，难道这就走到了死胡同吗？不然，前人曾说过，编程领域的任何问题都可以通过添加一个中间层实现。我们这里的中间层就是 <strong>反射</strong>。使用反射可以获取就可以访问 GifFrameLoader 和 GifDeCoder 了；那么后续的实现就变得简单了。</p>
-<p><span id="get-frame-code"></span></p>
+<span id="get-frame-code">
+
 <h4 id="获取每一帧图片并保存在集合中"><a href="#获取每一帧图片并保存在集合中" class="headerlink" title="获取每一帧图片并保存在集合中"></a>获取每一帧图片并保存在集合中</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(mContext).asGif().listener(<span class="keyword">object</span> :RequestListener&lt;GifDrawable&gt;&#123;</span><br><span class="line">            </span><br><span class="line">            ...fail stuff...</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResourceReady</span><span class="params">(resource: <span class="type">GifDrawable</span>, model: <span class="type">Any</span>?, target: <span class="type">Target</span>&lt;<span class="type">GifDrawable</span>&gt;?, dataSource: <span class="type">DataSource</span>?, isFirstResource: <span class="type">Boolean</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">                <span class="keyword">val</span> frames = ArrayList&lt;ResFrame&gt;()</span><br><span class="line">                <span class="keyword">val</span> decoder = getGifDecoder(resource)</span><br><span class="line">                <span class="keyword">if</span> (decoder != <span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">0.</span>.resource.frameCount) &#123;</span><br><span class="line">                        <span class="keyword">val</span> bitmap = decoder.nextFrame</span><br><span class="line">                        <span class="keyword">val</span> path = IOTool.saveBitmap2Box(context, bitmap, <span class="string">"pic_<span class="variable">$i</span>"</span>)</span><br><span class="line">                        <span class="keyword">val</span> frame = ResFrame(decoder.getDelay(i), path)</span><br><span class="line">                        frames.add(frame)</span><br><span class="line">                        decoder.advance()</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;).load(originalUrl).into(original)</span><br></pre></td></tr></table></figure>
+
 <p>这里的实现很简单，监听 GIF 的加载过程，加载成功后得到一个 GifDrawable 的实例 resource ,通过这个实例用反射的方式(具体实现可参考源码，非常简单)获取到了 GifDecode 的实例，有了这个实例就可以获取每一帧了，这里还需要记录一下每一帧播放时间间隔，返回的每一个帧就是一个 Bitmap ，我们把这些 Bitmap 保存在应用的安装目录下，然后用一个列表记录下所有帧的信息，包含当前帧的延迟时间和当前帧对应的 Bitmap 的存储路径。</p>
 <p>每一帧的集合序列有了，序列反转一行代码的事情，剩下的就是用这个序列生成新的 GIF 图片了。</p>
 <h3 id="用帧序列再次生成图片"><a href="#用帧序列再次生成图片" class="headerlink" title="用帧序列再次生成图片"></a>用帧序列再次生成图片</h3><p>用已有的图片组成和一个新的图片，这个并不是什么难事，网上已经有很多实现了。甚至包括 GIF 的再次生成，也可以借助 <a href="https://github.com/LineChen/GifMaker" target="_blank" rel="noopener">GifMaker</a> 这样的三方库完成。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">genGifByFrames</span><span class="params">(context: <span class="type">Context</span>, frames: <span class="type">List</span>&lt;<span class="type">ResFrame</span>&gt;)</span></span>: String &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">val</span> os = ByteArrayOutputStream()</span><br><span class="line">        <span class="keyword">val</span> encoder = AnimatedGifEncoder()</span><br><span class="line">        encoder.start(os)</span><br><span class="line">        encoder.setRepeat(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span> (value <span class="keyword">in</span> frames) &#123;</span><br><span class="line">            <span class="keyword">val</span> bitmap = BitmapFactory.decodeFile(value.path)</span><br><span class="line">            encoder.setDelay(value.delay)</span><br><span class="line">            encoder.addFrame(bitmap)</span><br><span class="line">        &#125;</span><br><span class="line">        encoder.finish()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> path = IOTool.saveStreamToSDCard(<span class="string">"test"</span>, os)</span><br><span class="line">        IOTool.notifySystemGallay(context, path)</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> path</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>借助 AnimatedGifEncoder 非常简单把之前保存的序列再次拼接成了一张新的 GIF 图。</p>
 <h3 id="GIF-倒放"><a href="#GIF-倒放" class="headerlink" title="GIF 倒放"></a>GIF 倒放</h3><p>把上述三个步骤简单整理一下 </p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">reverseRes</span><span class="params">(context: <span class="type">Context</span>, resource: <span class="type">GifDrawable</span>?)</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">if</span> (resource == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 获取所有帧信息集合</span></span><br><span class="line">    <span class="keyword">val</span> frames = getResourceFrames(resource, context)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 逆序集合</span></span><br><span class="line">    reverse(frames)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成新的 GIF 图片</span></span><br><span class="line">    <span class="keyword">return</span> genGifByFrames(context, frames)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>需要注意的是，这三步操作都是涉及到 UI 的耗时操作，因此这里简单用 RxJava 做了一次封装。然后就可以愉快的使用了。</p>
 <h4 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GifFactory.getReverseRes(mContext,source)</span><br><span class="line">        .subscribe &#123; </span><br><span class="line">            Glide.with(mContext).load(it).into(reversed)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/2019/07/07/简单实现-GIF-倒序播放/demo.gif" width="320" height="564"></p>
+
+<img src="/2019/07/07/简单实现-GIF-倒序播放/demo.gif" width="320" height="564">
+
 <p>是的，就是这么简单，提供原始 GIF 资源的路径，即可返回实现倒序的 GIF 图。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不说，Glide 的内部实现非常强大，对移动端图片加载的各种场景做了非常复杂的考虑和设计，因此也导致它的源码非常的难于阅读。但是，如果仅仅从某个的出发，比如缓存、网络、图片解码和编码的角度出发，脱离整个流程，去看局部还是有收获的。</p>
 <p>回到上述 GIF 倒序的步骤，总的来说有以下几个关键步骤</p>
@@ -452,279 +330,169 @@
 </ol>
 <p>上述步骤中 1 和 4 的执行速度是基本上是线性的，也是无法再过多干预的。而步骤 2，3，5 也是 GIF 反转实现的核心，因此对方法耗时简单做了下记录。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GIF 图 size = 8.9M</span><br><span class="line"></span><br><span class="line">E/GifFactory: 方法: getGifDecoder        耗时 0.001000 second</span><br><span class="line">E/GifFactory: 方法: getResourceFrames    耗时 1.489000 second</span><br><span class="line">E/GifFactory: 方法: genGifByFrames       耗时 9.397000 second</span><br><span class="line"></span><br><span class="line">GIF 图 size = 11.9M</span><br><span class="line"></span><br><span class="line">E/GifFactory: 方法: getGifDecoder        耗时 0.000000 second</span><br><span class="line">E/GifFactory: 方法: getResourceFrames    耗时 1.074000 second</span><br><span class="line">E/GifFactory: 方法: genGifByFrames       耗时 9.559000 second</span><br><span class="line"></span><br><span class="line">GIF 图 size = 3.3M</span><br><span class="line"></span><br><span class="line">E/GifFactory: 方法: getGifDecoder        耗时 0.001000 second</span><br><span class="line">E/GifFactory: 方法: getResourceFrames    耗时 0.437000 second</span><br><span class="line">E/GifFactory: 方法: genGifByFrames       耗时 2.907000 second</span><br><span class="line"></span><br><span class="line">GIF 图 size = 8.1M</span><br><span class="line"></span><br><span class="line">E/GifFactory: 方法: getGifDecoder        耗时 0.000000 second</span><br><span class="line">E/GifFactory: 方法: getResourceFrames    耗时 0.854000 second</span><br><span class="line">E/GifFactory: 方法: genGifByFrames       耗时 6.416000 second</span><br></pre></td></tr></table></figure>
+
 <p>可以看到，虽然我们获取 GifDecoder 的过程使用了反射，但其实这比不是性能瓶颈；获取所有帧信息的方法 getResourceFrames 耗时，也是和 GIF 图的大小有关，基本上是一个可接受的值。但是通过帧序列再次生成 GIF 图的方法执行时间就有点恐怖了，即便我的测试机是 kirin（麒麟）960 ，运行内存有 6G 😳😳。</p>
 <p>但是同样的图片在 PC 上用 Python 脚本基本上是毫秒级完成。所以纯粹用 java 实现（AnimatedGifEncoder 是 java 写的，不算 kotlin 👀）图片二次编码还是有些性能差距的。</p>
 <p>虽然，此次的实现转换较慢，但也算是一次不错的尝试吧。</p>
 <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>本文所有实现细节源码已同步至 GitHub 仓库 <a href="https://github.com/REBOOTERS/AndroidAnimationExercise" target="_blank" rel="noopener">AndroidAnimationExercise</a>, 可以参考 <a href="https://github.com/REBOOTERS/AndroidAnimationExercise/blob/master/imitate/src/main/java/com/engineer/imitate/ui/activity/ReverseGifActivity.kt" target="_blank" rel="noopener">ReverseGifActivity</a></p>
 <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.cnblogs.com/qcloud1001/p/6647080.html" target="_blank" rel="noopener">浓缩的才是精华：浅析GIF格式图片的存储和压缩</a></p>
-
-      
+</span>
     </div>
+
     
     
     
 
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>加个鸡腿呗</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付"/>
-        <p>微信支付</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="九尾灵狐 支付宝"/>
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/GIF、Glide、Android/" rel="tag"># GIF、Glide、Android</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/06/22/一个路由的诞生/" rel="next" title="一个简单的路由">
-                <i class="fa fa-chevron-left"></i> 一个简单的路由
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIF、Glide、Android/" rel="tag"># GIF、Glide、Android</a>
           </div>
 
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/20/ARouter-API-分析/" rel="prev" title="ARouter API 简单分析">
-                ARouter API 简单分析 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-    <div class="comments" id="comments">
-    </div>
-  
-
-
-
-        </div>
         
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/22/一个路由的诞生/" rel="prev" title="一个简单的路由">
+      <i class="fa fa-chevron-left"></i> 一个简单的路由
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/07/20/ARouter-API-分析/" rel="next" title="ARouter API 简单分析">
+      ARouter API 简单分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
   </div>
 
-  <aside id="sidebar" class="sidebar">
-    
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/uploads/avatar.jpg"
-                alt="九尾灵狐" />
-            
-              <p class="site-author-name" itemprop="name">九尾灵狐</p>
-              <p class="site-description motion-element" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">37</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/REBOOTERS" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:yingkongshi11@gmail.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIF-是怎么播放的，如何把GIF倒序？"><span class="nav-number">2.</span> <span class="nav-text">GIF 是怎么播放的，如何把GIF倒序？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIF-倒放的实现"><span class="nav-number">3.</span> <span class="nav-text">GIF 倒放的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从-GIF-图里把每一帧抠出来"><span class="nav-number">3.1.</span> <span class="nav-text">从 GIF 图里把每一帧抠出来</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GifFrameLoader-loadNextFrame"><span class="nav-number">3.1.1.</span> <span class="nav-text">GifFrameLoader.loadNextFrame</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取每一帧图片并保存在集合中"><span class="nav-number">3.1.2.</span> <span class="nav-text">获取每一帧图片并保存在集合中</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用帧序列再次生成图片"><span class="nav-number">3.2.</span> <span class="nav-text">用帧序列再次生成图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GIF-倒放"><span class="nav-number">3.3.</span> <span class="nav-text">GIF 倒放</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#demo"><span class="nav-number">3.3.1.</span> <span class="nav-text">demo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">5.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIF-是怎么播放的，如何把GIF倒序？"><span class="nav-number">2.</span> <span class="nav-text">GIF 是怎么播放的，如何把GIF倒序？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIF-倒放的实现"><span class="nav-number">3.</span> <span class="nav-text">GIF 倒放的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从-GIF-图里把每一帧抠出来"><span class="nav-number">3.1.</span> <span class="nav-text">从 GIF 图里把每一帧抠出来</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GifFrameLoader-loadNextFrame"><span class="nav-number">3.1.1.</span> <span class="nav-text">GifFrameLoader.loadNextFrame</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取每一帧图片并保存在集合中"><span class="nav-number">3.1.2.</span> <span class="nav-text">获取每一帧图片并保存在集合中</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用帧序列再次生成图片"><span class="nav-number">3.2.</span> <span class="nav-text">用帧序列再次生成图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GIF-倒放"><span class="nav-number">3.3.</span> <span class="nav-text">GIF 倒放</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#demo"><span class="nav-number">3.3.1.</span> <span class="nav-text">demo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">5.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
       <!--/noindex-->
-      
 
-      
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
 
     </div>
   </aside>
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
-
-  
 </div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
   <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
-
-
-
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
 
         
 
@@ -734,34 +502,18 @@
 
 
 
-        
+
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
   </div>
 
   
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
 
 
 
@@ -778,542 +530,8 @@
 
 
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.json";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
-            };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
-
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
-
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
-            });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
-        }
-      });
-    }
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("mqnnA6zdXLmjeyrmRpGke1k8-gzGzoHsz", "ns3e7W2YRjzkSxPzzMiTjrrM");</script>
-  <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
-
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
-          if (results.length > 0) {
-            var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
-          }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
-      });
-    }
-
-    $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-  
-
-  
 
   
 
