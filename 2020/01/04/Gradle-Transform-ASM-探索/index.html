@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现  通过注解对任意类当中所有的方法实现计算方法耗时的插桩 通过配置实现对任意类（主要是针对第三方库）当中指定方法的实现计算方法耗时的插桩 对工程中所有的点击事件进行插桩，方便埋点或确定代码位置 ……">
+<meta name="keywords" content="ASM,Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle Transform + ASM 探索">
+<meta property="og:url" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现  通过注解对任意类当中所有的方法实现计算方法耗时的插桩 通过配置实现对任意类（主要是针对第三方库）当中指定方法的实现计算方法耗时的插桩 对工程中所有的点击事件进行插桩，方便埋点或确定代码位置 ……">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/transform.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/transforms.png">
+<meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/cat.jpeg">
+<meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/tiger.jpg">
+<meta property="og:updated_time" content="2020-01-19T15:17:29.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle Transform + ASM 探索">
+<meta name="twitter:description" content="前言使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现  通过注解对任意类当中所有的方法实现计算方法耗时的插桩 通过配置实现对任意类（主要是针对第三方库）当中指定方法的实现计算方法耗时的插桩 对工程中所有的点击事件进行插桩，方便埋点或确定代码位置 ……">
+<meta name="twitter:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/transform.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Gradle Transform + ASM 探索 | 诗与远方</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gradle Transform + ASM 探索
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-04 08:45:00" itemprop="dateCreated datePublished" datetime="2020-01-04T08:45:00+08:00">2020-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-19 23:17:29" itemprop="dateModified" datetime="2020-01-19T23:17:29+08:00">2020-01-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现</p>
+<ul>
+<li>通过注解对任意类当中所有的方法<strong>实现计算方法耗时</strong>的插桩</li>
+<li>通过配置实现对任意类（主要是针对第三方库）当中指定方法的<strong>实现计算方法耗时</strong>的插桩</li>
+<li>对工程中所有的点击事件进行插桩，方便埋点或确定代码位置</li>
+<li>……</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="Transform-ASM-能做什么"><a href="#Transform-ASM-能做什么" class="headerlink" title="Transform + ASM 能做什么"></a>Transform + ASM 能做什么</h2><p>简单来说就是利用 AGP 提供的 Transform 接口，在应用打包的流程中，对 java/kotlin 编译生成的 class 文件进行二次写操作，插入一些自定义的逻辑。这些逻辑一般是重复且有规律的，并且大概率和业务逻辑无关的。</p>
+<p>一些统计应用数据的 SDK，会在页面展现和退出的生命周期函数里，在应用编译期插入统计相关的逻辑，统计页面展现数据；这种对开发者非常透明的实现，一方面接入成本非常低，另一方面也减少了三方库对现有工程的显示侵入，尽可能的减少了耦合。</p>
+<p>也有常见的代码耗时统计的实现，在方法体开始的时候，利用 System.currentTimeMillis() 方法记录开始时间，在方法返回之前，进行统计。当然，这样的功能早在 2013 年已经由<a href="https://github.com/JakeWharton" target="_blank" rel="noopener">JakeWharton</a> 大神用 aspectj的方案 <a href="https://github.com/JakeWharton/hugo" target="_blank" rel="noopener">实现过了</a>。</p>
+<h2 id="Transform-基本流程"><a href="#Transform-基本流程" class="headerlink" title="Transform 基本流程"></a>Transform 基本流程</h2><p>关于如何创建一个基于的 Gradle 插件项目，以及如何在 Plugin 中注册的具体实现就不展开了，网上可以找到好多这种教程，这里从 Transform 的实现说起。</p>
+<img src="/2020/01/04/Gradle-Transform-ASM-探索/transform.png">
+
+<p>可以看到实现一个自定义的 Transform 需要做的事情还是非常有规律的。继承 Transform 这个抽象类，覆写这几个方法一般来说就够用了。每个方法具体的功能从方法名就可以了解了。</p>
+<ul>
+<li>getName 这个transform 的名称，一个应用内可以由多个 Transform，因此需要一个名称标记，方便后面调试。</li>
+<li>getInputTypes 输入类型，ContentType 是一个枚举，这个输入类型是什么意思呢？其实看一下这个枚举的定义你就明白了。</li>
+</ul>
+<details>
+<summary>
+ContentType 点击展开
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> DefaultContentType implements ContentType &#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * The content is compiled Java code. This can be in a Jar file or in a folder. If</span></span><br><span class="line"><span class="comment">         * in a folder, it is expected to in sub-folders matching package names.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        CLASSES(<span class="number">0x01</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** The content is standard Java resources. */</span></span><br><span class="line">        RESOURCES(<span class="number">0x02</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">        DefaultContentType(<span class="keyword">int</span> value) &#123;</span><br><span class="line">            <span class="keyword">this</span>.value = value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p><strong>这里可以注意一下，使用 Transform 我们还可以对 resources 文件做处理</strong>，你应该听说过或者用过 <a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="noopener">AndResGuard</a> 来混淆资源文件吧，看到这里你是不是觉得自己也有点思路了呢。</p>
+<ul>
+<li><p>isIncremental 是否支持增量编译。对于一个稍微庞大点儿的项目，Gradle 现有的构建流程其实已经很耗时了，对于耗时这件事归根结底唯一的解决方法就是并行和缓存，但是 Gradle 的很多任务是有依赖关系的，所以并行在很大程度上受到了限制。因此，缓存就成为了唯一可以去突破的方向。<strong>一个自定义的 Transform 在可能的情况，支持增量编译，可以节省报一些编译时间和资源</strong>，当然，由于 Transform 要实现功能的限制，必须每一次全量编译，那么一定要记得删除上一次编译编译的产物，以免产生 bug。关于如何实现这些细节，后面会有介绍。</p>
+</li>
+<li><p>getScopes 定义这个 Transform 要处理那些输入文件。ScopeType 同样是一个枚举，看一下他的定义。</p>
+</li>
+</ul>
+<details>
+<summary>
+ScopeType 点击展开
+</summary>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Scope implements ScopeType &#123;</span><br><span class="line">       <span class="comment">/** Only the project (module) content */</span></span><br><span class="line">       PROJECT(<span class="number">0x01</span>),</span><br><span class="line">       <span class="comment">/** Only the sub-projects (other modules) */</span></span><br><span class="line">       SUB_PROJECTS(<span class="number">0x04</span>),</span><br><span class="line">       <span class="comment">/** Only the external libraries */</span></span><br><span class="line">       EXTERNAL_LIBRARIES(<span class="number">0x10</span>),</span><br><span class="line">       <span class="comment">/** Code that is being tested by the current variant, including dependencies */</span></span><br><span class="line">       TESTED_CODE(<span class="number">0x20</span>),</span><br><span class="line">       <span class="comment">/** Local or remote dependencies that are provided-only */</span></span><br><span class="line">       PROVIDED_ONLY(<span class="number">0x40</span>),</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">        * Only the project's local dependencies (local jars)</span></span><br><span class="line"><span class="comment">        *</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@deprecated</span> local dependencies are now processed as &#123;<span class="doctag">@link</span> #EXTERNAL_LIBRARIES&#125;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="meta">@Deprecated</span></span><br><span class="line">       PROJECT_LOCAL_DEPS(<span class="number">0x02</span>),</span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">        * Only the sub-projects's local dependencies (local jars).</span></span><br><span class="line"><span class="comment">        *</span></span><br><span class="line"><span class="comment">        * <span class="doctag">@deprecated</span> local dependencies are now processed as &#123;<span class="doctag">@link</span> #EXTERNAL_LIBRARIES&#125;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       <span class="meta">@Deprecated</span></span><br><span class="line">       SUB_PROJECTS_LOCAL_DEPS(<span class="number">0x08</span>);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">       Scope(<span class="keyword">int</span> value) &#123;</span><br><span class="line">           <span class="keyword">this</span>.value = value;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> value;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>可以预知，这个范围定义的越小，我们的 Transform 需要处理的输入就越少，执行也就越快。</p>
+<ul>
+<li>transform(transformInvocation: TransformInvocation?) 进行输入内容的处理。</li>
+</ul>
+<p>这里需要再次强调一点：<strong>一个工程内会有多个 Transform，你定义的 Transform 在处理的是上一个 Transform 经过处理的输出，而经过你处理的输出，会由下一个 Transform 进行处理</strong>。所有的 transform 任务一般都在 app/build/intermediates/transform/ 这个目录下可以看到。</p>
+<h3 id="transform-深入"><a href="#transform-深入" class="headerlink" title="transform() 深入"></a>transform() 深入</h3><p>transform()方法的参数 TransformInvocation 是一个接口，提供了一些关于输入的一些基本信息。利用这些信息我们就可以获得编译流程中的 class 文件进行操作。</p>
+<img src="/2020/01/04/Gradle-Transform-ASM-探索/transforms.png" width="40%">
+
+<p>从上图可以看到，transform 处理输入的思路还是很简单的，就是从TransformInvocation 获取到总的输入后，分别按照 class目录 和 jar文件 集合的方式进行遍历处理。（这里简单讨论普遍情况，当然 TransformInvocation 接口还提供了 getReferencedInputs，getSecondaryInputs 这些接口，让使用者处理一些特殊的输入，上图并没有体现，暂时不展开讨论）</p>
+<p>transform 的核心难点有以下几个点：</p>
+<ul>
+<li><strong>正确、高效的进行文件目录、jar 文件的解压、class 文件 IO 流的处理，保证在这个过程中不丢失文件和错误的写入</strong></li>
+<li><strong>高效的找到要插桩的结点，过滤掉无效的 class</strong></li>
+<li><strong>支持增量编译</strong></li>
+</ul>
+<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>上面说了一些流程和概念，下面就通过一个实例 (参考自 <a href="https://github.com/lijiankun24/Koala" target="_blank" rel="noopener">Koala</a>) 来具体看一下一个基于注解，在 transform 任务执行的过程中通过 ASM 插入统计方法耗时、参数、输出的实现。非常感谢 <a href="https://github.com/lijiankun24/Koala" target="_blank" rel="noopener">Koala</a>，感谢 <a href="https://github.com/lijiankun24" target="_blank" rel="noopener">lijiankun24</a> 的开源。</p>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>为了方便后期叙述，这里首先看一下使用方式和最终效果。</p>
+<h4 id="添加注解"><a href="#添加注解" class="headerlink" title="添加注解"></a>添加注解</h4><p>我们在 MainActivity 中的部分方法添加注解</p>
+<details>
+<summary>点击展开详细</summary>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cat</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        test()</span><br><span class="line">        test2(<span class="string">"a"</span>,<span class="number">100</span>)</span><br><span class="line">        test3()</span><br><span class="line">        test4()</span><br><span class="line">        <span class="keyword">val</span> result = Util.dp2Px(<span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cat</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">"just test"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cat</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test2</span><span class="params">(para1: <span class="type">String</span>, para2: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Cat</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test3</span><span class="params">()</span></span>: View &#123;</span><br><span class="line">        <span class="keyword">return</span> TextView(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test4</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(<span class="string">"nothing"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>MainActivity 中除了 test4()之外的所有方法，都打上了 @Cat 注解，并且所有方法都会被调用。</p>
+<h4 id="输出日志"><a href="#输出日志" class="headerlink" title="输出日志"></a>输出日志</h4><details>
+<summary>点击展开详细</summary>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">2020-01-04 11:32:13.784 E: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.784 E: │ class's name:       com/engineer/android/myapplication/MainActivity</span><br><span class="line">2020-01-04 11:32:13.784 E: │ method's name:      test</span><br><span class="line">2020-01-04 11:32:13.785 E: │ method's arguments: []</span><br><span class="line">2020-01-04 11:32:13.785 E: │ method's result:    null</span><br><span class="line">2020-01-04 11:32:13.791 E: │ method cost time:   1ms</span><br><span class="line">2020-01-04 11:32:13.791 E: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.791 E: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.791 E: │ class's name:       com/engineer/android/myapplication/MainActivity</span><br><span class="line">2020-01-04 11:32:13.792 E: │ method's name:      test2</span><br><span class="line">2020-01-04 11:32:13.792 E: │ method's arguments: [a, 100]</span><br><span class="line">2020-01-04 11:32:13.792 E: │ method's result:    0</span><br><span class="line">2020-01-04 11:32:13.793 E: │ method cost time:   0ms</span><br><span class="line">2020-01-04 11:32:13.793 E: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.794 E: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.795 E: │ class's name:       com/engineer/android/myapplication/MainActivity</span><br><span class="line">2020-01-04 11:32:13.795 E: │ method's name:      test3</span><br><span class="line">2020-01-04 11:32:13.796 E: │ method's arguments: []</span><br><span class="line">2020-01-04 11:32:13.796 E: │ method's result:    android.widget.TextView&#123;8a9397d V.ED..... ......ID 0,0-0,0&#125;</span><br><span class="line">2020-01-04 11:32:13.796 E: │ method cost time:   1ms</span><br><span class="line">2020-01-04 11:32:13.796 E: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.797 E: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">2020-01-04 11:32:13.797 E: │ class's name:       com/engineer/android/myapplication/MainActivity</span><br><span class="line">2020-01-04 11:32:13.797 E: │ method's name:      onCreate</span><br><span class="line">2020-01-04 11:32:13.798 E: │ method's arguments: [null]</span><br><span class="line">2020-01-04 11:32:13.798 E: │ method's result:    null</span><br><span class="line">2020-01-04 11:32:13.798 E: │ method cost time:   156ms</span><br><span class="line">2020-01-04 11:32:13.798 E: └───────────────────────────────────------───────────────────────────────────------</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>可以看到，日志输出了除 test4() 方法之外所有方法的方法耗时、方法参数、方法名称、方法返回值等信息，下面就来看看实现细节。</p>
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><h5 id="主动调用"><a href="#主动调用" class="headerlink" title="主动调用"></a>主动调用</h5><p>首先，对于一个上述的功能，如果用我们直接手写代码的方式，应该是很简单的。</p>
+<p>打印的日志有一些方法的信息，因此需要一个类来承载这些信息。</p>
+<ul>
+<li>MethodInfo</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodInfo</span></span>(</span><br><span class="line">    <span class="keyword">var</span> className: String = <span class="string">""</span>,</span><br><span class="line">    <span class="keyword">var</span> methodName: String = <span class="string">""</span>,</span><br><span class="line">    <span class="keyword">var</span> result: Any? = <span class="string">""</span>,</span><br><span class="line">    <span class="keyword">var</span> time: <span class="built_in">Long</span> = <span class="number">0</span>,</span><br><span class="line">    <span class="keyword">var</span> params: ArrayList&lt;Any?&gt; = ArrayList()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>按照常规思路，我们需要在方法开始的时候，记录一下开始时间，方法 return 之前再次记录一下时间，然后计算出耗时。</p>
+<ul>
+<li>MethodManager</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> MethodManager &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> methodWareHouse = ArrayList&lt;MethodInfo&gt;(<span class="number">1024</span>)</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JvmStatic</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">start</span><span class="params">()</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">        methodWareHouse.add(MethodInfo())</span><br><span class="line">        <span class="keyword">return</span> methodWareHouse.size - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@JvmStatic</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">end</span><span class="params">(result: <span class="type">Any</span>?, className: <span class="type">String</span>, methodName: <span class="type">String</span>, startTime: <span class="type">Long</span>, id: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> method = methodWareHouse[id]</span><br><span class="line">        method.className = className</span><br><span class="line">        method.methodName = methodName</span><br><span class="line">        method.result = result</span><br><span class="line">        method.time = System.currentTimeMillis() - startTime</span><br><span class="line">        BeautyLog.printMethodInfo(method)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里定义了两个方法 start 和 end ，顾名思义就是在方法开始和结束的时候调用，并通过参数传递一些关键信息，最后打印这些信息。</p>
+<p>这样我们可以在任何一个方法中调用这些方法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> index =MethodManager.start()</span><br><span class="line">    <span class="keyword">val</span> start = System.currentTimeMillis()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// some thing foo do</span></span><br><span class="line">    </span><br><span class="line">    MethodManager.end(<span class="string">""</span>,<span class="keyword">this</span>.localClassName,<span class="string">"foo"</span>,start,index)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>诚然这样的代码写起来很简单，但是一方面这些代码和 foo 方法本来要做的事情是没有关系的，如果为了单次测试方法耗时加上去，有点丑陋；再有就是如果有多个方法需要检测耗时，需要把这样的代码写很多次。因此，便有了通过 Transform + ASM 实现代码插桩的需求。</p>
+<h5 id="插桩实现"><a href="#插桩实现" class="headerlink" title="插桩实现"></a>插桩实现</h5><p>在一个方法内，我们自己写上述代码很简单，代开 IDE 找到对应的类文件，定位到要计算耗时的方法，在方法体开始和结束之前插入代码。但是，对于编译器来说，这些没有规律的事情是非常麻烦的。因此，为了方便，我们通过定义注解的方式，方便编译器在代码编译阶段可以快速定位要插桩的位置。</p>
+<p>这里定义了一个注解 Cat, 为啥取名 Cat，因为猫很萌啊。</p>
+<img src="/2020/01/04/Gradle-Transform-ASM-探索/cat.jpeg" width="40%">
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Cat &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照上图 transform(transformInvocation: TransformInvocation?)  处理输入流程的流程，我们可以对所有的 class 文件进行处理。</p>
+<p>这里以处理 directoryInputs 为例</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">input.directoryInputs.forEach &#123; directoryInput -&gt;</span><br><span class="line">                <span class="keyword">if</span> (directoryInput.file.isDirectory) &#123;</span><br><span class="line">                    FileUtils.getAllFiles(directoryInput.file).forEach &#123;</span><br><span class="line">                        <span class="keyword">val</span> file = it</span><br><span class="line">                        <span class="keyword">val</span> name = file.name</span><br><span class="line">                        println(<span class="string">"directory"</span>)</span><br><span class="line">                        println(<span class="string">"name ==<span class="variable">$name</span>"</span>)</span><br><span class="line">                        <span class="keyword">if</span> (name.endsWith(<span class="string">".class"</span>) &amp;&amp; name != (<span class="string">"R.class"</span>)</span><br><span class="line">                            &amp;&amp; !name.startsWith(<span class="string">"R\$"</span>) &amp;&amp; name != (<span class="string">"BuildConfig.class"</span>)</span><br><span class="line">                        ) &#123;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">val</span> reader = ClassReader(file.readBytes())</span><br><span class="line">                            <span class="keyword">val</span> writer = ClassWriter(reader, ClassWriter.COMPUTE_MAXS)</span><br><span class="line">                            <span class="keyword">val</span> visitor = CatClassVisitor(writer)</span><br><span class="line">                            reader.accept(visitor, ClassReader.EXPAND_FRAMES)</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">val</span> code = writer.toByteArray()</span><br><span class="line">                            <span class="keyword">val</span> classPath = file.parentFile.absolutePath + File.separator + name</span><br><span class="line">                            <span class="keyword">val</span> fos = FileOutputStream(classPath)</span><br><span class="line">                            fos.write(code)</span><br><span class="line">                            fos.close()</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">val</span> dest = transformInvocation.outputProvider?.getContentLocation(</span><br><span class="line">                    directoryInput.name,</span><br><span class="line">                    directoryInput.contentTypes,</span><br><span class="line">                    directoryInput.scopes,</span><br><span class="line">                    Format.DIRECTORY</span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                FileUtils.copyDirectoryToDirectory(directoryInput.file, dest)</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的操作很简单，就是遍历所有的 class 文件，对所有符合条件的 Class 通过 ASM 提供的接口进行处理，通过访问者模式，提供一个自定义的 ClassVisitor 即可。这里我们的自定义 ClassVisitor 就是 CatClassVisitor,在 CatClassVisitor 内部的 visitMethod 实现中再次使用访问者的模式，返回一个自定义的 CatMethodVisitor，在其内部我们会根据方法注解，确定当前方法是否需要进行插桩。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitAnnotation</span><span class="params">(desc: <span class="type">String</span>, visible: <span class="type">Boolean</span>)</span></span>: AnnotationVisitor &#123;</span><br><span class="line">      <span class="comment">// 当前方法的注解，是否是我们定义的注解。</span></span><br><span class="line">      <span class="keyword">if</span> (Constants.method_annotation == desc) &#123;</span><br><span class="line">          isInjected = <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">super</span>.visitAnnotation(desc, visible)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onMethodEnter</span><span class="params">()</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (isInjected) &#123;</span><br><span class="line">          </span><br><span class="line">          methodId = newLocal(Type.INT_TYPE)</span><br><span class="line">          mv.visitMethodInsn(</span><br><span class="line">              Opcodes.INVOKESTATIC,</span><br><span class="line">              Constants.method_manager,</span><br><span class="line">              <span class="string">"start"</span>,</span><br><span class="line">              <span class="string">"()I"</span>,</span><br><span class="line">              <span class="literal">false</span></span><br><span class="line">          )</span><br><span class="line">          mv.visitIntInsn(Opcodes.ISTORE, methodId)</span><br><span class="line"></span><br><span class="line">          ... more details ...</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onMethodExit</span><span class="params">(opcode: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (isInjected) &#123;</span><br><span class="line"></span><br><span class="line">          ... other details ...</span><br><span class="line"></span><br><span class="line">          mv.visitMethodInsn(</span><br><span class="line">              Opcodes.INVOKESTATIC,</span><br><span class="line">              Constants.method_manager,</span><br><span class="line">              <span class="string">"end"</span>,</span><br><span class="line">              <span class="string">"(Ljava/lang/Object;Ljava/lang/String;Ljava/lang/String;JI)V"</span>,</span><br><span class="line">              <span class="literal">false</span></span><br><span class="line">          )</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这样我们就确定了要进行代码插桩的位置，关于 ASM 代码插桩的具体细节已在<a href="https://zhuanlan.zhihu.com/p/102327062" target="_blank" rel="noopener">当 Java 字节码遇到 ASM</a> 有过介绍，这里不再展开。此处具体实现可以<a href="https://github.com/REBOOTERS/AndroidAnimationExercise/tree/master/buildSrc/src/main/kotlin/com/engineer/plugin/transforms/cat" target="_blank" rel="noopener">查看源码</a>。</p>
+<p>当然，我们还需要处理输入为 jarInputs 的场景。在组件化开发的时候，很多时候，我们是通过依赖 aar 包的方式，依赖其他小伙伴提供的业务组件或基础组件。或者是当我们依赖第三方库的时候，其实也是在依赖 aar。这时候，如果缺少了对 jarInputs 的处理，会导致插桩功能的缺失。但是从上面的流程图可以看到，对 jarInputs 的处理只是多了解压缩的过程，后续还是对 class 文件的遍历写操作。</p>
+<h5 id="增量编译"><a href="#增量编译" class="headerlink" title="增量编译"></a>增量编译</h5><p>说到 Transform 必须要谈的一个点就是增量编译，其实关于增量编译的实现，通过查看 AGP 自带的几个 Transform 可以看到其实很简单。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformInvocation.isIncremental) &#123;</span><br><span class="line">                    <span class="keyword">when</span> (jarInput.status ?: Status.NOTCHANGED) &#123;</span><br><span class="line">                        Status.NOTCHANGED -&gt; &#123;</span><br><span class="line">                        &#125;</span><br><span class="line">                        Status.ADDED, Status.CHANGED -&gt; transformJar(</span><br><span class="line">                            function,</span><br><span class="line">                            inputJar,</span><br><span class="line">                            outputJar</span><br><span class="line">                        )</span><br><span class="line">                        Status.REMOVED -&gt; FileUtils.delete(outputJar)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    transformJar(function, inputJar, outputJar)</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。</p>
+<h4 id="简化-Transform-流程"><a href="#简化-Transform-流程" class="headerlink" title="简化 Transform 流程"></a>简化 Transform 流程</h4><p>回顾上面提到的 transform 处理流程及三个关键点，参考官方提供的 CustomClassTransform 我们可以抽象出一个更加通用的 Transform 基类。</p>
+<p><strong>默认支持 增量编译，处理文件 IO 的操作</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseTransform</span> : <span class="type">Transform</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将对 class 文件的 asm 操作，处理完之后的再次复制，抽象为一个 BiConsumer</span></span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">provideFunction</span><span class="params">()</span></span>: BiConsumer&lt;InputStream, OutputStream&gt;?</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认的 class 过滤器，处理 .class 结尾的所有内容 （Maybe 可以扩展）</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">classFilter</span><span class="params">(className: <span class="type">String</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> className.endsWith(SdkConstants.DOT_CLASS)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Transform 使能开关</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">isEnabled</span><span class="params">()</span></span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    ... <span class="keyword">else</span> function ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认支持增量编译</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">isIncremental</span><span class="params">()</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">transform</span><span class="params">(transformInvocation: <span class="type">TransformInvocation</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.transform(transformInvocation)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">val</span> function = provideFunction()</span><br><span class="line"></span><br><span class="line">        ......</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (transformInvocation.isIncremental.not()) &#123;</span><br><span class="line">            outputProvider.deleteAll()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (ti <span class="keyword">in</span> transformInvocation.inputs) &#123;</span><br><span class="line">            <span class="keyword">for</span> (jarInput <span class="keyword">in</span> ti.jarInputs) &#123;</span><br><span class="line">                 ......</span><br><span class="line">                <span class="keyword">if</span> (transformInvocation.isIncremental) &#123;</span><br><span class="line">                    <span class="keyword">when</span> (jarInput.status ?: Status.NOTCHANGED) &#123;</span><br><span class="line">                        Status.NOTCHANGED -&gt; &#123;</span><br><span class="line">                        &#125;</span><br><span class="line">                        Status.ADDED, Status.CHANGED -&gt; transformJar(</span><br><span class="line">                            function,</span><br><span class="line">                            inputJar,</span><br><span class="line">                            outputJar</span><br><span class="line">                        )</span><br><span class="line">                        Status.REMOVED -&gt; FileUtils.delete(outputJar)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    transformJar(function, inputJar, outputJar)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (di <span class="keyword">in</span> ti.directoryInputs) &#123;</span><br><span class="line"></span><br><span class="line">                ......</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (transformInvocation.isIncremental) &#123;</span><br><span class="line">                    <span class="keyword">for</span> ((inputFile, value) <span class="keyword">in</span> di.changedFiles) &#123;</span><br><span class="line"></span><br><span class="line">                        ......</span><br><span class="line"></span><br><span class="line">                        transformFile(function, inputFile, <span class="keyword">out</span>)</span><br><span class="line"></span><br><span class="line">                        ......</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">for</span> (`<span class="keyword">in</span>` <span class="keyword">in</span> FileUtils.getAllFiles(inputDir)) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (classFilter(`<span class="keyword">in</span>`.name)) &#123;</span><br><span class="line">                            <span class="keyword">val</span> <span class="keyword">out</span> =</span><br><span class="line">                                toOutputFile(outputDir, inputDir, `<span class="keyword">in</span>`)</span><br><span class="line">                            transformFile(function, `<span class="keyword">in</span>`, <span class="keyword">out</span>)</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Throws(IOException::class)</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">transformJar</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        function: <span class="type">BiConsumer</span>&lt;<span class="type">InputStream</span>, OutputStream&gt;?,</span></span></span><br><span class="line"><span class="function"><span class="params">        inputJar: <span class="type">File</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        outputJar: <span class="type">File</span></span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span> &#123;</span><br><span class="line">        Files.createParentDirs(outputJar)</span><br><span class="line">        FileInputStream(inputJar).use &#123; fis -&gt;</span><br><span class="line">            ZipInputStream(fis).use &#123; zis -&gt;</span><br><span class="line">                FileOutputStream(outputJar).use &#123; fos -&gt;</span><br><span class="line">                    ZipOutputStream(fos).use &#123; zos -&gt;</span><br><span class="line">                        <span class="keyword">var</span> entry = zis.nextEntry</span><br><span class="line">                        <span class="keyword">while</span> (entry != <span class="literal">null</span> &amp;&amp; isValidZipEntryName(entry)) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (!entry.isDirectory &amp;&amp; classFilter(entry.name)) &#123;</span><br><span class="line">                                zos.putNextEntry(ZipEntry(entry.name))</span><br><span class="line">                                apply(function, zis, zos)</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123; <span class="comment">// Do not copy resources</span></span><br><span class="line">                            &#125;</span><br><span class="line">                            entry = zis.nextEntry</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Throws(IOException::class)</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">transformFile</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        function: <span class="type">BiConsumer</span>&lt;<span class="type">InputStream</span>, OutputStream&gt;?,</span></span></span><br><span class="line"><span class="function"><span class="params">        inputFile: <span class="type">File</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        outputFile: <span class="type">File</span></span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span> &#123;</span><br><span class="line">        Files.createParentDirs(outputFile)</span><br><span class="line">        FileInputStream(inputFile).use &#123; fis -&gt;</span><br><span class="line">            FileOutputStream(outputFile).use &#123; fos -&gt; apply(function, fis, fos) &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Throws(IOException::class)</span></span><br><span class="line">    <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">apply</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        function: <span class="type">BiConsumer</span>&lt;<span class="type">InputStream</span>, OutputStream&gt;?,</span></span></span><br><span class="line"><span class="function"><span class="params">        `<span class="keyword">in</span>`: <span class="type">InputStream</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">out</span>: <span class="type">OutputStream</span></span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            function?.accept(`<span class="keyword">in</span>`, <span class="keyword">out</span>)</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: UncheckedIOException) &#123;</span><br><span class="line">            <span class="keyword">throw</span> e.cause!!</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上对 transform 处理流程中，文件 IO，增量编译的细节进行了封装处理。把对 class 的写操作和二次复制，统一为 InputStream 和 OutoutStream 对象的处理。</p>
+<h2 id="使用注解实现类中所有方法的插桩"><a href="#使用注解实现类中所有方法的插桩" class="headerlink" title="使用注解实现类中所有方法的插桩"></a>使用注解实现类中所有方法的插桩</h2><p>前面我们通过定义注解 Cat 的方式，详细实现了一次方法耗时的插桩。但是这个注解的使用范围被限定在了方法上，如果我们想要对一个类里多个方法的耗时同时进行检测的时候，就比较繁琐了。因此，我们可以就这个注解简单升级一下，实现一个支持 Class 内所有方法耗时检测的插桩实现。</p>
+<h3 id="注解定义-Tiger"><a href="#注解定义-Tiger" class="headerlink" title="注解定义 Tiger"></a>注解定义 Tiger</h3><img src="/2020/01/04/Gradle-Transform-ASM-探索/tiger.jpg" width="40%">
+
+
+<p>Tiger 顾名思义，这里的实现就是在照猫画虎。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.CLASS)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Tiger &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Transform-实现"><a href="#Transform-实现" class="headerlink" title="Transform 实现"></a>Transform 实现</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TigerTransform</span> : <span class="type">BaseTransform</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">provideFunction</span><span class="params">()</span></span>: BiConsumer&lt;InputStream, OutputStream&gt;? &#123;</span><br><span class="line">        <span class="keyword">return</span> BiConsumer &#123; t, u -&gt;</span><br><span class="line">            <span class="keyword">val</span> reader = ClassReader(t)</span><br><span class="line">            <span class="keyword">val</span> writer = ClassWriter(reader, ClassWriter.COMPUTE_MAXS)</span><br><span class="line">            <span class="keyword">val</span> visitor = TigerClassVisitor(writer)</span><br><span class="line">            reader.accept(visitor, ClassReader.EXPAND_FRAMES)</span><br><span class="line">            <span class="keyword">val</span> code = writer.toByteArray()</span><br><span class="line">            u.write(code)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getName</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"tiger"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过直接继承刚才定义的 Transform 抽象类，我们可以把精力集中在如何处理 Class 文件的写入和输入上，也就是这里的 InputStream 和 OutputStream 的处理，直接和 ASM 的 ClassReader 以及 ClassWriter 接口交互。不必再关心增量编译，TransformInvocation 的输出和输入的 IO 这些内部细节了。</p>
+<p>我们看一下 TigerClassVisitor </p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TigerClassVisitor</span></span>(classVisitor: ClassVisitor) : ClassVisitor(Opcodes.ASM6, classVisitor) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> needHook = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> mClassName: String</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visit</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        version: <span class="type">Int</span>, access: <span class="type">Int</span>, name: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        signature: <span class="type">String</span>?, superName: <span class="type">String</span>?, interfaces: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.visit(version, access, name, signature, superName, interfaces)</span><br><span class="line">        println(<span class="string">"hand class <span class="variable">$name</span>"</span>)</span><br><span class="line">        mClassName = name</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitAnnotation</span><span class="params">(desc: <span class="type">String</span>?, visible: <span class="type">Boolean</span>)</span></span>: AnnotationVisitor &#123;</span><br><span class="line">        <span class="keyword">if</span> (desc.equals(Constants.class_annotation)) &#123;</span><br><span class="line">            println(<span class="string">"find <span class="variable">$desc</span> ,start hook "</span>)</span><br><span class="line">            needHook = <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.visitAnnotation(desc, visible)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitMethod</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        desc: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        exceptions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span>: MethodVisitor &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> methodVisitor = <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (needHook) &#123;</span><br><span class="line">            .... hook visitor ...</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> methodVisitor</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的关键就是 visitAnnotation 方法，在这个回调方法里，我们可以获取到当前 Class 的注解，而当这个 Class 的注解和我们定义的 Tiger 注解相等时，我们就可以对这个类当中的所有方法进行耗时检测代码的插桩了，在 visitMethod 方法内耗时代码的插桩，上面已经实现过了。</p>
+<p>我们可以到应用的 build 目录下查看插桩代码是否生效，比如 app/build/intermediates/transforms/tiger/{flavor}/{packageName}/xxx/<br>目录下找到编译产物。</p>
+<details>
+<summary>
+点击展开
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Tiger</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Util</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DENSITY;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Util</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> var1 = MethodManager.start();</span><br><span class="line">        <span class="keyword">long</span> var2 = System.nanoTime();</span><br><span class="line">        MethodManager.end((Object)<span class="keyword">null</span>, <span class="string">"com/engineer/android/myapplication/Util"</span>, <span class="string">"&lt;init&gt;"</span>, var2, var1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">dp2Px</span><span class="params">(<span class="keyword">int</span> dp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> var1 = MethodManager.start();</span><br><span class="line">        MethodManager.addParams(<span class="keyword">new</span> Integer(dp), var1);</span><br><span class="line">        <span class="keyword">long</span> var2 = System.nanoTime();</span><br><span class="line">        <span class="keyword">int</span> var10000 = Math.round((<span class="keyword">float</span>)dp * DENSITY);</span><br><span class="line">        MethodManager.end(<span class="keyword">new</span> Integer(var10000), <span class="string">"com/engineer/android/myapplication/Util"</span>, <span class="string">"dp2Px"</span>, var2, var1);</span><br><span class="line">        <span class="keyword">return</span> var10000;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">long</span> seconds)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> var2 = MethodManager.start();</span><br><span class="line">        MethodManager.addParams(<span class="keyword">new</span> Long(seconds), var2);</span><br><span class="line">        <span class="keyword">long</span> var3 = System.nanoTime();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(seconds);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException var6) &#123;</span><br><span class="line">            var6.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        MethodManager.end((Object)<span class="keyword">null</span>, <span class="string">"com/engineer/android/myapplication/Util"</span>, <span class="string">"sleep"</span>, var3, var2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nothing</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> var0 = MethodManager.start();</span><br><span class="line">        <span class="keyword">long</span> var1 = System.nanoTime();</span><br><span class="line">        System.out.println(<span class="string">"do nothing,just test"</span>);</span><br><span class="line">        MethodManager.end((Object)<span class="keyword">null</span>, <span class="string">"com/engineer/android/myapplication/Util"</span>, <span class="string">"nothing"</span>, var1, var0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> var0 = MethodManager.start();</span><br><span class="line">        <span class="keyword">long</span> var1 = System.nanoTime();</span><br><span class="line">        DENSITY = Resources.getSystem().getDisplayMetrics().density;</span><br><span class="line">        MethodManager.end((Object)<span class="keyword">null</span>, <span class="string">"com/engineer/android/myapplication/Util"</span>, <span class="string">"&lt;clinit&gt;"</span>, var1, var0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>可以看到这个打了 Tiger 注解的Util类，其所有方法内部都已经有插桩代码了。之后这些方法被调用的时候，就可以看到方法耗时了。如果有其他类的方法也需要同样的功能，要做的事情很简但，只需要用 Tiger 注解就可以了。</p>
+<h2 id="配置任意类中方法的插桩"><a href="#配置任意类中方法的插桩" class="headerlink" title="配置任意类中方法的插桩"></a>配置任意类中方法的插桩</h2><p>上面的实现都是基于我们已有的代码做文章，但是有时候我们在做性能优化的时候，会需要统计一些我们使用的开源库的方法耗时，对于 public 方法也许还好，但是对于 private 方法或者是其他一些场景，就会比较麻烦了，需要借助代理模式（动态代理或静态代理）来实现我们需要的功能，或者是其他手段，但是这样的手段没有通用性，这次换个库要用，可能又要写一遍类似的功能，或者你也可以把三方库源码拉下来直接改也是可以的。</p>
+<p>这里其实可以借助 ASM 稍微做一些辅助，简化这些工作。这里以 Glide 为例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Glide.with(<span class="keyword">this</span>).load(url).into(imageView);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码相信大家都不陌生，假设（只是假设）现在需要对统计 load 方法和 into 方法的耗时，那么怎么做呢？</p>
+<p>思考一下上面的两个实现，我们是基于注解确定了类和方法名，从而实现在特定的类或特定的方法中插入统计方法耗时的逻辑。那么现在这些方法的源码都无法访问了，注解也没法加了，怎么办呢？那就从问题的根本出发，直接由使用者告诉 transform 到底要在哪个类的哪个方法进行方法耗时的统计。</p>
+<p>我们可以像 build.gradle 的 android 闭包一样，自己定义一个这样的结点。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">TransformExtension</span> </span>&#123;</span><br><span class="line">    <span class="comment">// class 为键，方法名为值得一个 map</span></span><br><span class="line">    <span class="keyword">var</span> tigerClassList = HashMap&lt;String, ArrayList&lt;String?&gt;&gt;()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 build.gradle 文件中配置信息</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">transform &#123;</span><br><span class="line">    tigerClassList = [<span class="string">"com/bumptech/glide/RequestManager"</span>: [<span class="string">"load"</span>],</span><br><span class="line">                      <span class="string">"com/bumptech/glide/RequestBuilder"</span>: [<span class="string">"into"</span>]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后分别在 ClassVisitor 和 MethodVisitor 中根据类名和方法名确定要进行插桩的结点。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">init &#123;</span><br><span class="line">    ....</span><br><span class="line">    classList = transform?.tigerClassList</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visit</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    version: <span class="type">Int</span>, access: <span class="type">Int</span>, name: <span class="type">String</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    signature: <span class="type">String</span>?, superName: <span class="type">String</span>?, interfaces: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.visit(version, access, name, signature, superName, interfaces)</span><br><span class="line">    mClassName = name</span><br><span class="line">    <span class="keyword">if</span> (classList?.contains(name) == <span class="literal">true</span>) &#123;</span><br><span class="line">        methodList = classList?.<span class="keyword">get</span>(name) ?: ArrayList()</span><br><span class="line">        needHook = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以简单看一下结果</p>
+<details>
+<summary>
+点击展开
+</summary>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">19407-19407 E/0Cat: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">19407-19407 E/1Cat: │ class's name:       com/bumptech/glide/RequestManager</span><br><span class="line">19407-19407 E/2Cat: │ method's name:      load</span><br><span class="line">19407-19407 E/3Cat: │ method's arguments: [http://t8.baidu.com/it/u=1484500186,1503043093&amp;fm=79&amp;app=86&amp;f=JPEG?w=1280&amp;h=853]</span><br><span class="line">19407-19407 E/4Cat: │ method's result:    com.bumptech.glide.RequestBuilder@9a29abdf</span><br><span class="line">19407-19407 E/5Cat: │ method cost time:   1.52 ms</span><br><span class="line">19407-19407 E/6Cat: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">19407-19407 E/0Cat: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">19407-19407 E/1Cat: │ class's name:       com/bumptech/glide/RequestBuilder</span><br><span class="line">19407-19407 E/2Cat: │ method's name:      into</span><br><span class="line">19407-19407 E/3Cat: │ method's arguments: [Target for: androidx.appcompat.widget.AppCompatImageView&#123;24ec8f4 V.ED..... ......I. 0,0-0,0 #7f08007c app:id/image&#125;, null, com.bumptech.glide.RequestBuilder@31a00c76, com.bumptech.glide.util.Executors$1@1098060]</span><br><span class="line">19407-19407 E/4Cat: │ method's result:    Target for: androidx.appcompat.widget.AppCompatImageView&#123;24ec8f4 V.ED..... ......I. 0,0-0,0 #7f08007c app:id/image&#125;</span><br><span class="line">19407-19407 E/5Cat: │ method cost time:   5.78 ms</span><br><span class="line">19407-19407 E/6Cat: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">19407-19407 E/0Cat: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">19407-19407 E/1Cat: │ class's name:       com/bumptech/glide/RequestBuilder</span><br><span class="line">19407-19407 E/2Cat: │ method's name:      into</span><br><span class="line">19407-19407 E/3Cat: │ method's arguments: [androidx.appcompat.widget.AppCompatImageView&#123;24ec8f4 V.ED..... ......I. 0,0-0,0 #7f08007c app:id/image&#125;]</span><br><span class="line">19407-19407 E/4Cat: │ method's result:    Target for: androidx.appcompat.widget.AppCompatImageView&#123;24ec8f4 V.ED..... ......I. 0,0-0,0 #7f08007c app:id/image&#125;</span><br><span class="line">19407-19407 E/5Cat: │ method cost time:   10.88 ms</span><br><span class="line">19407-19407 E/6Cat: └───────────────────────────────────------───────────────────────────────────------</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>可以看到，插桩已经成功了，RequestManager 的 load 方法打印了完整的方法信息，延伸一下，是不是可以在这里统计一下，到底用 Glide 加载过哪些 url 呢？当然，如上日志也看到，RequestBuilder 当中打印了两个 into 方法，通过方法名插桩是有点粗暴，目标类当中如果有多个同名的方法（方法重载），那么这些方法都会被插桩。这个问题其实也可以通过提供方法 desc (也就是方法参数，返回值等信息) 来做更精确的匹配。但是，这里如果只是做测试，这样粗粒度的也是可以的，毕竟这样对三方库的插桩还是比较hack的，线上环境最好还是不要使用。</p>
+<h2 id="Android-中点击事件的统计"><a href="#Android-中点击事件的统计" class="headerlink" title="Android 中点击事件的统计"></a>Android 中点击事件的统计</h2><p><em>这里的点击事件泛指实现了 View.OnClickListener</em> 接口的点击事件</p>
+<p>在一个成熟的 App 中肯定会包含埋点，埋点其实就是在统计用户的行为。比如打开了哪个页面，点击了哪个按钮，使用了哪个功能？通过对这些行为的统计，通过数据就可以获知用户最常用的功能，方便产品做决策。</p>
+<p>关于点击行为这件事，首先想想平时我们都是怎么实现的？无非就是两种情况，要么就是实现 View.OnClickListener 这个接口，然后在 onClick 方法中展开；要么就是匿名内部类，同样是在 onClick 方法展开。因此，如何确定 onClick 方法就成了我们需要关注的问题。我们不能按照之前方法名 equals 的简单规则进行定位。因为这样无法避免方法重名或者是参数重名的问题，假设某个小伙伴写了一个和 onClick(View view) 同名的普通方法，我们实际定位的 hook 结点可能就不是点击事件发生时的结点。因此，我们需要确保 ASM 访问的类实现了 android.view.View.OnClickListener 这个接口。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visit</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    version: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    superName: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    interfaces: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.visit(version, access, name, signature, superName, interfaces)</span><br><span class="line">    className = name</span><br><span class="line"></span><br><span class="line">          interfaces?.forEach &#123;</span><br><span class="line">            <span class="keyword">if</span> (it == <span class="string">"android/view/View\$OnClickListener"</span>) &#123;</span><br><span class="line">                println(<span class="string">"bingo , find click in class : <span class="variable">$className</span>"</span>)</span><br><span class="line">                hack = <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个实现其实也很简单，ClassVisitor 的 visit 方法提供了当前类实现了的所有接口，因此这里简单判断一下会比较准确。当然，这里也可以同时判断其他接口，比如我们要对应用内所有 TabBar 的选中事件进行插桩，就可判断当前类是否实现了 com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener 这个接口。</p>
+<p>由于 Transform 会访问 javac 编译生成的所有 class，包括匿名内部类，因此这里对于普通类和匿名内部类可以统一处理。（关于匿名内部类和普通类的使用 ASM 的差异可以<a href="">参考这篇</a>)。</p>
+<p>当前类是否实现了接口确定之后，下一步就可以按照方法名及方法的参数和返回值进行更加精确的匹配了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitMethod</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        desc: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        exceptions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span>: MethodVisitor &#123;</span><br><span class="line">        <span class="keyword">var</span> methodVisitor = <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions)</span><br><span class="line">        <span class="keyword">if</span> (hack) &#123;</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">"onClick"</span>) &amp;&amp; desc.equals(<span class="string">"(Landroid/view/View;)V"</span>)) &#123;</span><br><span class="line">                methodVisitor =</span><br><span class="line">                    TrackMethodVisitor(className, Opcodes.ASM6, methodVisitor, access, name, desc)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> methodVisitor</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>插桩的具体代码，本质上和之前的几个实现都是类似的，这里就不再贴代码了。这里简单看一下效果。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E/0Track: ┌───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">E/1Track: │ class's name:             com.engineer.android.myapplication.SecondActivity</span><br><span class="line">E/2Track: │           view's id:      com.engineer.android.myapplication:id/button</span><br><span class="line">E/3Track: │ view's package name:      com.engineer.android.myapplication</span><br><span class="line">E/4Track: └───────────────────────────────────------───────────────────────────────────------</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+
+<p>当一个点击事件发生时，我们可以获取实现这个点击事件的类，这个点击事件的 id 和包名。通过这些信息，我们就可以大概得知这个点击事件是在哪个页面（哪个业务）。因此，这个实现也可以帮助我们定位代码，有时候面对一份完全陌生的代码，很难定位到你所使用的功能到底在代码的哪个角落里，通过这个 Transform 实现，可以简单定位一下范围。</p>
+<p>自己测试的时候发现，在 Java 中如果使用了 lambda 表达式来实现匿名内部类，那么是不会按照常规的匿名内部类那样处理，并不会生成额外的匿名类。因此，对于使用 lambda 表达式实现的点击事件，这样是无法处理的。（暂时也没想到其他比较好的替代方案）</p>
+<p>看到这里，你是不是有一些想法了呢? 是不是可以考虑实现基于 Activity/Fragment 生命周期的代码插桩，来统计页面的展现时间和次数呢？是不是可以考虑将代码里的 Log.d 这样的代码统一删除掉？是不是可以将代码中没有引用和调用的代码删除掉呢？（这个可能有点难）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先明确一下，以上所有实现都是基于 Transform + ASM 技术栈的探索，只是简单的学习和了解一下 Transform + ASM 能够做什么以及怎么做。因此，部分实现也许有瑕疵甚至是 bug。<a href="https://github.com/REBOOTERS/AndroidAnimationExercise" target="_blank" rel="noopener">源码</a> 已同步到 Github 如果有想法，可以提 issue。</p>
+<p>通过对 Gradle Transform + ASM 的简单探索，可以看到在工程构建的过程中，从源码（包括java/kotlin/资源文件/其他） 到中间的 class 再到 dex 文件直至最终的 apk 文件生成，在整个过程中有很多的 task 被执行。而在 class 到 dex 这之间，利用 ASM 还是可以做很多文章的。</p>
+<p>这里我们只是简单的打印了 log，其实对一些关键信息，我们完全可以进行插桩式的收集，比如在 Glide 内部插入统计加载图片 URL 的代码，比如关键方法（例如 Application 的 onCreate 方法）的耗时统计，有时候我们关心的并不一定是具体的数据，而是数据所呈现出来的趋势。可以通过代码插桩将这些信息批量保存在本地甚至是上传到服务器，在后续流程中进一步的分析和拆解一些关键数据。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://zhuanlan.zhihu.com/p/98909010" target="_blank" rel="noopener">详解Android Gradle生成字节码流程</a></p>
+<p><a href="https://juejin.im/post/5bfa8ed8e51d451d3b51fd31" target="_blank" rel="noopener">从 Java 字节码到 ASM 实践</a></p>
+<p><a href="https://juejin.im/post/5da33dc56fb9a04e35597a47" target="_blank" rel="noopener">App流畅度优化：利用字节码插桩实现一个快速排查高耗时方法的工具</a></p>
+<p><a href="https://github.com/bytedance/ByteX" target="_blank" rel="noopener">ByteX</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加个鸡腿呗.</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="九尾灵狐 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ASM/" rel="tag"># ASM</a>
+              <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/01/2020-Book-And-Movie-List/" rel="prev" title="2020 Book And Movie List">
+      <i class="fa fa-chevron-left"></i> 2020 Book And Movie List
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/12/ASM-匿名内部类的处理/" rel="next" title="ASM 匿名内部类 & Lambda 表达式的处理">
+      ASM 匿名内部类 & Lambda 表达式的处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transform-ASM-能做什么"><span class="nav-number">2.</span> <span class="nav-text">Transform + ASM 能做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transform-基本流程"><span class="nav-number">3.</span> <span class="nav-text">Transform 基本流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transform-深入"><span class="nav-number">3.1.</span> <span class="nav-text">transform() 深入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践"><span class="nav-number">4.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#效果"><span class="nav-number">4.1.</span> <span class="nav-text">效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加注解"><span class="nav-number">4.1.1.</span> <span class="nav-text">添加注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输出日志"><span class="nav-number">4.1.2.</span> <span class="nav-text">输出日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现细节"><span class="nav-number">4.2.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#主动调用"><span class="nav-number">4.2.0.1.</span> <span class="nav-text">主动调用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#插桩实现"><span class="nav-number">4.2.0.2.</span> <span class="nav-text">插桩实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#增量编译"><span class="nav-number">4.2.0.3.</span> <span class="nav-text">增量编译</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简化-Transform-流程"><span class="nav-number">4.2.1.</span> <span class="nav-text">简化 Transform 流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用注解实现类中所有方法的插桩"><span class="nav-number">5.</span> <span class="nav-text">使用注解实现类中所有方法的插桩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注解定义-Tiger"><span class="nav-number">5.1.</span> <span class="nav-text">注解定义 Tiger</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Transform-实现"><span class="nav-number">5.2.</span> <span class="nav-text">Transform 实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置任意类中方法的插桩"><span class="nav-number">6.</span> <span class="nav-text">配置任意类中方法的插桩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-中点击事件的统计"><span class="nav-number">7.</span> <span class="nav-text">Android 中点击事件的统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">9.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

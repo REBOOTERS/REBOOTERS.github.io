@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言简单总结使用 ASM 时遇到匿名内部类时，如何对匿名内部类（一般来说接口）的方法实现插桩。">
+<meta name="keywords" content="Java,ASM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASM 匿名内部类 &amp; Lambda 表达式的处理">
+<meta property="og:url" content="http://yoursite.com/2020/01/12/ASM-匿名内部类的处理/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言简单总结使用 ASM 时遇到匿名内部类时，如何对匿名内部类（一般来说接口）的方法实现插桩。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-15T13:48:19.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASM 匿名内部类 &amp; Lambda 表达式的处理">
+<meta name="twitter:description" content="前言简单总结使用 ASM 时遇到匿名内部类时，如何对匿名内部类（一般来说接口）的方法实现插桩。">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/12/ASM-匿名内部类的处理/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>ASM 匿名内部类 & Lambda 表达式的处理 | 诗与远方</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/12/ASM-匿名内部类的处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ASM 匿名内部类 & Lambda 表达式的处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-12 14:04:03" itemprop="dateCreated datePublished" datetime="2020-01-12T14:04:03+08:00">2020-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>简单总结使用 ASM 时遇到匿名内部类时，如何对匿名内部类（一般来说接口）的方法实现插桩。</p>
+<a id="more"></a>
+
+<h2 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h2><p>通过之前的<a href="https://zhuanlan.zhihu.com/p/102327062" target="_blank" rel="noopener">当 Java 字节码遇到 ASM</a>一文，对如何使用 ASM 已经有了初步的了解。这里再来看一种比较特殊的情况，当遇到匿名内部类时，如何确定 hack 结点。</p>
+<h3 id="接口作为匿名内部类实现"><a href="#接口作为匿名内部类实现" class="headerlink" title="接口作为匿名内部类实现"></a>接口作为匿名内部类实现</h3><details>
+<summary>
+  接口 Callback
+</summary>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.asm.internal;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.asm.Music;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">noParams</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">withParams</span><span class="params">(<span class="keyword">int</span> a, Music music)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>WithAnonymousClass.java </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WithAnonymousClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String name = <span class="string">"with"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">justCallback</span><span class="params">(World world)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        world.setCallback(<span class="keyword">new</span> Callback() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">noParams</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"红桃四"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">withParams</span><span class="params">(<span class="keyword">int</span> a, Music music)</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"a=="</span> + a + <span class="string">" music is "</span> + music);</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;);</span><br><span class="line">        System.out.println(<span class="string">"call back"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"foo method"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>WithAnonymousClass 内部 justCallback 方法，通过匿名内部类的方法实现了这个接口，假设现在需要在 noParams() 和 withParams() 内实现插桩，该怎么办呢？回看一下上一篇中对方法的插桩。</p>
+<details>
+<summary>
+  visitMethod 方法 
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> MethodVisitor <span class="title">visitMethod</span><span class="params">(<span class="keyword">int</span> access, String name, String desc, String signature, String[] exceptions)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    MethodVisitor mv = <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (name.equals(<span class="string">"run"</span>)) &#123;</span><br><span class="line">        mv = <span class="keyword">new</span> MyMethodVisitor(Opcodes.ASM6, mv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (name.equals(<span class="string">"getValue"</span>)) &#123;</span><br><span class="line">        mv = <span class="keyword">new</span> MyMethodVisitorWithReturn(Opcodes.ASM6, mv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>在 visitMethod 方法里是根据方法名确定 hack 结点的，那么对于匿名内部类这样的方法可行吗？这里首先从 ClassVisitor 的 visitMethod 开始，看看是否可以直接访问这些方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WithAnonymousClassVisitor</span> <span class="keyword">extends</span> <span class="title">ClassVisitor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"WithAnonymous"</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visit</span><span class="params">(<span class="keyword">int</span> version, <span class="keyword">int</span> access, String name, String signature, String superName, String[] interfaces)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.visit(version, access, name, signature, superName, interfaces);</span><br><span class="line">        Log.d(TAG, <span class="string">"visit() called with: version = ["</span> + version + <span class="string">"], access = ["</span> + access + <span class="string">"], name = ["</span> + name + <span class="string">"], signature = ["</span> + signature + <span class="string">"], superName = ["</span> + superName + <span class="string">"], interfaces = ["</span> + interfaces + <span class="string">"]"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MethodVisitor <span class="title">visitMethod</span><span class="params">(<span class="keyword">int</span> access, String name, String desc, String signature, String[] exceptions)</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"visitMethod() called with: access = ["</span> + access + <span class="string">"], name = ["</span> + name + <span class="string">"], desc = ["</span> + desc + <span class="string">"], signature = ["</span> + signature + <span class="string">"], exceptions = ["</span> + exceptions + <span class="string">"]"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"visitEnd() called"</span>);</span><br><span class="line">        <span class="keyword">super</span>.visitEnd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可看一下输出日志：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WithAnonymous ==&gt; visit() called with: version = [52], access = [33], name = [com/asm/WithAnonymousClass], signature = [null], superName = [java/lang/Object], interfaces = [[Ljava.lang.String;@2ff4acd0]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [&lt;init&gt;], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [justCallback], desc = [(Lcom/asm/internal/World;)V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [foo], desc = [(I)V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitEnd() called</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，visitMethod 只访问了 WithAnonymousClass 内的方法（包括默认的构造函数），并没有访问到 Callback 的匿名实现类当中的方法。<br>这里为什么方位不到匿名内部类的方法呢？道理其实很简单，举个简单的例子就明白了。</p>
+<h4 id="匿名内部类的编译结果"><a href="#匿名内部类的编译结果" class="headerlink" title="匿名内部类的编译结果"></a>匿名内部类的编译结果</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">          <span class="meta">@Override</span></span><br><span class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">              <span class="comment">// </span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这个类很简，Thread 需要一个 Runnable 接口的实现，这里采用了匿名内部类的方式。执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac Main.java</span><br></pre></td></tr></table></figure>
+
+<p>编译完成后，可以看到</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-&lt;%&gt;- ls</span><br><span class="line"><span class="meta">Main$</span>1.class Main.class   Main.java</span><br></pre></td></tr></table></figure>
+
+<p>除了预期的 Main.class 之外，还生成了一个额外的 Main$1.class 的 class。这就是 java 编译器的规则，对当前类内部的匿名内部类会生成单独的一个类。如果有多个匿名类，会依次按 $n 生成多个类。当然，如果当前类直接 implements 改接口，就没有这种现象了。关于这一点，我们从类的 class 文件也可以看到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class com/asm/WithAnonymousClass &#123;</span><br><span class="line"></span><br><span class="line">  // compiled from: WithAnonymousClass.java</span><br><span class="line">  // access flags 0x0</span><br><span class="line">  INNERCLASS com/asm/WithAnonymousClass$1 null null</span><br><span class="line"></span><br><span class="line">  // access flags 0x1</span><br><span class="line">  public Ljava/lang/String; name</span><br><span class="line"></span><br><span class="line">  // access flags 0x1</span><br><span class="line">  public &lt;init&gt;()V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER 6 L0</span><br><span class="line">    ALOAD 0</span><br><span class="line">    INVOKESPECIAL java/lang/Object.&lt;init&gt; ()V</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>好了，找到了问题的根源，我们就可以从内部类开始找出口。ClassVisitor 提供了 visitInnerClass 可以用于访问内部类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitInnerClass</span><span class="params">(String name, String outerName, String innerName, <span class="keyword">int</span> access)</span> </span>&#123;</span><br><span class="line">    Log.d(TAG, <span class="string">"visitInnerClass() called with: name = ["</span> + name + <span class="string">"], outerName = ["</span> + outerName + <span class="string">"], innerName = ["</span> + innerName + <span class="string">"], access = ["</span> + access + <span class="string">"]"</span>);</span><br><span class="line">    <span class="keyword">super</span>.visitInnerClass(name, outerName, innerName, access);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>产生输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WithAnonymous ==&gt; visitInnerClass() called with: name = [com/asm/WithAnonymousClass$1], outerName = [null], innerName = [null], access = [0]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com/asm/WithAnonymousClass$<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>这个类名和 javac 编译的结果是一致的（有兴趣同学可以自己验证一下，这里就不详细展开了）。 这个类就我们代码中 Callback 对应的匿名内部类吗？刚才也说了，如果有多个匿名内部的实现，会生成多个这样的 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com/asm/WithAnonymousClass$n</span><br></pre></td></tr></table></figure>
+
+<p>这里就产生了一个有意思的问题，<strong>如何确定一个类是否实现了某个接口或某些接口</strong>。好在这个问题已经被前人解决了，我们再一次可以站在巨人的肩膀上继续前行 😁😁。</p>
+<details>
+<summary>
+  判断某类是否实现了指定接口集合
+</summary>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpecifiedInterfaceImplementionChecked</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断是否实现了指定接口</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> reader       class reader</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> interfaceSet interface collection</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> check result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">hasImplSpecifiedInterfaces</span><span class="params">(ClassReader reader, Set&lt;String&gt; interfaceSet)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isObject(reader.getClassName())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (containedTargetInterface(reader.getInterfaces(), interfaceSet)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ClassReader parent = <span class="keyword">new</span> ClassReader(reader.getSuperName());</span><br><span class="line">                <span class="keyword">return</span> hasImplSpecifiedInterfaces(parent, interfaceSet);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 检查当前类是 Object 类型</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> className class name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> checked result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isObject</span><span class="params">(String className)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"java/lang/Object"</span>.equals(className);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 检查接口及其父接口是否实现了目标接口</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> interfaceList 待检查接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> interfaceSet  目标接口</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> checked result</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException exp</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">containedTargetInterface</span><span class="params">(String[] interfaceList, Set&lt;String&gt; interfaceSet)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String inter : interfaceList) &#123;</span><br><span class="line">            <span class="keyword">if</span> (interfaceSet.contains(inter)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ClassReader reader = <span class="keyword">new</span> ClassReader(inter);</span><br><span class="line">                <span class="keyword">if</span> (containedTargetInterface(reader.getInterfaces(), interfaceSet)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>好了，一旦可以确定某个匿名内部类是否实现了某个接口，那么后续流程，就又回到了我们熟悉得节奏。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitInnerClass</span><span class="params">(String name, String outerName, String innerName, <span class="keyword">int</span> access)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">super</span>.visitInnerClass(name, outerName, innerName, access);</span><br><span class="line"></span><br><span class="line">    HashSet&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    set.add(<span class="string">"com/asm/internal/Callback"</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ClassReader reader = <span class="keyword">new</span> ClassReader(name);</span><br><span class="line">        <span class="keyword">if</span> (SpecifiedInterfaceImplementionChecked.hasImplSpecifiedInterfaces(reader, set)) &#123;</span><br><span class="line">            Log.d(TAG, <span class="string">"visitInnerClass: find it"</span>);</span><br><span class="line"></span><br><span class="line">            ClassWriter writer = <span class="keyword">new</span> ClassWriter(ClassWriter.COMPUTE_MAXS);</span><br><span class="line">            ClassVisitor visitor = <span class="keyword">new</span> InterfaceVisitor(writer);</span><br><span class="line">            reader.accept(visitor, ClassReader.EXPAND_FRAMES);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当这个匿名内部类确定是实现了我们期望的接口时，就可以把他当做普通类来处理了，这样的流程就是上一篇讲得内容。我们看一下 InterfaceVisitor</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceVisitor</span> <span class="keyword">extends</span> <span class="title">ClassVisitor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"InterfaceVisitor"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InterfaceVisitor</span><span class="params">(ClassVisitor cv)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(Opcodes.ASM6, cv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MethodVisitor <span class="title">visitMethod</span><span class="params">(<span class="keyword">int</span> access, String name, String desc, String signature, String[] exceptions)</span> </span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"visitMethod() called with: access = ["</span> + access + <span class="string">"], name = ["</span> + name + <span class="string">"], desc = ["</span> + desc + <span class="string">"], signature = ["</span> + signature + <span class="string">"], exceptions = ["</span> + exceptions + <span class="string">"]"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">InterfaceVisitor ==&gt; visitMethod() called with: access = [0], name = [&lt;init&gt;], desc = [(Lcom/asm/WithAnonymousClass;)V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">InterfaceVisitor ==&gt; visitMethod() called with: access = [1], name = [noParams], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">InterfaceVisitor ==&gt; visitMethod() called with: access = [1], name = [withParams], desc = [(ILcom/asm/Music;)V], signature = [null], exceptions = [null]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，现在 ClassVistor 的 visitMethod 方法已经可以正常访问到接口中的方法了（也就是我们之前匿名内部类当中的方法），这样这个 hack 结点就获取到了，就可以为所欲为了。</p>
+<h3 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="Lambda 表达式"></a>Lambda 表达式</h3><p>再来看一种似乎很特殊的情况，Lambda 表达式。经历过曾经的 RxJava 和现在的 Kotlin 的洗礼 ，我们的代码中一定有很多 Lambad 表达式的实现。比如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">justRun</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread thread = <span class="keyword">new</span> Thread(() -&gt; System.out.println(<span class="string">"just run"</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">justCallable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 只用举例，无实际意义</span></span><br><span class="line">    FutureTask futureTask = <span class="keyword">new</span> FutureTask(() -&gt; <span class="string">"null"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lambda 表达式的写法，你可以当做是对匿名内部类的简化。那么这些方法结点的获取是不是和匿名内部类一样呢？我们可以先看一下日志。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [&lt;init&gt;], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [justRun], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [justCallable], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [justCallback], desc = [(Lcom/asm/internal/World;)V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [1], name = [foo], desc = [(I)V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [4106], name = [lambda$justCallable$1], desc = [()Ljava/lang/Object;], signature = [null], exceptions = [[Ljava.lang.String;@3a71f4dd]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitMethod() called with: access = [4106], name = [lambda$justRun$0], desc = [()V], signature = [null], exceptions = [null]</span><br><span class="line"></span><br><span class="line">WithAnonymous ==&gt; visitEnd() called</span><br></pre></td></tr></table></figure>
+
+<p>哈哈，原来lambda 表达式的是可以直接被访问到的，因此我们就可以通过方法 desc 确定要进行插桩的方法了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过对 ASM 使用过程中，接口作为匿名内部类使用时，其方法是无法直接通过外部类（这里相对于匿名内部类）直接访问到的，因此需要通过 visitInnerClass 方法找到并确定匿名类是否实现了特定的接口，然后把这个 javac 生成的中间类当做一个普通的类，按照常规流程再次通过 ClassVistor 的一系列 API 来确定要进行插桩的结点。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加个鸡腿呗.</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="九尾灵狐 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/ASM/" rel="tag"># ASM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/04/Gradle-Transform-ASM-探索/" rel="prev" title="Gradle Transform + ASM 探索">
+      <i class="fa fa-chevron-left"></i> Gradle Transform + ASM 探索
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#痛点"><span class="nav-number">2.</span> <span class="nav-text">痛点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口作为匿名内部类实现"><span class="nav-number">2.1.</span> <span class="nav-text">接口作为匿名内部类实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#匿名内部类的编译结果"><span class="nav-number">2.1.1.</span> <span class="nav-text">匿名内部类的编译结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决方法"><span class="nav-number">2.1.2.</span> <span class="nav-text">解决方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda-表达式"><span class="nav-number">2.2.</span> <span class="nav-text">Lambda 表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
