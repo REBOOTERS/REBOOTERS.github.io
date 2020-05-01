@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -55,7 +56,7 @@
 <meta property="og:description" content="人生不止诗与远方和田野，还有眼前的苟且">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2020/01/01/2020-Book-And-Movie-List/happy.gif">
-<meta property="og:updated_time" content="2020-01-15T13:48:19.840Z">
+<meta property="og:updated_time" content="2020-05-01T00:57:26.501Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2020 Book And Movie List">
 <meta name="twitter:description" content="人生不止诗与远方和田野，还有眼前的苟且">
@@ -156,9 +157,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -214,10 +240,31 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-05-01 08:57:26" itemprop="dateModified" datetime="2020-05-01T08:57:26+08:00">2020-05-01</time>
               </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>709</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -236,20 +283,27 @@
 <h2 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h2><ul>
 <li>book read once<ul>
 <li><input disabled type="checkbox"> <strong>数学之美-吴军</strong></li>
-<li><input disabled type="checkbox"> <strong>富爸爸穷爸爸</strong></li>
+<li><input checked disabled type="checkbox"> <strong>富爸爸穷爸爸</strong></li>
+<li><input checked disabled type="checkbox"> <strong>小岛经济学</strong></li>
+<li><input disabled type="checkbox"> 经济学通识（薛兆丰·第二版）（reading）</li>
 <li><input disabled type="checkbox"> 原则</li>
-<li><input disabled type="checkbox"> 枢纽</li>
+<li><input disabled type="checkbox"> 大唐狄公案 （reading）</li>
+<li><input checked disabled type="checkbox"> 黄同学漫画二战史</li>
+<li><input checked disabled type="checkbox"> 黄同学漫画经济学·经融危机篇 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 黄同学漫画经济学·生活常识篇 ❤️❤️❤️❤️❤</li>
 <li><input checked disabled type="checkbox"> 瓜迪奥拉 - 胜利的另一种道路（吉列姆·巴拉格）</li>
+<li><input checked disabled type="checkbox"> 你当像鸟飞往你的山</li>
+<li><input checked disabled type="checkbox"> 中国经济 2020 ❤️❤️❤️ (N)</li>
 </ul>
 </li>
 </ul>
 <ul>
 <li>book on bed<ul>
 <li><input disabled type="checkbox"> 软技能</li>
-<li><input disabled type="checkbox"> 并发编程之美 </li>
-<li><input disabled type="checkbox"> Kotlin 实战</li>
+<li><input disabled type="checkbox"> 并发编程之美</li>
+<li><input checked disabled type="checkbox"> Kotlin 实战</li>
 <li><input disabled type="checkbox"> Java8 实战 </li>
-<li><input disabled type="checkbox"> 算法（第 4 版</li>
+<li><input disabled type="checkbox"> 算法（第 4 版 </li>
 <li><input disabled type="checkbox"> Think in Java</li>
 <li><input disabled type="checkbox"> Head First 设计模式</li>
 </ul>
@@ -261,8 +315,8 @@
 <li><input disabled type="checkbox"> <strong>拯救大兵瑞恩</strong></li>
 <li><input disabled type="checkbox"> <strong>中国女排</strong></li>
 <li><input disabled type="checkbox"> <strong>美丽心灵</strong></li>
-<li><input disabled type="checkbox"> <strong>决战中途岛</strong></li>
-<li><input disabled type="checkbox"> <strong>速度与激情9</strong></li>
+<li><input checked disabled type="checkbox"> <strong>决战中途岛</strong> ❤️❤️❤️❤️❤️</li>
+<li><input disabled type="checkbox"> <strong><del>速度与激情9</del>(2021上映😂)</strong></li>
 <li><input disabled type="checkbox"> <strong>黑寡妇</strong></li>
 <li><input disabled type="checkbox"> <strong>花木兰</strong></li>
 <li><input disabled type="checkbox"> <strong>X战警：新变种人</strong></li>
@@ -273,41 +327,42 @@
 <li><input disabled type="checkbox"> 行骗天下</li>
 <li><input disabled type="checkbox"> 极限职业</li>
 <li><input disabled type="checkbox"> 误杀</li>
-<li><input disabled type="checkbox"> 利刃出鞘</li>
-<li><input disabled type="checkbox"> 囧妈</li>
+<li><input checked disabled type="checkbox"> 利刃出鞘 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 囧妈 ❤️</li>
 <li><input disabled type="checkbox"> 爱尔兰人</li>
 <li><input disabled type="checkbox"> 南方车站的聚会</li>
 <li><input disabled type="checkbox"> 花样年华</li>
 <li><input disabled type="checkbox"> 大侦探皮卡丘</li>
+<li><input checked disabled type="checkbox"> 人在囧途 ❤️❤️❤️❤️ (N)</li>
+<li><input checked disabled type="checkbox"> 2046 ❤️❤️❤️ (N)</li>
+<li><input checked disabled type="checkbox"> 欲望都市 ❤️❤️❤ (N)</li>
+<li><input checked disabled type="checkbox"> 惊世狂花·贼女神偷 ❤️❤️❤️ (N)</li>
+<li><input checked disabled type="checkbox"> 误杀瞒天记 ❤️❤️❤️❤️❤️ (N)</li>
+<li><input checked disabled type="checkbox"> 大赢家 ❤️❤️❤️ (N)</li>
+<li><input checked disabled type="checkbox"> 绅士们 ❤️❤️❤️❤️❤️ (N)</li>
 </ul>
 <h2 id="Tv"><a href="#Tv" class="headerlink" title="Tv"></a>Tv</h2><ul>
 <li><input disabled type="checkbox"> <strong>神盾局特工第7季</strong></li>
-<li><input disabled type="checkbox"> <strong>摩登家庭第十一季（最终季）</strong></li>
-<li><input disabled type="checkbox"> <strong>无耻之徒第 9 季</strong></li>
-<li><input disabled type="checkbox"> <strong>小谢尔顿第三季</strong></li>
-<li><input disabled type="checkbox"> 难以置信</li>
+<li><input disabled type="checkbox"> <strong>摩登家庭第十一季（14）</strong></li>
+<li><input checked disabled type="checkbox"> <strong>无耻之徒第 9 季</strong></li>
+<li><input checked disabled type="checkbox"> <strong>神探狄仁杰第一部</strong></li>
+<li><input disabled type="checkbox"> <strong>小谢尔顿第三季</strong> （watching）</li>
+<li><input checked disabled type="checkbox"> <strong>爱情公寓第五季（最终季）</strong></li>
+<li><input checked disabled type="checkbox"> <strong>越南战争纪录片PBS</strong> </li>
+<li><input checked disabled type="checkbox"> 吐槽大会第四季 (N)</li>
+<li><input disabled type="checkbox"> 王牌家族第四季</li>
+<li><input disabled type="checkbox"> 我爱我家第一部 (N)</li>
+<li><input checked disabled type="checkbox"> 美国囧案（第一季）(N)</li>
 <li><input disabled type="checkbox"> 明星大侦探</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>书</th>
-<th>电影</th>
-<th>电视剧</th>
-<th>综艺&amp;纪录片</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>2</td>
-<td>23</td>
-<td>5</td>
-<td>1</td>
-</tr>
-</tbody></table>
 <h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><ol>
 <li><strong>加粗</strong>的内容是一定会看的</li>
-<li>目标:多看点书</li>
+<li>目标:多看点书<br>(N) : 非计划中发生的事情</li>
 </ol>
+<h2 id="有意思的梗"><a href="#有意思的梗" class="headerlink" title="有意思的梗"></a>有意思的梗</h2><h3 id="吐槽大会"><a href="#吐槽大会" class="headerlink" title="吐槽大会"></a>吐槽大会</h3><blockquote>
+<p> 男人来自火星，女人来自金星；金姐来自金星，金星来自火星</p>
+</blockquote>
+<p><a href="https://www.jianshu.com/p/9f0e90cc32c2" target="_blank" rel="noopener">next 配置大全</a></p>
 
     </div>
 
@@ -412,7 +467,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Book"><span class="nav-number">1.</span> <span class="nav-text">Book</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Movie"><span class="nav-number">2.</span> <span class="nav-text">Movie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tv"><span class="nav-number">3.</span> <span class="nav-text">Tv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PS"><span class="nav-number">4.</span> <span class="nav-text">PS</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Book"><span class="nav-number">1.</span> <span class="nav-text">Book</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Movie"><span class="nav-number">2.</span> <span class="nav-text">Movie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tv"><span class="nav-number">3.</span> <span class="nav-text">Tv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PS"><span class="nav-number">4.</span> <span class="nav-text">PS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有意思的梗"><span class="nav-number">5.</span> <span class="nav-text">有意思的梗</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#吐槽大会"><span class="nav-number">5.1.</span> <span class="nav-text">吐槽大会</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -428,7 +483,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -441,7 +496,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -479,6 +534,16 @@
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -487,6 +552,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -501,6 +586,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -513,6 +600,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

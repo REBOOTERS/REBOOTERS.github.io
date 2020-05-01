@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -152,9 +153,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -180,7 +206,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/12/ASM-匿名内部类的处理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/26/Kotlin-实战读书笔记-三/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -194,7 +220,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/12/ASM-匿名内部类的处理/" class="post-title-link" itemprop="url">ASM 匿名内部类 & Lambda 表达式的处理</a>
+            <a href="/2020/03/26/Kotlin-实战读书笔记-三/" class="post-title-link" itemprop="url">Kotlin 实战读书笔记(三)</a>
         </h1>
 
         <div class="post-meta">
@@ -204,17 +230,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-12 14:04:03" itemprop="dateCreated datePublished" datetime="2020-01-12T14:04:03+08:00">2020-01-12</time>
+              <time title="创建时间：2020-03-26 16:12:41" itemprop="dateCreated datePublished" datetime="2020-03-26T16:12:41+08:00">2020-03-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-04-01 20:30:26" itemprop="dateModified" datetime="2020-04-01T20:30:26+08:00">2020-04-01</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -225,10 +265,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>简单总结使用 ASM 时遇到匿名内部类时，如何对匿名内部类（一般来说接口）的方法实现插桩。</p>
+          <img src="/2020/03/26/Kotlin-实战读书笔记-三/kotlin.jpg" width="40%">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>《 Kotlin 实战 》读书笔记。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/12/ASM-匿名内部类的处理/#more" rel="contents">
+              <a class="btn" href="/2020/03/26/Kotlin-实战读书笔记-三/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -252,7 +294,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/20/独轮车环游地球/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -266,7 +308,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/04/Gradle-Transform-ASM-探索/" class="post-title-link" itemprop="url">Gradle Transform + ASM 探索</a>
+            <a href="/2020/03/20/独轮车环游地球/" class="post-title-link" itemprop="url">独轮车环游地球</a>
         </h1>
 
         <div class="post-meta">
@@ -276,17 +318,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-04 08:45:00" itemprop="dateCreated datePublished" datetime="2020-01-04T08:45:00+08:00">2020-01-04</time>
+              <time title="创建时间：2020-03-20 14:44:23" itemprop="dateCreated datePublished" datetime="2020-03-20T14:44:23+08:00">2020-03-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-19 23:17:29" itemprop="dateModified" datetime="2020-01-19T23:17:29+08:00">2020-01-19</time>
+                <time title="修改时间：2020-03-21 09:05:19" itemprop="dateModified" datetime="2020-03-21T09:05:19+08:00">2020-03-21</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -297,16 +353,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现</p>
-<ul>
-<li>通过注解对任意类当中所有的方法<strong>实现计算方法耗时</strong>的插桩</li>
-<li>通过配置实现对任意类（主要是针对第三方库）当中指定方法的<strong>实现计算方法耗时</strong>的插桩</li>
-<li>对工程中所有的点击事件进行插桩，方便埋点或确定代码位置</li>
-<li>……</li>
-</ul>
+          <img src="/2020/03/20/独轮车环游地球/1.jpg" style="border-radius:5px">
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>讲述一个年轻人骑行独轮车环游地球的故事。自己平时在周末的时候一般都会出去骑行。尤其是夏天和秋天的时候，当车从下坡路高速行驶的时候，会觉得非常舒服。但是，自己也只是在居住地周边的道路骑行，从没有骑车去过很远的地方，对于这样的行为感到非常好奇和钦佩。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/04/Gradle-Transform-ASM-探索/#more" rel="contents">
+              <a class="btn" href="/2020/03/20/独轮车环游地球/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -330,7 +383,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/01/2020-Book-And-Movie-List/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/18/墙裂推荐纪录片《越南战争》/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -344,7 +397,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/01/2020-Book-And-Movie-List/" class="post-title-link" itemprop="url">2020 Book And Movie List</a>
+            <a href="/2020/03/18/墙裂推荐纪录片《越南战争》/" class="post-title-link" itemprop="url">墙裂推荐纪录片《越南战争》</a>
         </h1>
 
         <div class="post-meta">
@@ -354,17 +407,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-01-01 15:05:32" itemprop="dateCreated datePublished" datetime="2020-01-01T15:05:32+08:00">2020-01-01</time>
+              <time title="创建时间：2020-03-18 17:15:22" itemprop="dateCreated datePublished" datetime="2020-03-18T17:15:22+08:00">2020-03-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-04-01 20:30:26" itemprop="dateModified" datetime="2020-04-01T20:30:26+08:00">2020-04-01</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -375,11 +442,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>人生不止诗与远方和田野，还有眼前的苟且</strong></p>
-<img src="/2020/01/01/2020-Book-And-Movie-List/happy.gif">
+          <img src="/2020/03/18/墙裂推荐纪录片《越南战争》/war.jpg">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是关于越南战争，美国视角下一部质量上乘的纪录片。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/01/2020-Book-And-Movie-List/#more" rel="contents">
+              <a class="btn" href="/2020/03/18/墙裂推荐纪录片《越南战争》/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -403,7 +471,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/01/远走高飞/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/15/用-python-删除照片中的-exif-信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -417,7 +485,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/01/01/远走高飞/" class="post-title-link" itemprop="url">远走高飞</a>
+            <a href="/2020/03/15/用-python-删除照片中的-exif-信息/" class="post-title-link" itemprop="url">用 python 删除照片中的 exif 信息 & 一些常用 tips</a>
         </h1>
 
         <div class="post-meta">
@@ -426,12 +494,32 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-01-01 15:05:07 / 修改时间：16:06:35" itemprop="dateCreated datePublished" datetime="2020-01-01T15:05:07+08:00">2020-01-01</time>
+              <time title="创建时间：2020-03-15 18:56:22" itemprop="dateCreated datePublished" datetime="2020-03-15T18:56:22+08:00">2020-03-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-20 10:18:54" itemprop="dateModified" datetime="2020-03-20T10:18:54+08:00">2020-03-20</time>
+              </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -442,11 +530,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>凡事预则立不预则废</strong></p>
-<img src="/2020/01/01/远走高飞/loading (2).gif">
+          <img src="/2020/03/15/用-python-删除照片中的-exif-信息/python.jpg">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Python 快速实现去除照片中的 Exif 信息。</p>
+<p>很多 App 会请求地理位置信息，即便你没有授权，但是只要你上传过照片（这里特指自己用手机拍的图片），大概率还是会通过 Exif 信息暴露地理位置，然后会收到非常流氓的周边推广及广告。</p>
+<p>因此，决定用 Python 脚本删掉照片中的 Exif 信息。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/01/01/远走高飞/#more" rel="contents">
+              <a class="btn" href="/2020/03/15/用-python-删除照片中的-exif-信息/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -470,7 +561,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/22/当-Java-字节码遇到-ASM/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/Java-多态/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -484,7 +575,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/22/当-Java-字节码遇到-ASM/" class="post-title-link" itemprop="url">当 Java 字节码遇到 ASM</a>
+            <a href="/2020/03/14/Java-多态/" class="post-title-link" itemprop="url">当 Java 多态遇到方法重载和重写</a>
         </h1>
 
         <div class="post-meta">
@@ -494,17 +585,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-12-22 09:33:50" itemprop="dateCreated datePublished" datetime="2019-12-22T09:33:50+08:00">2019-12-22</time>
+              <time title="创建时间：2020-03-14 20:34:18" itemprop="dateCreated datePublished" datetime="2020-03-14T20:34:18+08:00">2020-03-14</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-03-16 21:26:04" itemprop="dateModified" datetime="2020-03-16T21:26:04+08:00">2020-03-16</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>982</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -515,12 +620,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h4 id="ASM-可以做什么"><a href="#ASM-可以做什么" class="headerlink" title="ASM 可以做什么"></a>ASM 可以做什么</h4><blockquote>
-<p>ASM 是一个 Java 字节码操控框架。它能被用来动态生成类或者增强既有类的功能。ASM 可以直接产生二进制 class 文件，也可以在类被加载入 Java 虚拟机之前动态改变类行为。Java class 被存储在严格格式定义的 .class 文件里，这些类文件拥有足够的元数据来解析类中的所有元素：类名称、方法、属性以及 Java 字节码（指令）。ASM 从类文件中读入信息后，能够改变类行为，分析类信息，甚至能够根据用户要求生成新类。</p>
-</blockquote>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于 Java 多态 (Polymorphism)的一些 tips。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/12/22/当-Java-字节码遇到-ASM/#more" rel="contents">
+              <a class="btn" href="/2020/03/14/Java-多态/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -544,7 +647,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/08/如何调用命令行/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/04/Kotlin-实战读书笔记-二/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -558,7 +661,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/08/如何调用命令行/" class="post-title-link" itemprop="url">如何在代码里调用执行命令行（有可能持续更新）</a>
+            <a href="/2020/03/04/Kotlin-实战读书笔记-二/" class="post-title-link" itemprop="url">Kotlin 实战读书笔记(二)</a>
         </h1>
 
         <div class="post-meta">
@@ -568,17 +671,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-12-08 15:57:19" itemprop="dateCreated datePublished" datetime="2019-12-08T15:57:19+08:00">2019-12-08</time>
+              <time title="创建时间：2020-03-04 10:52:57" itemprop="dateCreated datePublished" datetime="2020-03-04T10:52:57+08:00">2020-03-04</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-24 22:16:30" itemprop="dateModified" datetime="2019-12-24T22:16:30+08:00">2019-12-24</time>
+                <time title="修改时间：2020-03-16 21:26:04" itemprop="dateModified" datetime="2020-03-16T21:26:04+08:00">2020-03-16</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -589,10 +706,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在电脑上可以打开 cmd/powershell/iTerm2/Git Bash 进行命令行的操作，但是如何用其他语言比如 Python/Java 执行命令行呢？<br>这么做当然不是闲的蛋疼，而是有些工作的确依赖这样的实现。</p>
+          <img src="/2020/03/04/Kotlin-实战读书笔记-二/kotlin.jpg" width="40%">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>《 Kotlin 实战 》读书笔记（5~6章 &amp; 附录及其他）。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/12/08/如何调用命令行/#more" rel="contents">
+              <a class="btn" href="/2020/03/04/Kotlin-实战读书笔记-二/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -616,7 +735,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/如何把Java文件打包为Jar文件/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/03/Kotlin-实战读书笔记-一/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -630,7 +749,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/09/12/如何把Java文件打包为Jar文件/" class="post-title-link" itemprop="url">如何把Java文件打包为Jar文件</a>
+            <a href="/2020/03/03/Kotlin-实战读书笔记-一/" class="post-title-link" itemprop="url">Kotlin 实战读书笔记(一)</a>
         </h1>
 
         <div class="post-meta">
@@ -640,17 +759,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-09-12 08:21:16" itemprop="dateCreated datePublished" datetime="2019-09-12T08:21:16+08:00">2019-09-12</time>
+              <time title="创建时间：2020-03-03 15:48:40" itemprop="dateCreated datePublished" datetime="2020-03-03T15:48:40+08:00">2020-03-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-03-16 21:26:04" itemprop="dateModified" datetime="2020-03-16T21:26:04+08:00">2020-03-16</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -661,10 +794,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过本文了解一下从 Java 文件生成可执行的 jar 文件的过程。<strong>有时候我们在使用第三方 SDK 的时候，如果其内部实现有 bug 或接口定义不够灵活时会一时间束手无策。我们了解了 jar 文件的实现机制，就可以对 SDK 进行二次加工。</strong> 在不做破坏性改动的前提下，给自己的开发工作带来遍历。</p>
+          <img src="/2020/03/03/Kotlin-实战读书笔记-一/kotlin.jpg" width="40%">
+
+<h2 id="《Kotlin-实战》读书笔记-（1-4-章）"><a href="#《Kotlin-实战》读书笔记-（1-4-章）" class="headerlink" title="《Kotlin 实战》读书笔记 （1~4 章）"></a>《Kotlin 实战》读书笔记 （1~4 章）</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/09/12/如何把Java文件打包为Jar文件/#more" rel="contents">
+              <a class="btn" href="/2020/03/03/Kotlin-实战读书笔记-一/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -688,7 +823,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/单元测试/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -702,7 +837,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/09/02/单元测试/" class="post-title-link" itemprop="url">Android 单元测试入门</a>
+            <a href="/2020/02/25/kotlin-和-java-的细微差异/" class="post-title-link" itemprop="url">Kotlin 和 Java 的细微差异与坑 （持续更新）</a>
         </h1>
 
         <div class="post-meta">
@@ -712,17 +847,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-09-02 08:31:41" itemprop="dateCreated datePublished" datetime="2019-09-02T08:31:41+08:00">2019-09-02</time>
+              <time title="创建时间：2020-02-25 20:07:04" itemprop="dateCreated datePublished" datetime="2020-02-25T20:07:04+08:00">2020-02-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-12 08:19:14" itemprop="dateModified" datetime="2019-09-12T08:19:14+08:00">2019-09-12</time>
+                <time title="修改时间：2020-03-16 21:26:04" itemprop="dateModified" datetime="2020-03-16T21:26:04+08:00">2020-03-16</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -733,22 +882,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Unit-Test"><a href="#Unit-Test" class="headerlink" title="Unit Test"></a>Unit Test</h2><!-- TOC -->
+          <img src="/2020/02/25/kotlin-和-java-的细微差异/kotlin-logo.jpeg" width="60%">
 
-<ul>
-<li><a href="#unit-test">Unit Test</a></li>
-<li><a href="#start">Start</a><ul>
-<li><a href="#junit">JUnit</a></li>
-<li><a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99">参考资料</a></li>
-</ul>
-</li>
-</ul>
-<!-- /TOC -->
-
-<h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p>简单了解一下，如何依赖 Junit 进行 Java 代码的单元测试。依旧如何借助 Robolectric 进行 Android 方面的单元测试，主要是 Context 的获取。最后就网络请求的单元测试，简单叙述一下。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Kotlin 在使用过程中和 Java 的一些细微差异及一些坑</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/09/02/单元测试/#more" rel="contents">
+              <a class="btn" href="/2020/02/25/kotlin-和-java-的细微差异/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -772,7 +911,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/24/kotlinc-vs-javac/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/String-valueOf-方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -786,7 +925,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/08/24/kotlinc-vs-javac/" class="post-title-link" itemprop="url">kotlinc vs javac</a>
+            <a href="/2020/02/25/String-valueOf-方法/" class="post-title-link" itemprop="url">两个对象 hashcode 相同，他们就一定相等吗？</a>
         </h1>
 
         <div class="post-meta">
@@ -796,17 +935,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-08-24 08:31:41" itemprop="dateCreated datePublished" datetime="2019-08-24T08:31:41+08:00">2019-08-24</time>
+              <time title="创建时间：2020-02-25 20:06:13" itemprop="dateCreated datePublished" datetime="2020-02-25T20:06:13+08:00">2020-02-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-29 22:20:47" itemprop="dateModified" datetime="2019-08-29T22:20:47+08:00">2019-08-29</time>
+                <time title="修改时间：2020-03-16 21:26:04" itemprop="dateModified" datetime="2020-03-16T21:26:04+08:00">2020-03-16</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -817,10 +970,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对比一下 java 和 kotlin 编译源码文件（source.java 或 source.kt) 到 class 的区别。这种区别产生的结果是什么，看看其中的优缺点。</p>
+          <p>结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 == 和 equals 的区别 ，加深理解。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/08/24/kotlinc-vs-javac/#more" rel="contents">
+              <a class="btn" href="/2020/02/25/String-valueOf-方法/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -844,7 +997,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/20/ARouter-API-分析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/07/漫长的岁月/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -858,7 +1011,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/07/20/ARouter-API-分析/" class="post-title-link" itemprop="url">ARouter API 简单分析</a>
+            <a href="/2020/02/07/漫长的岁月/" class="post-title-link" itemprop="url">漫长的岁月</a>
         </h1>
 
         <div class="post-meta">
@@ -868,17 +1021,31 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-07-20 08:37:13" itemprop="dateCreated datePublished" datetime="2019-07-20T08:37:13+08:00">2019-07-20</time>
+              <time title="创建时间：2020-02-07 19:39:27" itemprop="dateCreated datePublished" datetime="2020-02-07T19:39:27+08:00">2020-02-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+                <time title="修改时间：2020-03-20 10:18:54" itemprop="dateModified" datetime="2020-03-20T10:18:54+08:00">2020-03-20</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>399</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -889,12 +1056,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <img src="/2019/07/20/ARouter-API-分析/contruct.png" width="40%">
+          <img src="/2020/02/07/漫长的岁月/dlrb.jpeg" width="60%" style="border-radius:10px;">
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>ARouter 使用已久，在组件化中非常有用，既解决了页面跳转的问题，同时还解决了同等级组件之间的依赖问题。这里结合源码分析一下其核心实现逻辑，本节主要分析其 API 的实现。同时结合之前<a href="https://rebooters.github.io/2019/06/22/%E4%B8%80%E4%B8%AA%E8%B7%AF%E7%94%B1%E7%9A%84%E8%AF%9E%E7%94%9F/" target="_blank" rel="noopener">一个简单的路由</a> 中我们对路由的思考来看看 ARouter 是怎么做的。</p>
+<p><strong>这是一段漫长的岁月，一段特殊的岁月</strong></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/07/20/ARouter-API-分析/#more" rel="contents">
+              <a class="btn" href="/2020/02/07/漫长的岁月/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -918,7 +1085,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -986,7 +1153,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -999,7 +1166,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1037,6 +1204,16 @@
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -1045,6 +1222,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -1059,6 +1256,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -1071,6 +1270,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -58,7 +59,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/transforms.png">
 <meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/cat.jpeg">
 <meta property="og:image" content="http://yoursite.com/2020/01/04/Gradle-Transform-ASM-探索/tiger.jpg">
-<meta property="og:updated_time" content="2020-01-19T15:17:29.895Z">
+<meta property="og:updated_time" content="2020-01-19T15:47:46.984Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradle Transform + ASM 探索">
 <meta name="twitter:description" content="前言使用 Gradle Transform + ASM 实现代码插桩的使用已经非常普遍。本文试图探索如何更加快速简洁的利用 Transform 实现代码插桩，并尝试实现  通过注解对任意类当中所有的方法实现计算方法耗时的插桩 通过配置实现对任意类（主要是针对第三方库）当中指定方法的实现计算方法耗时的插桩 对工程中所有的点击事件进行插桩，方便埋点或确定代码位置 ……">
@@ -159,9 +160,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -217,10 +243,31 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-19 23:17:29" itemprop="dateModified" datetime="2020-01-19T23:17:29+08:00">2020-01-19</time>
+                <time title="修改时间：2020-01-19 23:47:46" itemprop="dateModified" datetime="2020-01-19T23:47:46+08:00">2020-01-19</time>
               </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>24k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>39 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -411,7 +458,7 @@ ScopeType 点击展开
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visit</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    version: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    superName: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">    interfaces: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.visit(version, access, name, signature, superName, interfaces)</span><br><span class="line">    className = name</span><br><span class="line"></span><br><span class="line">          interfaces?.forEach &#123;</span><br><span class="line">            <span class="keyword">if</span> (it == <span class="string">"android/view/View\$OnClickListener"</span>) &#123;</span><br><span class="line">                println(<span class="string">"bingo , find click in class : <span class="variable">$className</span>"</span>)</span><br><span class="line">                hack = <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这个实现其实也很简单，ClassVisitor 的 visit 方法提供了当前类实现了的所有接口，因此这里简单判断一下会比较准确。当然，这里也可以同时判断其他接口，比如我们要对应用内所有 TabBar 的选中事件进行插桩，就可判断当前类是否实现了 com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener 这个接口。</p>
-<p>由于 Transform 会访问 javac 编译生成的所有 class，包括匿名内部类，因此这里对于普通类和匿名内部类可以统一处理。（关于匿名内部类和普通类的使用 ASM 的差异可以<a href="">参考这篇</a>)。</p>
+<p>由于 Transform 会访问 javac 编译生成的所有 class，包括匿名内部类，因此这里对于普通类和匿名内部类可以统一处理。（关于匿名内部类和普通类的使用 ASM 的差异可以<a href="https://rebooters.github.io/2020/01/12/ASM-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E5%A4%84%E7%90%86/" target="_blank" rel="noopener">参考这篇</a>)。</p>
 <p>当前类是否实现了接口确定之后，下一步就可以按照方法名及方法的参数和返回值进行更加精确的匹配了。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">visitMethod</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        access: <span class="type">Int</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        name: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        desc: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        signature: <span class="type">String</span>?,</span></span></span><br><span class="line"><span class="function"><span class="params">        exceptions: <span class="type">Array</span>&lt;<span class="type">out</span> <span class="type">String</span>&gt;?</span></span></span><br><span class="line"><span class="function"><span class="params">    )</span></span>: MethodVisitor &#123;</span><br><span class="line">        <span class="keyword">var</span> methodVisitor = <span class="keyword">super</span>.visitMethod(access, name, desc, signature, exceptions)</span><br><span class="line">        <span class="keyword">if</span> (hack) &#123;</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">"onClick"</span>) &amp;&amp; desc.equals(<span class="string">"(Landroid/view/View;)V"</span>)) &#123;</span><br><span class="line">                methodVisitor =</span><br><span class="line">                    TrackMethodVisitor(className, Opcodes.ASM6, methodVisitor, access, name, desc)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> methodVisitor</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -549,7 +596,7 @@ ScopeType 点击展开
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -562,7 +609,7 @@ ScopeType 点击展开
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -600,6 +647,16 @@ ScopeType 点击展开
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -608,6 +665,26 @@ ScopeType 点击展开
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -622,6 +699,8 @@ ScopeType 点击展开
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -634,6 +713,8 @@ ScopeType 点击展开
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

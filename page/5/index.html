@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -152,9 +153,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -180,7 +206,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/01/2016-booklist/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/仿简书长按文章生成图片效果/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -194,7 +220,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/03/01/2016-booklist/" class="post-title-link" itemprop="url">2016 booklist</a>
+            <a href="/2017/03/19/仿简书长按文章生成图片效果/" class="post-title-link" itemprop="url">仿简书长按文章生成图片效果</a>
         </h1>
 
         <div class="post-meta">
@@ -204,7 +230,107 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-03-01 11:49:23" itemprop="dateCreated datePublished" datetime="2016-03-01T11:49:23+08:00">2016-03-01</time>
+              <time title="创建时间：2017-03-19 22:07:46" itemprop="dateCreated datePublished" datetime="2017-03-19T22:07:46+08:00">2017-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-01 15:46:41" itemprop="dateModified" datetime="2020-01-01T15:46:41+08:00">2020-01-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个<strong>生成图片分享</strong>的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。</p>
+<p>但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，使用点击分享按钮生成图片功能；分享菜单包含的生成长图功能的确是可以的。但是，还是很怀念之前长按生成图片的功能，所以作为一名程序猿；怀着好奇的心情，决定自己去实现这样一个功能.</p>
+<h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>老规矩，首先看一下实现后的效果；虽然整体没有简书有范，个人感觉还是挺像的。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/3/19/5bfdffd406bed1f24293ff9cc5ffe3c8" alt="效果图"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/03/19/仿简书长按文章生成图片效果/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/2017-booklist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/01/2017-booklist/" class="post-title-link" itemprop="url">2017 booklist</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-03-01 11:49:23" itemprop="dateCreated datePublished" datetime="2017-03-01T11:49:23+08:00">2017-03-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -214,7 +340,21 @@
                 <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
               </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>96</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -226,10 +366,14 @@
 
       
           <ul>
-<li>大仲马-基督山伯爵 Done</li>
-<li>韩寒-One 系列 Done</li>
-<li>郭敬明-夏至未至 Done</li>
-<li>吴承恩-西游记 Done</li>
+<li>尤瓦尔·赫拉利-人类简史 Done</li>
+<li>肯·福莱特-世纪三部曲-巨人的陨落 Done</li>
+<li>肯·福莱特-世纪三部曲-世界的凛冬 Done</li>
+<li>肯·福莱特-世纪三部曲-永恒的边缘 Done</li>
+</ul>
+<p>todo</p>
+<ul>
+<li>刘慈欣-三体 Delayed</li>
 </ul>
 
       
@@ -250,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/08/19/你的生活会变成什么样子/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/Android MVP 十分钟入门！/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -264,7 +408,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2013/08/19/你的生活会变成什么样子/" class="post-title-link" itemprop="url">你的生活会变成什么样子</a>
+            <a href="/2017/01/24/Android MVP 十分钟入门！/" class="post-title-link" itemprop="url">Android MVP 十分钟入门！</a>
         </h1>
 
         <div class="post-meta">
@@ -274,7 +418,601 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2013-08-19 23:16:47" itemprop="dateCreated datePublished" datetime="2013-08-19T23:16:47+08:00">2013-08-19</time>
+              <time title="创建时间：2017-01-24 18:07:46" itemprop="dateCreated datePublished" datetime="2017-01-24T18:07:46+08:00">2017-01-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在日常开发APP 的过程中，随着业务的扩展，规模的变化。我们的代码规模也会逐渐变得庞大，每一个类里的代码也会逐渐增多。尤其是Activity和Fragment ，由于Context 的存在，基本上所有对视图的操作我们只能在Activity和Fragment中完成；即便是对某些逻辑进行封装，Activity和Fragment 依旧会显得过于臃肿。因此，我们需要换一种思路去写代码，这个时候MVP模式就应用而生了！那么MVP 怎么用呢，下面就来说一说。</p>
+<p>假设你现在如要实现下图中的功能：</p>
+<p><img src="https://lc-mhke0kuv.cn-n1.lcfile.com/ddbae96177704862aa4c.jpg" alt=""></p>
+<p>这个需求很简单，就是点击按钮，下载一张图片，显示下载进度；下载完成后，在ImageView中显示这张图片。<br>下面我们就分别用传统的方式（也就是所谓的MVC)和MVP 模式分别取实现这个功能。然后分析一下MVP 到底好在哪里。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/01/24/Android MVP 十分钟入门！/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/22/仿知乎首页学习CoordinateLayout用法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/12/22/仿知乎首页学习CoordinateLayout用法/" class="post-title-link" itemprop="url">仿知乎首页学习CoordinateLayout</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-22 19:16:47" itemprop="dateCreated datePublished" datetime="2016-12-22T19:16:47+08:00">2016-12-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>20k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>33 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>第一次接触CoordinateLayout的时候深深的被其炫酷的特效所吸引；想着什么时候在实际项目中可以使用一下，无奈实际项目因行业特点，并不需要使用到CoordinateLayout这么高端的交互体验；所以本着学习的态度，便用CoordinateLayout模仿了一下知乎首页效果，这也是现在掘金APP首页的效果；这种效果其实很友好，能让用户最大限度的使用到手机屏幕。</p>
+<p>好了，废话不多说，先看看模仿效果。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/12/22/仿知乎首页学习CoordinateLayout用法/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/12/真的需要使用RxJava+Retrofit吗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/12/12/真的需要使用RxJava+Retrofit吗/" class="post-title-link" itemprop="url">我们真的需要使用RxJava+Retrofit吗？</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-12 22:06:47" itemprop="dateCreated datePublished" datetime="2016-12-12T22:06:47+08:00">2016-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶，Android-三方框架/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶，Android 三方框架</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>28 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>可以说RxJava+Retrofit是整个2016年Android 开发圈内最受关注的的组合。各大Android论坛上有大量以RxJava+Retrofit+xxx 为标题的文章，此类文章也备受大家的关注。这个组合仿佛已经成为了Android开发的必备组件，项目里没使用这个组合好像自己都out了似的。</p>
+<p>平心而论，RxJava和Retrofit 相较于以往的各种框架（如 AsyncHttpClient，Volley等 )学习和使用起来会有一些难度；RxJava 强大而又庞大的操作符，Retrofit采用注解风格定义接口，都会让初学者花费不少功夫，绕不少圈子，踩大量的坑。既然这样，那么就会有人怀疑，我们真的需要学习RxJava和Retrofit吗？</p>
+<p>任意一款需要联网的APP，最典型的套路就是请求后端数据，解析数据进行UI更新；响应用户操作，再次请求数据，更新UI。这里我们就从最基础的网络请求出发，带着疑问，逐步了解一下Retrofit的前生今世，看一看RxJava和Retrofit的价值所在。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/12/12/真的需要使用RxJava+Retrofit吗/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/19/Android 动画总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/19/Android 动画总结/" class="post-title-link" itemprop="url">Android 动画总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-10-19 22:07:46" itemprop="dateCreated datePublished" datetime="2016-10-19T22:07:46+08:00">2016-10-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>16k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>27 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在日常的Android开发中，经常会使用到动画，这里就对Android开发中的动画做一下总结。</p>
+<h2 id="Android-动画分类"><a href="#Android-动画分类" class="headerlink" title="Android 动画分类"></a>Android 动画分类</h2><p>总的来说，Android动画可以分为两类，最初的<strong>传统动画</strong>和Android3.0 之后出现的<strong>属性动画</strong>；<br>传统动画又包括 帧动画（Frame Animation）和补间动画（Tweened Animation）。</p>
+<h2 id="传统动画"><a href="#传统动画" class="headerlink" title="传统动画"></a>传统动画</h2><h3 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h3><p>帧动画是最容易实现的一种动画，这种动画更多的依赖于完善的UI资源，他的原理就是将一张张单独的图片连贯的进行播放，<br>从而在视觉上产生一种动画的效果；有点类似于某些软件制作gif动画的方式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1115031-b52487cb6b97f911.gif?imageMogr2/auto-orient/strip" alt="frame.gif"></p>
+<p>如上图中的京东加载动画，代码要做的事情就是把一幅幅的图片按顺序显示，造成动画的视觉效果。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/19/Android 动画总结/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/24/理解Android中的注解与反射/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/09/24/理解Android中的注解与反射/" class="post-title-link" itemprop="url">理解Android中的注解与反射</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-09-24 22:16:47" itemprop="dateCreated datePublished" datetime="2016-09-24T22:16:47+08:00">2016-09-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>18 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近一段时间在研究EventBus和Retrofit 的过程中，都遇到了<strong>注解</strong>这个概念。由于在学习Java的时候对这方面没有深入了解过，所以看起相关的代码来，总会有点不知其所以然，这里就注解和反射的使用做一下总结。</p>
+<p><em>这里我们先从反射说起，了解了反射的意义及用法后，我们在看看注解的使用，最后叙述一下在Android开发中是怎样结合使用注解与反射。</em></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/24/理解Android中的注解与反射/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/23/EventBus 3.0 相见恨晚/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/23/EventBus 3.0 相见恨晚/" class="post-title-link" itemprop="url">EventBus 3.0 相见恨晚</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-23 22:16:47" itemprop="dateCreated datePublished" datetime="2016-07-23T22:16:47+08:00">2016-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-三方框架/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 三方框架</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="为什么要用EventBus？它是干什么用的？"><a href="#为什么要用EventBus？它是干什么用的？" class="headerlink" title="为什么要用EventBus？它是干什么用的？"></a>为什么要用EventBus？它是干什么用的？</h2><h3 id="EventBus是什么"><a href="#EventBus是什么" class="headerlink" title="EventBus是什么"></a>EventBus是什么</h3><p>EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。</p>
+<p>这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/07/23/EventBus 3.0 相见恨晚/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/06/我的少年时代/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/06/06/我的少年时代/" class="post-title-link" itemprop="url">我的少年时代</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-06-06 23:16:47" itemprop="dateCreated datePublished" datetime="2016-06-06T23:16:47+08:00">2016-06-06</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -295,7 +1033,21 @@
                 </span>
             </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -306,11 +1058,113 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在北京上学四年，毕业后才发现，原来这里真的很热。</p>
-<p>那天在微博上看到一个段子，感觉挺搞笑。说是某市高考状元填报志愿，所填的第一志愿是“北京有空调大学”，其后依次才是xx大学（传说中的国内名牌大学）。这当然只是调侃北京的天气，故事的真假倒是其次。但北京的热真是快到让人无法忍受的地步了。</p>
+          <h4 id="蝉鸣的夏季-我想遇见你"><a href="#蝉鸣的夏季-我想遇见你" class="headerlink" title="蝉鸣的夏季 我想遇见你"></a>蝉鸣的夏季 我想遇见你</h4><p>2006年的夏天，郭然读高一。</p>
+<p>在后来许许多多的日子里，回忆起那个夏天，郭然总是笑着说，那是最最快乐的青春时光。</p>
+<p>二中是县里的重点高中，每年初中毕业后能踏进二中校门的人，在内心深处总有着几分悲壮与莫名的骄傲。而一上高中，就直接进入实验班的人，更是许多人眼里神一样的存在，就像郭然，初中三年，始终是那个全年级考第一的人，没有人去嫉妒，就像你不会嫉妒马云赚的比你多一样。所以呢，他能进入实验班在我们一群初中同学眼中是理所当然，反倒是亦安没能进实验班让我们一群人很是诧异，因为亦安虽然不如郭然一样那么稳定的始终待在全年级第一的宝座上，但初中三年下来也没跌出过年纪前五。</p>
+<p>那个时候，刚住校的我们，每周五都会一起坐车回家；每次在车上和亦安同属六班的“狗圣”都会说，一定是哪个有钱人家给学校塞了钱把自己家的孩子硬塞进了实验班，挤掉了原本属于亦安的名额，对此，我们几个人都是义愤填膺。反倒是亦安自己觉得没什么，按照她的话就是，只要自己努力，还怕考不上自己心目中的大学，在哪里都无所谓。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1115031-8a3ae7cb4ba9086f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2013/08/19/你的生活会变成什么样子/#more" rel="contents">
+              <a class="btn" href="/2016/06/06/我的少年时代/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/07/Android View事件记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/05/07/Android View事件记录/" class="post-title-link" itemprop="url">Android View 事件分发记录</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-07 17:16:47" itemprop="dateCreated datePublished" datetime="2016-05-07T17:16:47+08:00">2016-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 基础</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="View初探"><a href="#View初探" class="headerlink" title="View初探"></a>View初探</h1><blockquote>
+<p>一直以来对View的事件分发机制很晕，今天就在这里梳理一下</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/05/07/Android View事件记录/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -334,7 +1188,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -402,7 +1256,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -415,7 +1269,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -453,6 +1307,16 @@
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -461,6 +1325,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -475,6 +1359,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -487,6 +1373,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

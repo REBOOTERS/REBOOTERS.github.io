@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -152,9 +153,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -182,10 +208,176 @@
     <div class="posts-collapse">
       <div class="collection-title">
         
-        <span class="collection-header">还行! 目前共计 42 篇日志。 继续努力。</span>
+        <span class="collection-header">不错! 目前共计 52 篇日志。 继续努力。</span>
       </div>
 
       
+    <div class="collection-year">
+      <h1 class="collection-header">2019</h1>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-03-03T15:12:15+08:00"
+              content="2019-03-03">
+          03-03
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2019/03/03/《曾国藩-又笨又慢平天下》读后感/" itemprop="url">
+            <span itemprop="name">读《曾国藩 又笨又慢平天下》的一些感想</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-01-06T11:49:23+08:00"
+              content="2019-01-06">
+          01-06
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2019/01/06/2019-Book&Movie List/" itemprop="url">
+            <span itemprop="name">2019-Book&Movie List</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2019-01-01T22:03:12+08:00"
+              content="2019-01-01">
+          01-01
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2019/01/01/Some-One-Like-You/" itemprop="url">
+            <span itemprop="name">Some One Like You</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+    <div class="collection-year">
+      <h1 class="collection-header">2018</h1>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-05-08T21:59:48+08:00"
+              content="2018-05-08">
+          05-08
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2018/05/08/RxJava2 是如何实现线程切换的（下）/" itemprop="url">
+            <span itemprop="name">RxJava2 是如何实现线程切换的（下）</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-03-01T11:49:23+08:00"
+              content="2018-03-01">
+          03-01
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2018/03/01/2018-Book&Movie List/" itemprop="url">
+            <span itemprop="name">2018-Book&Movie List</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-01-23T00:07:46+08:00"
+              content="2018-01-23">
+          01-23
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2018/01/23/RxJava2 是如何实现线程切换的（上）/" itemprop="url">
+            <span itemprop="name">RxJava2 是如何实现线程切换的 (上)</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-01-12T00:07:46+08:00"
+              content="2018-01-12">
+          01-12
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2018/01/12/从观察者模式出发，聊聊RxJava/" itemprop="url">
+            <span itemprop="name">从观察者模式出发，聊聊RxJava2</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2018-01-07T09:16:47+08:00"
+              content="2018-01-07">
+          01-07
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2018/01/07/代理模式/" itemprop="url">
+            <span itemprop="name">代理模式</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
     <div class="collection-year">
       <h1 class="collection-header">2017</h1>
     </div>
@@ -195,15 +387,15 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2017-03-19T22:07:46+08:00"
-              content="2017-03-19">
-          03-19
+              datetime="2017-11-28T09:16:47+08:00"
+              content="2017-11-28">
+          11-28
         </time>
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2017/03/19/仿简书长按文章生成图片效果/" itemprop="url">
-            <span itemprop="name">仿简书长按文章生成图片效果</span>
+          <a class="post-title-link" href="/2017/11/28/Android 插件化和热修复的前生今世/" itemprop="url">
+            <span itemprop="name">Android 插件化和热修复的前生今世</span>
           </a>
       </h2>
 
@@ -215,178 +407,15 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2017-03-01T11:49:23+08:00"
-              content="2017-03-01">
-          03-01
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/03/01/2017-booklist/" itemprop="url">
-            <span itemprop="name">2017 booklist</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-01-24T18:07:46+08:00"
-              content="2017-01-24">
-          01-24
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/01/24/Android MVP 十分钟入门！/" itemprop="url">
-            <span itemprop="name">Android MVP 十分钟入门！</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2016</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-12-22T19:16:47+08:00"
-              content="2016-12-22">
-          12-22
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/12/22/仿知乎首页学习CoordinateLayout用法/" itemprop="url">
-            <span itemprop="name">仿知乎首页学习CoordinateLayout</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-12-12T22:06:47+08:00"
-              content="2016-12-12">
-          12-12
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/12/12/真的需要使用RxJava+Retrofit吗/" itemprop="url">
-            <span itemprop="name">我们真的需要使用RxJava+Retrofit吗？</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-10-19T22:07:46+08:00"
-              content="2016-10-19">
-          10-19
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/10/19/Android 动画总结/" itemprop="url">
-            <span itemprop="name">Android 动画总结</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-09-24T22:16:47+08:00"
-              content="2016-09-24">
-          09-24
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/09/24/理解Android中的注解与反射/" itemprop="url">
-            <span itemprop="name">理解Android中的注解与反射</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-07-23T22:16:47+08:00"
-              content="2016-07-23">
+              datetime="2017-07-23T23:16:47+08:00"
+              content="2017-07-23">
           07-23
         </time>
       </div>
 
       <h2 class="post-title">
-          <a class="post-title-link" href="/2016/07/23/EventBus 3.0 相见恨晚/" itemprop="url">
-            <span itemprop="name">EventBus 3.0 相见恨晚</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-06-06T23:16:47+08:00"
-              content="2016-06-06">
-          06-06
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/06/06/我的少年时代/" itemprop="url">
-            <span itemprop="name">我的少年时代</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2016-05-07T17:16:47+08:00"
-              content="2016-05-07">
-          05-07
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2016/05/07/Android View事件记录/" itemprop="url">
-            <span itemprop="name">Android View 事件分发记录</span>
+          <a class="post-title-link" href="/2017/07/23/自定义View高仿懂球帝我是教练效果/" itemprop="url">
+            <span itemprop="name">自定义View高仿懂球帝我是教练效果</span>
           </a>
       </h2>
 
@@ -402,7 +431,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/archives/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -470,7 +499,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -483,7 +512,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -521,6 +550,16 @@
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -529,6 +568,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -543,6 +602,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -555,6 +616,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

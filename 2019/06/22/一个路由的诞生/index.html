@@ -14,6 +14,7 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
 
 <script id="hexo-configurations">
@@ -28,7 +29,7 @@
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
+    fancybox: true,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
@@ -40,24 +41,24 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.json',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
 
-  <meta name="description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。 这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一">
+  <meta name="description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
 <meta name="keywords" content="注解,APT,Router">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个简单的路由">
 <meta property="og:url" content="http://yoursite.com/2019/06/22/一个路由的诞生/index.html">
 <meta property="og:site_name" content="诗与远方">
-<meta property="og:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。 这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一">
+<meta property="og:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-01-15T13:48:19.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一个简单的路由">
-<meta name="twitter:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。 这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一">
+<meta name="twitter:description" content="前言在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 ARouter, WMRouter,Router等等。这些路由框架，都是使用 APT 的原理来实现的。通过之前的 注解处理器APT初探、SugarAdapter 注解处理器分析 ，我们对 APT 的使用有了一些认识。 因此，这里我们简单尝试一下，实现一个史上最最简单的路由。通过这个过程我们可以了解一下，实现一个">
 
 <link rel="canonical" href="http://yoursite.com/2019/06/22/一个路由的诞生/">
 
@@ -154,9 +155,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -216,6 +242,27 @@
               </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -226,8 +273,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 <a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a>, <a href="https://github.com/meituan/WMRouter" target="_blank" rel="noopener">WMRouter</a>,<a href="https://github.com/chenenyu/Router" target="_blank" rel="noopener">Router</a><a href="https://github.com/search?l=Java&q=Router&type=Repositories" target="_blank" rel="noopener">等等</a>。
-这些路由框架，都是使用 APT 的原理来实现的。通过之前的 <a href="https://rebooters.github.io/2019/06/03/注解处理器APT初探" target="_blank" rel="noopener">注解处理器APT初探</a>、<a href="https://rebooters.github.io/2019/06/04/SugarAdapter-%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">SugarAdapter 注解处理器分析</a> ，我们对 APT 的使用有了一些认识。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在页面跳转的过程中，使用路由已不是什么新鞋事，市面上已经有很多库可以做这件事，比如 <a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a>, <a href="https://github.com/meituan/WMRouter" target="_blank" rel="noopener">WMRouter</a>,<a href="https://github.com/chenenyu/Router" target="_blank" rel="noopener">Router</a><a href="https://github.com/search?l=Java&q=Router&type=Repositories" target="_blank" rel="noopener">等等</a>。<br>这些路由框架，都是使用 APT 的原理来实现的。通过之前的 <a href="https://rebooters.github.io/2019/06/03/注解处理器APT初探" target="_blank" rel="noopener">注解处理器APT初探</a>、<a href="https://rebooters.github.io/2019/06/04/SugarAdapter-%E6%B3%A8%E8%A7%A3%E5%A4%84%E7%90%86%E5%99%A8%E5%88%86%E6%9E%90/" target="_blank" rel="noopener">SugarAdapter 注解处理器分析</a> ，我们对 APT 的使用有了一些认识。</p>
 <p>因此，这里我们简单尝试一下，实现一个<strong>史上最最简单</strong>的路由。通过这个过程我们可以了解一下，实现一个真正好用的路由，需要考虑哪些问题，又有哪些难点需要去处理。</p>
 <a id="more"></a>
 
@@ -495,7 +541,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">52</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -508,7 +554,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -546,6 +592,16 @@
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">342k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">9:30</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
@@ -554,6 +610,26 @@
   </div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -568,6 +644,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
@@ -580,6 +658,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 
