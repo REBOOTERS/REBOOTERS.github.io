@@ -55,16 +55,17 @@
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言探索如何压缩一个 Android App 的包体积">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/android.jpeg">
 <meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.0.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.2.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.2_arsc.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.2_res.jpg">
 <meta property="og:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.3.jpg">
-<meta property="og:updated_time" content="2020-05-07T14:06:19.604Z">
+<meta property="og:updated_time" content="2020-07-02T00:22:02.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android App 包体积变化史">
 <meta name="twitter:description" content="前言探索如何压缩一个 Android App 的包体积">
-<meta name="twitter:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/v1.0.0.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2020/05/06/Android-App-包体积变化史/android.jpeg">
 
 <link rel="canonical" href="http://yoursite.com/2020/05/06/Android-App-包体积变化史/">
 
@@ -244,7 +245,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-07 22:06:19" itemprop="dateModified" datetime="2020-05-07T22:06:19+08:00">2020-05-07</time>
+                <time title="修改时间：2020-07-02 08:22:02" itemprop="dateModified" datetime="2020-07-02T08:22:02+08:00">2020-07-02</time>
               </span>
 
           
@@ -260,7 +261,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.2k</span>
+              <span>4.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -279,7 +280,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>探索如何压缩一个 Android App 的包体积</p>
+        <img src="/2020/05/06/Android-App-包体积变化史/android.jpeg" width="40%/">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>探索如何压缩一个 Android App 的包体积</p>
 <a id="more"></a>
 
 <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><h4 id="原始配置"><a href="#原始配置" class="headerlink" title="原始配置"></a>原始配置</h4><p>首先是创建一个 Hello World App，只有一个 Activity 的 App 有多大。</p>
@@ -317,7 +320,7 @@
 <p> 对比之前的截图，可以看到经过混淆的处理，classes.dex 整体压缩比非常高，从 1.3 MB 讲到了 332 kb。但是 res 文件夹内的资源文件并没有显著的效果，下面看看这部分是否有压缩空间。</p>
 <p>代码 <a href="https://github.com/REBOOTERS/MinApp/tree/v1.0.3" target="_blank" rel="noopener">v1.0.3</a></p>
 <p>为了方便后面的分析，这里了解一下 Apk 包中各类文件的用处。</p>
-<h3 id="Apk-包分析"><a href="#Apk-包分析" class="headerlink" title="Apk 包分析"></a>Apk 包分析</h3><p>们都知道，Android 项目最终会编译成一个 .apk 后缀的文件，实际上它就是一个 压缩包。因此，它内部还有很多不同类型的文件，这些文件，按照大小，共分为如下四类：</p>
+<h3 id="Apk-包分析"><a href="#Apk-包分析" class="headerlink" title="Apk 包分析"></a>Apk 包分析</h3><p>我们都知道，Android 项目最终会编译成一个 .apk 后缀的文件，实际上它就是一个压缩包，和我们常接触的xxx.zip 以及 xxx.rar 本质上没有区别。因此，它内部还有很多不同类型的文件，这些文件，按照大小，共分为如下四类：</p>
 <ol>
 <li><p>代码相关：classes.dex，我们在项目中所编写的 java 文件，经过编译之后会生成一个 .class 文件，而这些所有的 .class 文件呢，它最终会经过 dx 工具编译生成一个 classes.dex。</p>
 </li>
@@ -398,7 +401,10 @@
     <a href="/2020/05/05/王牌对王牌/" rel="prev" title="好看的视频">
       <i class="fa fa-chevron-left"></i> 好看的视频
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/04/Git-非常规操作/" rel="next" title="Git 非常规操作">
+      Git 非常规操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -474,7 +480,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +493,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-count">47</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -529,12 +535,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">348k</span>
+    <span title="站点总字数">360k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">9:40</span>
+    <span title="站点阅读时长">10:01</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
   </div>
