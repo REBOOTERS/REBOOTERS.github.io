@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,17 +48,17 @@
 </script>
 
   <meta name="description" content="Review C Notes">
-<meta name="keywords" content="C&#x2F;C++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Review C">
 <meta property="og:url" content="http://yoursite.com/2020/07/01/Review-C/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="Review C Notes">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-20T13:58:14.173Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-01T00:56:48.000Z">
+<meta property="article:modified_time" content="2020-07-20T13:58:14.173Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="C&#x2F;C++">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Review C">
-<meta name="twitter:description" content="Review C Notes">
 
 <link rel="canonical" href="http://yoursite.com/2020/07/01/Review-C/">
 
@@ -276,20 +276,19 @@
         <p>Review C Notes </p>
 <a id="more"></a>
 
-<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><a href="https://www.runoob.com/cprogramming/c-data-types.html" target="_blank" rel="noopener">C 数据类型</a></p>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-data-types.html">C 数据类型</a></p>
 <p>为了得到某个类型或某个变量在特定平台上的准确大小，您可以使用 sizeof 运算符。表达式 sizeof(type) 得到对象或类型的存储字节大小。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">"int 存储大小 : %lu \n"</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;limits.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;int 存储大小 : %lu \n&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><p><a href="https://www.runoob.com/cprogramming/c-constants.html" target="_blank" rel="noopener">常量</a></p>
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-constants.html">常量</a></p>
 <p>可以使用 const 或 define 定义常量</p>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><a href="https://www.runoob.com/cprogramming/c-functions.html" target="_blank" rel="noopener">函数</a></p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-functions.html">函数</a></p>
 <p>函数包括 函数声明和函数定义，函数参数可以是传值调用，也可以是引用调用。</p>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><a href="https://www.runoob.com/cprogramming/c-arrays.html" target="_blank" rel="noopener">数组</a></p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-arrays.html">数组</a></p>
 <p>数组定义方式</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大小固定为 10</span></span><br><span class="line"><span class="keyword">double</span> balance[<span class="number">10</span>];</span><br><span class="line"><span class="comment">// 大小为 &#123;&#125; 数据的个数</span></span><br><span class="line"><span class="keyword">double</span> balance[] = &#123;<span class="number">1000.0</span>, <span class="number">2.0</span>, <span class="number">3.4</span>, <span class="number">7.0</span>, <span class="number">50.0</span>&#125;;</span><br></pre></td></tr></table></figure>
-
 <p>和其他语言是有些区别的，比如 java 中 <code>int[] array</code> （因此，便有了定义数组时兼容 C 语言定义数组的说法）。</p>
-<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><p><a href="https://www.runoob.com/cprogramming/c-pointers.html" target="_blank" rel="noopener">指针</a></p>
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-pointers.html">指针</a></p>
 <ul>
 <li>指针的定义</li>
 </ul>
@@ -297,12 +296,11 @@
 
 <p>所有实际数据类型，不管是整型、浮点型、字符型，还是其他的数据类型，对应指针的值的类型都是一样的，都是一个代表内存地址的长的十六进制数。</p>
 <p>不同数据类型的指针之间唯一的不同是，指针所指向的变量或常量的数据类型不同。</p>
-<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p><a href="https://www.runoob.com/cprogramming/c-fun-pointer-callback.html" target="_blank" rel="noopener">函数指针</a></p>
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><a href="https://www.runoob.com/cprogramming/c-strings.html" target="_blank" rel="noopener">字符串</a></p>
-<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p><a href="https://www.runoob.com/cprogramming/c-structures.html" target="_blank" rel="noopener">结构体</a></p>
+<h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-fun-pointer-callback.html">函数指针</a></p>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-strings.html">字符串</a></p>
+<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-structures.html">结构体</a></p>
 <p>结构体类似于 Java 中的类，自定义一个包含不同数据类型的模块。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Books</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span>  title[<span class="number">50</span>];</span><br><span class="line">   <span class="keyword">char</span>  author[<span class="number">50</span>];</span><br><span class="line">   <span class="keyword">char</span>  subject[<span class="number">100</span>];</span><br><span class="line">   <span class="keyword">int</span>   book_id;</span><br><span class="line">&#125; book  = &#123;<span class="string">"C 语言"</span>, <span class="string">"RUNOOB"</span>, <span class="string">"编程语言"</span>, <span class="number">123456</span>&#125;;;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Books</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span>  title[<span class="number">50</span>];</span><br><span class="line">   <span class="keyword">char</span>  author[<span class="number">50</span>];</span><br><span class="line">   <span class="keyword">char</span>  subject[<span class="number">100</span>];</span><br><span class="line">   <span class="keyword">int</span>   book_id;</span><br><span class="line">&#125; book  = &#123;<span class="string">&quot;C 语言&quot;</span>, <span class="string">&quot;RUNOOB&quot;</span>, <span class="string">&quot;编程语言&quot;</span>, <span class="number">123456</span>&#125;;;</span><br></pre></td></tr></table></figure>
 <p>比如这里的 Books 结构体，之后就可以用这个 Books 定义变量了。当然，定义变量的形式是多种多样的。</p>
 <ul>
 <li>结构体可以是函数参数</li>
@@ -310,7 +308,7 @@
 <li>可以嵌套定义</li>
 </ul>
 <p>使用时 <code>books.title</code>,<code>books.author</code> 。使用 . 操作符即可。</p>
-<h3 id="typedef"><a href="#typedef" class="headerlink" title="typedef"></a>typedef</h3><p><a href="https://www.runoob.com/cprogramming/c-typedef.html" target="_blank" rel="noopener">typedef</a></p>
+<h3 id="typedef"><a href="#typedef" class="headerlink" title="typedef"></a>typedef</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-typedef.html">typedef</a></p>
 <ul>
 <li>C 语言提供了 typedef 关键字，您可以使用它来为类型取一个新的名字</li>
 </ul>
@@ -319,13 +317,13 @@
 <li>typedef 仅限于为类型定义符号名称，#define 不仅可以为类型定义别名，也能为数值定义别名，比如您可以定义 1 为 ONE。</li>
 <li>typedef 是由编译器执行解释的，#define 语句是由预编译器进行处理的。</li>
 </ul>
-<h2 id="实用"><a href="#实用" class="headerlink" title="实用"></a>实用</h2><h3 id="输入、输出"><a href="#输入、输出" class="headerlink" title="输入、输出"></a>输入、输出</h3><p><a href="https://www.runoob.com/cprogramming/c-input-output.html" target="_blank" rel="noopener">输入/输出</a></p>
+<h2 id="实用"><a href="#实用" class="headerlink" title="实用"></a>实用</h2><h3 id="输入、输出"><a href="#输入、输出" class="headerlink" title="输入、输出"></a>输入、输出</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-input-output.html">输入/输出</a></p>
 <p>C 语言提供了许多内置的函数用于处理各种不同场景的输入输出。</p>
-<p><a href="https://www.runoob.com/cprogramming/c-file-io.html" target="_blank" rel="noopener">文件读写</a></p>
-<h3 id="C-预处理器"><a href="#C-预处理器" class="headerlink" title="C 预处理器"></a>C 预处理器</h3><p><a href="https://www.runoob.com/cprogramming/c-preprocessors.html" target="_blank" rel="noopener">预处理器</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-file-io.html">文件读写</a></p>
+<h3 id="C-预处理器"><a href="#C-预处理器" class="headerlink" title="C 预处理器"></a>C 预处理器</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-preprocessors.html">预处理器</a></p>
 <p>简单来说，预处理器完成了文本替换的工作，提高的代码的复用性。</p>
-<h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><p><a href="https://www.runoob.com/cprogramming/c-header-files.html" target="_blank" rel="noopener">头文件</a></p>
-<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p><a href="https://www.runoob.com/cprogramming/c-memory-management.html" target="_blank" rel="noopener">内存管理</a></p>
+<h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-header-files.html">头文件</a></p>
+<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-memory-management.html">内存管理</a></p>
 
     </div>
 
@@ -364,11 +362,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/20/Android-App-包体积变化史（二）/" rel="prev" title="Android App 包体积变化史（二）">
+    <a href="/2020/06/20/Android-App-%E5%8C%85%E4%BD%93%E7%A7%AF%E5%8F%98%E5%8C%96%E5%8F%B2%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="Android App 包体积变化史（二）">
       <i class="fa fa-chevron-left"></i> Android App 包体积变化史（二）
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/28/文件加密读写/" rel="next" title="文件编解码及加密读写">
+    <a href="/2020/07/28/%E6%96%87%E4%BB%B6%E5%8A%A0%E5%AF%86%E8%AF%BB%E5%86%99/" rel="next" title="文件编解码及加密读写">
       文件编解码及加密读写 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -430,7 +428,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常量"><span class="nav-number">1.2.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">1.3.</span> <span class="nav-text">函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">2.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组"><span class="nav-number">2.1.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针"><span class="nav-number">2.2.</span> <span class="nav-text">指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数指针"><span class="nav-number">2.3.</span> <span class="nav-text">函数指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串"><span class="nav-number">2.4.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体"><span class="nav-number">2.5.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typedef"><span class="nav-number">2.6.</span> <span class="nav-text">typedef</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#typedef-vs-define"><span class="nav-number">2.6.1.</span> <span class="nav-text">typedef vs #define</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用"><span class="nav-number">3.</span> <span class="nav-text">实用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入、输出"><span class="nav-number">3.1.</span> <span class="nav-text">输入、输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-预处理器"><span class="nav-number">3.2.</span> <span class="nav-text">C 预处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#头文件"><span class="nav-number">3.3.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存管理"><span class="nav-number">3.4.</span> <span class="nav-text">内存管理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">1.2.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6"><span class="nav-number">2.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">2.1.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88"><span class="nav-number">2.2.</span> <span class="nav-text">指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="nav-number">2.3.</span> <span class="nav-text">函数指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">2.4.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">2.5.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typedef"><span class="nav-number">2.6.</span> <span class="nav-text">typedef</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#typedef-vs-define"><span class="nav-number">2.6.1.</span> <span class="nav-text">typedef vs #define</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">实用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E3%80%81%E8%BE%93%E5%87%BA"><span class="nav-number">3.1.</span> <span class="nav-text">输入、输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">C 预处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">头文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.4.</span> <span class="nav-text">内存管理</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -501,14 +499,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -553,9 +551,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -564,7 +570,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

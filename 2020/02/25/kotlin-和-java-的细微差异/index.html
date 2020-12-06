@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,21 +48,21 @@
 </script>
 
   <meta name="description" content="前言Kotlin 在使用过程中和 Java 的一些细微差异及一些坑">
-<meta name="keywords" content="Kotlin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kotlin 和 Java 的细微差异与坑 （持续更新）">
-<meta property="og:url" content="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言Kotlin 在使用过程中和 Java 的一些细微差异及一些坑">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/kotlin-logo.jpeg">
-<meta property="og:updated_time" content="2020-03-16T13:26:04.601Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/kotlin-logo.jpeg">
+<meta property="article:published_time" content="2020-02-25T12:07:04.000Z">
+<meta property="article:modified_time" content="2020-03-16T13:26:04.601Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="Kotlin">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin 和 Java 的细微差异与坑 （持续更新）">
-<meta name="twitter:description" content="前言Kotlin 在使用过程中和 Java 的一些细微差异及一些坑">
-<meta name="twitter:image" content="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/kotlin-logo.jpeg">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/kotlin-logo.jpeg">
 
-<link rel="canonical" href="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/">
+<link rel="canonical" href="http://yoursite.com/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/">
 
 
 <script id="page-configurations">
@@ -210,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/kotlin-和-java-的细微差异/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -275,7 +275,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <img src="/2020/02/25/kotlin-和-java-的细微差异/kotlin-logo.jpeg" width="60%">
+        <img src="/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/kotlin-logo.jpeg" width="60%">
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Kotlin 在使用过程中和 Java 的一些细微差异及一些坑</p>
 <a id="more"></a>
@@ -283,31 +283,28 @@
 <!-- TOC -->
 
 <ul>
-<li><a href="#前言">前言</a></li>
-<li><a href="#差异">差异</a><ul>
-<li><a href="#for-循环最后的值">for 循环最后的值</a></li>
-<li><a href="#-和-">== 和 ===</a></li>
-<li><a href="#不要随意改变参数类型">不要随意改变参数类型</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E5%B7%AE%E5%BC%82">差异</a><ul>
+<li><a href="#for-%E5%BE%AA%E7%8E%AF%E6%9C%80%E5%90%8E%E7%9A%84%E5%80%BC">for 循环最后的值</a></li>
+<li><a href="#-%E5%92%8C-">== 和 ===</a></li>
+<li><a href="#%E4%B8%8D%E8%A6%81%E9%9A%8F%E6%84%8F%E6%94%B9%E5%8F%98%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B">不要随意改变参数类型</a></li>
 </ul>
 </li>
-<li><a href="#总结">总结</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 <!-- /TOC -->
 
 <h2 id="差异"><a href="#差异" class="headerlink" title="差异"></a>差异</h2><h3 id="for-循环最后的值"><a href="#for-循环最后的值" class="headerlink" title="for 循环最后的值"></a>for 循环最后的值</h3><ul>
 <li>java </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">for</span> (; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="comment">// 这里创造一种使整个循环退出的一种条件</span></span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">100</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">"i == "</span> + i);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">for</span> (; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="comment">// 这里创造一种使整个循环退出的一种条件</span></span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">100</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">&quot;i == &quot;</span> + i);</span><br></pre></td></tr></table></figure>
 <p>最后结果</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i == -1</span><br></pre></td></tr></table></figure>
-
 <p>通过上述循环，我们可以知道这个 for 循环之所以结束，是因为 i 最后变成了 -1 。</p>
 <ul>
 <li>kotlin</li>
 </ul>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">100</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">3</span> downTo <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// just test</span></span><br><span class="line">&#125;</span><br><span class="line">println(<span class="string">"i == <span class="variable">$i</span>"</span>)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">100</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">3</span> downTo <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// just test</span></span><br><span class="line">&#125;</span><br><span class="line">println(<span class="string">&quot;i == <span class="variable">$i</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
 <p>最后结果</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i == 100</span><br></pre></td></tr></table></figure>
 
@@ -318,17 +315,13 @@
 <li>在 Kotiin，＝＝ 运算符是比较两个对象的默认方式:本质上说它就是通过<br>调用 equals来比较两个值的。因此，如果 equals在你的类中被重写了，你能够很安全地使用＝＝来比较实例。要想进行引用比较，可以使用＝＝＝运算符，<br>这与Java中的＝＝比较对象引用的效果一模一样。</li>
 </ul>
 <h3 id="不要随意改变参数类型"><a href="#不要随意改变参数类型" class="headerlink" title="不要随意改变参数类型"></a>不要随意改变参数类型</h3><p>假设现有 Java 接口 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">然后在 Kotlin 中有实现</span><br><span class="line"></span><br><span class="line">```kotlin</span><br><span class="line">class SimpleProcessor : StringProcessor &#123;</span><br><span class="line">    <span class="function">override fun <span class="title">proce</span><span class="params">(input: String?)</span>: String </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"nothing"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">然后在 Kotlin 中有实现</span><br><span class="line"></span><br><span class="line">```kotlin</span><br><span class="line">class SimpleProcessor : StringProcessor &#123;</span><br><span class="line">    <span class="function">override fun <span class="title">proce</span><span class="params">(input: String?)</span>: String </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;nothing&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果用 IDE 默认帮你生成的话， 在 Kotlin 中参数 input 的可空性，默认是可以空的。但是如果你的实现中没有用到这个参数，然后你觉得这个参数空不空无所谓，把多余的问号删掉了 </p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proce(input: String)</span><br></pre></td></tr></table></figure>
-
 <p>当然，如果是在 Kotlin 中调用这个方法，那么IDE 会帮你检查参数的合法性。但是在 Java 中就做不到了，假设某个调用方，传递了 null 值。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">StringProcessor simple = <span class="keyword">new</span> SimpleProcessor();</span><br><span class="line">simple.proce(<span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
-
 <p>当然这个 null 肯定不是刻意传的，但是这个情况是有可能发生的。这个时候，就会发生</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.IllegalArgumentException: Parameter specified as non-null is null: method com.test.SimpleProcessor.proce, parameter input</span><br></pre></td></tr></table></figure>
-
 <p>即便你从来都没有用过这个参数，但是编译器对这个非空参数是做了断言的，这个时候传 null，就悲剧了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从 Java 迁移到 Kotlin 整体上是比较简单的，但任有一些差异需要我们在日常开发中注意。</p>
 
@@ -369,11 +362,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/25/String-valueOf-方法/" rel="prev" title="两个对象 hashcode 相同，他们就一定相等吗？">
+    <a href="/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/" rel="prev" title="两个对象 hashcode 相同，他们就一定相等吗？">
       <i class="fa fa-chevron-left"></i> 两个对象 hashcode 相同，他们就一定相等吗？
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/03/03/Kotlin-实战读书笔记-一/" rel="next" title="Kotlin 实战读书笔记(一)">
+    <a href="/2020/03/03/Kotlin-%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E4%B8%80/" rel="next" title="Kotlin 实战读书笔记(一)">
       Kotlin 实战读书笔记(一) <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -435,7 +428,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#差异"><span class="nav-number">2.</span> <span class="nav-text">差异</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-循环最后的值"><span class="nav-number">2.1.</span> <span class="nav-text">for 循环最后的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#和"><span class="nav-number">2.2.</span> <span class="nav-text">== 和 ===</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要随意改变参数类型"><span class="nav-number">2.3.</span> <span class="nav-text">不要随意改变参数类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%AE%E5%BC%82"><span class="nav-number">2.</span> <span class="nav-text">差异</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-%E5%BE%AA%E7%8E%AF%E6%9C%80%E5%90%8E%E7%9A%84%E5%80%BC"><span class="nav-number">2.1.</span> <span class="nav-text">for 循环最后的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%92%8C"><span class="nav-number">2.2.</span> <span class="nav-text">&#x3D;&#x3D; 和 &#x3D;&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E9%9A%8F%E6%84%8F%E6%94%B9%E5%8F%98%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">不要随意改变参数类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -506,14 +499,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -558,9 +551,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -569,7 +570,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

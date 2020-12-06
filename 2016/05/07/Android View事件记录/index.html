@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,19 +48,20 @@
 </script>
 
   <meta name="description" content="View初探 一直以来对View的事件分发机制很晕，今天就在这里梳理一下">
-<meta name="keywords" content="View,Android Touch 事件分发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android View 事件分发记录">
-<meta property="og:url" content="http://yoursite.com/2016/05/07/Android View事件记录/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="View初探 一直以来对View的事件分发机制很晕，今天就在这里梳理一下">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-19T09:22:10.242Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-05-07T09:16:47.000Z">
+<meta property="article:modified_time" content="2019-05-19T09:22:10.242Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="View">
+<meta property="article:tag" content="Android Touch 事件分发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android View 事件分发记录">
-<meta name="twitter:description" content="View初探 一直以来对View的事件分发机制很晕，今天就在这里梳理一下">
 
-<link rel="canonical" href="http://yoursite.com/2016/05/07/Android View事件记录/">
+<link rel="canonical" href="http://yoursite.com/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/">
 
 
 <script id="page-configurations">
@@ -208,7 +209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/07/Android View事件记录/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -246,7 +247,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-基础/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
                     <span itemprop="name">Android 基础</span>
                   </a>
                 </span>
@@ -265,7 +266,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.4k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -289,67 +290,72 @@
 </blockquote>
 <a id="more"></a>
 
-<h2 id="MyView"><a href="#MyView" class="headerlink" title="MyView"></a>MyView</h2><h3 id="首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。"><a href="#首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。" class="headerlink" title="首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。"></a>首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。</h3><pre><code>public class MyView extends View {
+<h2 id="MyView"><a href="#MyView" class="headerlink" title="MyView"></a>MyView</h2><h3 id="首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。"><a href="#首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。" class="headerlink" title="首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。"></a>首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。</h3><pre><code>public class MyView extends View &#123;
 String TAG = &quot;Activity&quot;;
 
-public MyView(Context context) {
+public MyView(Context context) &#123;
     super(context);
     init();
-}
+&#125;
 
 
-public MyView(Context context, AttributeSet attrs) {
+public MyView(Context context, AttributeSet attrs) &#123;
     super(context, attrs);
     init();
-}
+&#125;
 
-public MyView(Context context, AttributeSet attrs, int defStyleAttr) {
+public MyView(Context context, AttributeSet attrs, int defStyleAttr) &#123;
     super(context, attrs, defStyleAttr);
     init();
-}
+&#125;
 
-private void init() {
+private void init() &#123;
     Log.e(TAG, &quot;the View clickable is &quot; + isClickable());
-}</code></pre><p>}</p>
+&#125;</code></pre>
+<p>}</p>
 <p>将整个MyView放置到布局文件中，看Log日志。</p>
 <pre><code>&lt;engineer.test.MyView
     android:id=&quot;@+id/myview&quot;
     android:layout_width=&quot;150dp&quot;
     android:layout_height=&quot;150dp&quot;
     android:layout_centerInParent=&quot;true&quot;
-    android:background=&quot;#ff00ff&quot; /&gt;</code></pre><p><strong>可以看到，View类默认是不可点击的。</strong></p>
+    android:background=&quot;#ff00ff&quot; /&gt;</code></pre>
+<p><strong>可以看到，View类默认是不可点击的。</strong></p>
 <h2 id="监听View的Touch事件"><a href="#监听View的Touch事件" class="headerlink" title="监听View的Touch事件"></a>监听View的Touch事件</h2><blockquote>
 <p>这里首先明确MotionEvent中事件所对应的值</p>
 </blockquote>
 <pre><code>public static final int ACTION_DOWN= 0;
 public static final int ACTION_UP= 1;
-public static final int ACTION_MOVE= 2</code></pre><blockquote>
+public static final int ACTION_MOVE= 2</code></pre>
+<blockquote>
 <p>给MyView设置OnTouchListener，并打印事件日志</p>
 </blockquote>
 <pre><code>myView = (MyView) findViewById(R.id.myview);
-    myView.setOnTouchListener(new View.OnTouchListener() {
+    myView.setOnTouchListener(new View.OnTouchListener() &#123;
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(View v, MotionEvent event) &#123;
             Log.e(TAG, &quot;myview_onTouch----&gt;&quot;+event.getAction());
             return false;
-        }
-    });</code></pre><p>点击一下MyView看日志：</p>
+        &#125;
+    &#125;);</code></pre>
+<p>点击一下MyView看日志：</p>
 <p><strong>可以看到，这里只有ACTION_DOWN事件发生</strong></p>
 <blockquote>
 <p>给MyView设置OnClickListener，并打印日志</p>
 </blockquote>
-<pre><code>myView.setOnClickListener(new View.OnClickListener() {
+<pre><code>myView.setOnClickListener(new View.OnClickListener() &#123;
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) &#123;
             Log.e(TAG, &quot;the View clickable is &quot; + myView.isClickable());
             Log.e(TAG, &quot;myview_onClick&quot;);
-        }
-    });</code></pre><p>点击一下MyView看日志：</p>
+        &#125;
+    &#125;);</code></pre>
+<p>点击一下MyView看日志：</p>
 <p><strong>可以看到，设置ClickListener之后：</strong></p>
 <ul>
-<li>MyView直接由一个不可点击的控件变成了可点击控件，isClickable返回true。</li>
-<li>ACTION_DOWN和ACTION_UP事件都发生了。</li>
-<li>Touch事件先于Click事件发生。</li>
+<li> MyView直接由一个不可点击的控件变成了可点击控件，isClickable返回true。</li>
+<li> ACTION_DOWN和ACTION_UP事件都发生了。</li>
+<li> Touch事件先于Click事件发生。</li>
 </ul>
 <p>我们看到TouchListener的onTouch方法是有返回值，而且默认返回为false，我们将其改为true，然后点击MyView看日志：</p>
 <p><strong>可以看到，多次点击MyView后，Click方法没有执行，即onTouch事件返回true时，相当于屏蔽了click事件的发生</strong></p>
@@ -361,31 +367,32 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
 <p>/**<br>     * Pass the touch screen motion event down to the target view, or this<br>     * view if it is the target.<br>     *<br>     * @param event The motion event to be dispatched.<br>     *<br>     * @return True if the event was handled by the view, false otherwise.<br>     */</p>
 </blockquote>
 <p>从注释可以看到，这个方法返回true就是当前view要处理此次事件。</p>
-<h3 id="dispatchTouchEvent源码（截取主要内容）"><a href="#dispatchTouchEvent源码（截取主要内容）" class="headerlink" title="dispatchTouchEvent源码（截取主要内容）"></a>dispatchTouchEvent源码（截取主要内容）</h3><pre><code>public boolean dispatchTouchEvent(MotionEvent event) {      
+<h3 id="dispatchTouchEvent源码（截取主要内容）"><a href="#dispatchTouchEvent源码（截取主要内容）" class="headerlink" title="dispatchTouchEvent源码（截取主要内容）"></a>dispatchTouchEvent源码（截取主要内容）</h3><pre><code>public boolean dispatchTouchEvent(MotionEvent event) &#123;      
     boolean result = false;        
-    if (onFilterTouchEventForSecurity(event)) {
+    if (onFilterTouchEventForSecurity(event)) &#123;
         //noinspection SimplifiableIfStatement
         ListenerInfo li = mListenerInfo;
         if (li != null &amp;&amp; li.mOnTouchListener != null
                 &amp;&amp; (mViewFlags &amp; ENABLED_MASK) == ENABLED
-                &amp;&amp; li.mOnTouchListener.onTouch(this, event)) {
+                &amp;&amp; li.mOnTouchListener.onTouch(this, event)) &#123;
             result = true;
-        }
+        &#125;
 
-        if (!result &amp;&amp; onTouchEvent(event)) {
+        if (!result &amp;&amp; onTouchEvent(event)) &#123;
             result = true;
-        }
-    }
+        &#125;
+    &#125;
 
 
     return result;
-}</code></pre><p><strong>可以看到，这里默认的返回值默认是false</strong></p>
+&#125;</code></pre>
+<p><strong>可以看到，这里默认的返回值默认是false</strong></p>
 <ul>
 <li>首先，onFilterTouchEventForSecurity方法检测，点击事件是否确实发生在当前view上，如果是的话，view就会处理当前点击事件，否则的话就直接返回false不去处理此次事件。</li>
 <li>接着，当view的touchListener不为null,且View是enable，并且touchListener的onTouch方法返回true时，result=true,这样下面的if语句中onTouchEvent方法就不会执行，这样onClick方法就不会调用了，这也和之前测试的结果一致。</li>
 </ul>
 <p>但是<strong>正常情况下，onTouch方法是返回false</strong>的，所以下面就会执行到onTouEvent方法中去了。</p>
-<h3 id="onTouchEvent源码（截取）"><a href="#onTouchEvent源码（截取）" class="headerlink" title="onTouchEvent源码（截取）"></a>onTouchEvent源码（截取）</h3><pre><code>public boolean onTouchEvent(MotionEvent event) {
+<h3 id="onTouchEvent源码（截取）"><a href="#onTouchEvent源码（截取）" class="headerlink" title="onTouchEvent源码（截取）"></a>onTouchEvent源码（截取）</h3><pre><code>public boolean onTouchEvent(MotionEvent event) &#123;
     final float x = event.getX();
     final float y = event.getY();
     final int viewFlags = mViewFlags;
@@ -394,72 +401,74 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
 
     //view不是enable时，也会消耗touch事件，只是就此返回，不会进入
     //到performClick()方法中
-    if ((viewFlags &amp; ENABLED_MASK) == DISABLED) {
-        if (action == MotionEvent.ACTION_UP &amp;&amp; (mPrivateFlags &amp; PFLAG_PRESSED) != 0) {
+    if ((viewFlags &amp; ENABLED_MASK) == DISABLED) &#123;
+        if (action == MotionEvent.ACTION_UP &amp;&amp; (mPrivateFlags &amp; PFLAG_PRESSED) != 0) &#123;
             setPressed(false);
-        }
+        &#125;
         // A disabled view that is clickable still consumes the touch
-        // events, it just doesn&apos;t respond to them.
+        // events, it just doesn&#39;t respond to them.
         return (((viewFlags &amp; CLICKABLE) == CLICKABLE
                 || (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE)
                 || (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE);
-    }
+    &#125;
 
-    if (mTouchDelegate != null) {
-        if (mTouchDelegate.onTouchEvent(event)) {
+    if (mTouchDelegate != null) &#123;
+        if (mTouchDelegate.onTouchEvent(event)) &#123;
             return true;
-        }
-    }
+        &#125;
+    &#125;
 
     if (((viewFlags &amp; CLICKABLE) == CLICKABLE ||
             (viewFlags &amp; LONG_CLICKABLE) == LONG_CLICKABLE) ||
-            (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE) {
-        switch (action) {
+            (viewFlags &amp; CONTEXT_CLICKABLE) == CONTEXT_CLICKABLE) &#123;
+        switch (action) &#123;
             case MotionEvent.ACTION_UP:
                 boolean prepressed = (mPrivateFlags &amp; PFLAG_PREPRESSED) != 0;
-                if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0 || prepressed) {
-                    // take focus if we don&apos;t have it already and we should in
+                if ((mPrivateFlags &amp; PFLAG_PRESSED) != 0 || prepressed) &#123;
+                    // take focus if we don&#39;t have it already and we should in
                     // touch mode.
                     boolean focusTaken = false;
-                    if (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) {
+                    if (isFocusable() &amp;&amp; isFocusableInTouchMode() &amp;&amp; !isFocused()) &#123;
                         focusTaken = requestFocus();
-                    }
+                    &#125;
                         // Only perform take click actions if we were in the pressed state
-                        if (!focusTaken) {
+                        if (!focusTaken) &#123;
                             // Use a Runnable and post this rather than calling
                             // performClick directly. This lets other visual state
                             // of the view update before click actions start.
-                            if (mPerformClick == null) {
+                            if (mPerformClick == null) &#123;
                                 mPerformClick = new PerformClick();
-                            }
-                            if (!post(mPerformClick)) {
+                            &#125;
+                            if (!post(mPerformClick)) &#123;
                                 performClick();
-                            }
-                        }
-                }
+                            &#125;
+                        &#125;
+                &#125;
                 break;
-        }
+        &#125;
         //switch完毕后，最终会返回true
         return true;
-    }
+    &#125;
     //如果click，longclick以及contextClickable都为false时，返回false
     return false;
-}</code></pre><p><strong>可以看到，一个正常的veiw（即enable时），存在点击事件时，在ACTION_UP的时候，最终会进入performclick()这个方法中去</strong></p>
+&#125;</code></pre>
+<p><strong>可以看到，一个正常的veiw（即enable时），存在点击事件时，在ACTION_UP的时候，最终会进入performclick()这个方法中去</strong></p>
 <p>可以再看一下，performanceclick方法的实现</p>
-<pre><code>public boolean performClick() {
+<pre><code>public boolean performClick() &#123;
     final boolean result;
     final ListenerInfo li = mListenerInfo;
-    if (li != null &amp;&amp; li.mOnClickListener != null) {
+    if (li != null &amp;&amp; li.mOnClickListener != null) &#123;
         playSoundEffect(SoundEffectConstants.CLICK);
         li.mOnClickListener.onClick(this);
         result = true;
-    } else {
+    &#125; else &#123;
         result = false;
-    }
+    &#125;
 
     sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
     return result;
-}</code></pre><p>最终会执行onClickListener中的onClick方法，也就是平常我们去实现的那个方法。</p>
+&#125;</code></pre>
+<p>最终会执行onClickListener中的onClick方法，也就是平常我们去实现的那个方法。</p>
 <p><strong>同时，也可以看到可以clickable,longclickable以及contextclickable中只要有一个为true，那么在switch最后也会返回true，这样返回到上面的dispatchTouchEvent方法，返回result也为true，即完整的消耗（处理）了此次touch事件</strong>。</p>
 <p>这里可以自己去看一下源码，整体结构上就是一旦进入if语句内部，switch执行完毕后，return true；</p>
 <p><strong><em>当然，如果clickable,longclickable以及contextclickable这三个都为false时，就不会进入if语句，直接返回为false，dispatchTouchEvent方法的返回也为false，即表示没有处理此次touch事件</em></strong></p>
@@ -504,7 +513,7 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/View/" rel="tag"># View</a>
-              <a href="/tags/Android-Touch-事件分发/" rel="tag"># Android Touch 事件分发</a>
+              <a href="/tags/Android-Touch-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91/" rel="tag"># Android Touch 事件分发</a>
           </div>
 
         
@@ -517,7 +526,7 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
       <i class="fa fa-chevron-left"></i> 2016 booklist
     </a></div>
       <div class="post-nav-item">
-    <a href="/2016/06/06/我的少年时代/" rel="next" title="我的少年时代">
+    <a href="/2016/06/06/%E6%88%91%E7%9A%84%E5%B0%91%E5%B9%B4%E6%97%B6%E4%BB%A3/" rel="next" title="我的少年时代">
       我的少年时代 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -579,7 +588,7 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#View初探"><span class="nav-number">1.</span> <span class="nav-text">View初探</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyView"><span class="nav-number">1.1.</span> <span class="nav-text">MyView</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。"><span class="nav-number">1.1.1.</span> <span class="nav-text">首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监听View的Touch事件"><span class="nav-number">1.2.</span> <span class="nav-text">监听View的Touch事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View源码分析"><span class="nav-number">1.3.</span> <span class="nav-text">View源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-注释"><span class="nav-number">1.3.1.</span> <span class="nav-text">API 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatchTouchEvent源码（截取主要内容）"><span class="nav-number">1.3.2.</span> <span class="nav-text">dispatchTouchEvent源码（截取主要内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onTouchEvent源码（截取）"><span class="nav-number">1.3.3.</span> <span class="nav-text">onTouchEvent源码（截取）</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#View%E5%88%9D%E6%8E%A2"><span class="nav-number">1.</span> <span class="nav-text">View初探</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyView"><span class="nav-number">1.1.</span> <span class="nav-text">MyView</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E7%BB%A7%E6%89%BFView%E7%B1%BB%EF%BC%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAMyView%E3%80%82%E5%B9%B6%E5%9C%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E6%97%B6%E6%89%93%E5%8D%B0View%E7%B1%BB%E6%98%AF%E5%90%A6%E5%8F%AF%E7%82%B9%E5%87%BB%EF%BC%8C%E8%BF%99%E9%87%8C%E4%BB%8EView%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E7%9A%84%E8%A7%92%E5%BA%A6%E5%87%BA%E5%8F%91%EF%BC%8C%E6%89%80%E4%BB%A5%E4%B8%8D%E8%80%83%E8%99%91%E7%BB%98%E5%88%B6%EF%BC%8C%E6%B5%8B%E9%87%8F%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E3%80%82"><span class="nav-number">1.1.1.</span> <span class="nav-text">首先继承View类，自定义一个MyView。并在初始化时打印View类是否可点击，这里从View点击事件分发的角度出发，所以不考虑绘制，测量相关方法的实现。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E5%90%ACView%E7%9A%84Touch%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">监听View的Touch事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#View%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">1.3.</span> <span class="nav-text">View源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-%E6%B3%A8%E9%87%8A"><span class="nav-number">1.3.1.</span> <span class="nav-text">API 注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatchTouchEvent%E6%BA%90%E7%A0%81%EF%BC%88%E6%88%AA%E5%8F%96%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9%EF%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">dispatchTouchEvent源码（截取主要内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onTouchEvent%E6%BA%90%E7%A0%81%EF%BC%88%E6%88%AA%E5%8F%96%EF%BC%89"><span class="nav-number">1.3.3.</span> <span class="nav-text">onTouchEvent源码（截取）</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -650,14 +659,14 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -702,9 +711,17 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -713,7 +730,9 @@ public static final int ACTION_MOVE= 2</code></pre><blockquote>
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

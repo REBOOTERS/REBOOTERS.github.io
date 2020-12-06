@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,23 +48,23 @@
 </script>
 
   <meta name="description" content="前言关于 Java 多态 (Polymorphism)的一些 tips。">
-<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="当 Java 多态遇到方法重载和重写">
-<meta property="og:url" content="http://yoursite.com/2020/03/14/Java-多态/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言关于 Java 多态 (Polymorphism)的一些 tips。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-多态/father.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-多态/cast.png">
-<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-多态/polymorphism.png">
-<meta property="og:updated_time" content="2020-03-16T13:26:04.577Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/father.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/cast.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/polymorphism.png">
+<meta property="article:published_time" content="2020-03-14T12:34:18.000Z">
+<meta property="article:modified_time" content="2020-03-16T13:26:04.577Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="当 Java 多态遇到方法重载和重写">
-<meta name="twitter:description" content="前言关于 Java 多态 (Polymorphism)的一些 tips。">
-<meta name="twitter:image" content="http://yoursite.com/2020/03/14/Java-多态/father.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/father.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/03/14/Java-多态/">
+<link rel="canonical" href="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/">
 
 
 <script id="page-configurations">
@@ -212,7 +212,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/Java-多态/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/Java-%E5%A4%9A%E6%80%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -283,19 +283,19 @@
 <!-- TOC -->
 
 <ul>
-<li><a href="#前言">前言</a><ul>
-<li><a href="#多态定义">多态定义</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a><ul>
+<li><a href="#%E5%A4%9A%E6%80%81%E5%AE%9A%E4%B9%89">多态定义</a></li>
 </ul>
 </li>
-<li><a href="#在方法参数里的多态">在方法参数里的多态</a><ul>
-<li><a href="#多态的一般情况">多态的一般情况</a><ul>
-<li><a href="#方法声明和方法被调用">方法声明和方法被调用</a></li>
+<li><a href="#%E5%9C%A8%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E9%87%8C%E7%9A%84%E5%A4%9A%E6%80%81">在方法参数里的多态</a><ul>
+<li><a href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%B8%80%E8%88%AC%E6%83%85%E5%86%B5">多态的一般情况</a><ul>
+<li><a href="#%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E%E5%92%8C%E6%96%B9%E6%B3%95%E8%A2%AB%E8%B0%83%E7%94%A8">方法声明和方法被调用</a></li>
 </ul>
 </li>
-<li><a href="#总结">总结</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 </li>
-<li><a href="#引用">引用</a></li>
+<li><a href="#%E5%BC%95%E7%94%A8">引用</a></li>
 </ul>
 <!-- /TOC -->
 
@@ -308,18 +308,17 @@
 </ul>
 <h2 id="在方法参数里的多态"><a href="#在方法参数里的多态" class="headerlink" title="在方法参数里的多态"></a>在方法参数里的多态</h2><h3 id="多态的一般情况"><a href="#多态的一般情况" class="headerlink" title="多态的一般情况"></a>多态的一般情况</h3><p>对于多态，我们最熟悉的一种情况就是 引用类似被声明为父类后，可以把子类的实例赋值给这个引用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object any = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">Object anyone = <span class="keyword">new</span> String();</span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br></pre></td></tr></table></figure>
-
 <p> Object 是所有类型的父类，因此他声明的引用，可以执行任意他的子类对象，List 也是同理。</p>
 <p> 同时，我们也知道这个时候，这个引用在默认情况下也只能访问父类的属性和方法。比如这里的 any, 虽然想表达的是一个 ArrayList 对象，但是也只能访问 Object 的方法和属性。</p>
- <img src="/2020/03/14/Java-多态/father.png">
+ <img src="/2020/03/14/Java-%E5%A4%9A%E6%80%81/father.png">
 
 <p>当然，这里可以做强制类型转换。</p>
-<img src="/2020/03/14/Java-多态/cast.png">
+<img src="/2020/03/14/Java-%E5%A4%9A%E6%80%81/cast.png">
 
 <p><em>这里只是举例，一般不会这么写代码的</em></p>
 <h4 id="方法声明和方法被调用"><a href="#方法声明和方法被调用" class="headerlink" title="方法声明和方法被调用"></a>方法声明和方法被调用</h4><p>关于多态，我们还知道，如果父类和子类声明了相同的方法，那么运行时，会执行子类中的方法。</p>
 <p>现在，再来考虑下面这种情况。</p>
-<img src="/2020/03/14/Java-多态/polymorphism.png">
+<img src="/2020/03/14/Java-%E5%A4%9A%E6%80%81/polymorphism.png">
 
 <p><strong>这里使用截图，没用代码块主要是想体现一下 print 方法的调用情况,可以看到这里第一个 print 方法是高亮的</strong></p>
 <p>结果会是什么呢？ </p>
@@ -353,7 +352,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://mp.weixin.qq.com/s?__biz=MzI5NzE0NzEzNQ==&mid=2247484487&idx=1&sn=688adbe73e1c41cbbaa197d326116194&chksm=ecb8cbd7dbcf42c1e960499d26c5a4e93732c004b318a34030ea03871d9f639d9eb454845401" target="_blank" rel="noopener">偷听来的Java方法分派策略</a></p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI5NzE0NzEzNQ==&mid=2247484487&idx=1&sn=688adbe73e1c41cbbaa197d326116194&chksm=ecb8cbd7dbcf42c1e960499d26c5a4e93732c004b318a34030ea03871d9f639d9eb454845401">偷听来的Java方法分派策略</a></p>
 
     </div>
 
@@ -392,11 +391,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/04/Kotlin-实战读书笔记-二/" rel="prev" title="Kotlin 实战读书笔记(二)">
+    <a href="/2020/03/04/Kotlin-%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E4%BA%8C/" rel="prev" title="Kotlin 实战读书笔记(二)">
       <i class="fa fa-chevron-left"></i> Kotlin 实战读书笔记(二)
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/03/15/用-python-删除照片中的-exif-信息/" rel="next" title="用 python 删除照片中的 exif 信息 & 一些常用 tips">
+    <a href="/2020/03/15/%E7%94%A8-python-%E5%88%A0%E9%99%A4%E7%85%A7%E7%89%87%E4%B8%AD%E7%9A%84-exif-%E4%BF%A1%E6%81%AF/" rel="next" title="用 python 删除照片中的 exif 信息 & 一些常用 tips">
       用 python 删除照片中的 exif 信息 & 一些常用 tips <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -458,7 +457,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多态定义"><span class="nav-number">1.1.</span> <span class="nav-text">多态定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在方法参数里的多态"><span class="nav-number">2.</span> <span class="nav-text">在方法参数里的多态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多态的一般情况"><span class="nav-number">2.1.</span> <span class="nav-text">多态的一般情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法声明和方法被调用"><span class="nav-number">2.1.1.</span> <span class="nav-text">方法声明和方法被调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.2.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">多态定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E9%87%8C%E7%9A%84%E5%A4%9A%E6%80%81"><span class="nav-number">2.</span> <span class="nav-text">在方法参数里的多态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E4%B8%80%E8%88%AC%E6%83%85%E5%86%B5"><span class="nav-number">2.1.</span> <span class="nav-text">多态的一般情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E%E5%92%8C%E6%96%B9%E6%B3%95%E8%A2%AB%E8%B0%83%E7%94%A8"><span class="nav-number">2.1.1.</span> <span class="nav-text">方法声明和方法被调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.2.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -529,14 +528,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -581,9 +580,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -592,7 +599,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

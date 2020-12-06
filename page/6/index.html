@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -53,10 +53,9 @@
 <meta property="og:url" content="http://yoursite.com/page/6/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="人生不止眼前的苟且，还有诗与远方和田野">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="九尾灵狐">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="诗与远方">
-<meta name="twitter:description" content="人生不止眼前的苟且，还有诗与远方和田野">
 
 <link rel="canonical" href="http://yoursite.com/page/6/">
 
@@ -206,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/Android MVP 十分钟入门！/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -220,7 +219,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2017/01/24/Android MVP 十分钟入门！/" class="post-title-link" itemprop="url">Android MVP 十分钟入门！</a>
+            <a href="/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/" class="post-title-link" itemprop="url">Android MVP 十分钟入门！</a>
         </h1>
 
         <div class="post-meta">
@@ -245,7 +244,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 进阶</span>
                   </a>
                 </span>
@@ -276,13 +275,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在日常开发APP 的过程中，随着业务的扩展，规模的变化。我们的代码规模也会逐渐变得庞大，每一个类里的代码也会逐渐增多。尤其是Activity和Fragment ，由于Context 的存在，基本上所有对视图的操作我们只能在Activity和Fragment中完成；即便是对某些逻辑进行封装，Activity和Fragment 依旧会显得过于臃肿。因此，我们需要换一种思路去写代码，这个时候MVP模式就应用而生了！那么MVP 怎么用呢，下面就来说一说。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言##"></a>前言##</h2><p>在日常开发APP 的过程中，随着业务的扩展，规模的变化。我们的代码规模也会逐渐变得庞大，每一个类里的代码也会逐渐增多。尤其是Activity和Fragment ，由于Context 的存在，基本上所有对视图的操作我们只能在Activity和Fragment中完成；即便是对某些逻辑进行封装，Activity和Fragment 依旧会显得过于臃肿。因此，我们需要换一种思路去写代码，这个时候MVP模式就应用而生了！那么MVP 怎么用呢，下面就来说一说。</p>
 <p>假设你现在如要实现下图中的功能：</p>
-<p><img src="https://lc-mhke0kuv.cn-n1.lcfile.com/ddbae96177704862aa4c.jpg" alt=""></p>
+<p><img src="https://lc-mhke0kuv.cn-n1.lcfile.com/ddbae96177704862aa4c.jpg"></p>
 <p>这个需求很简单，就是点击按钮，下载一张图片，显示下载进度；下载完成后，在ImageView中显示这张图片。<br>下面我们就分别用传统的方式（也就是所谓的MVC)和MVP 模式分别取实现这个功能。然后分析一下MVP 到底好在哪里。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/01/24/Android MVP 十分钟入门！/#more" rel="contents">
+              <a class="btn" href="/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -306,7 +305,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/22/仿知乎首页学习CoordinateLayout用法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -320,7 +319,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/12/22/仿知乎首页学习CoordinateLayout用法/" class="post-title-link" itemprop="url">仿知乎首页学习CoordinateLayout</a>
+            <a href="/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">仿知乎首页学习CoordinateLayout</a>
         </h1>
 
         <div class="post-meta">
@@ -345,7 +344,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 进阶</span>
                   </a>
                 </span>
@@ -357,14 +356,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>20k</span>
+              <span>21k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>33 分钟</span>
+              <span>36 分钟</span>
             </span>
 
         </div>
@@ -376,11 +375,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>第一次接触CoordinateLayout的时候深深的被其炫酷的特效所吸引；想着什么时候在实际项目中可以使用一下，无奈实际项目因行业特点，并不需要使用到CoordinateLayout这么高端的交互体验；所以本着学习的态度，便用CoordinateLayout模仿了一下知乎首页效果，这也是现在掘金APP首页的效果；这种效果其实很友好，能让用户最大限度的使用到手机屏幕。</p>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言###"></a>前言###</h3><p>第一次接触CoordinateLayout的时候深深的被其炫酷的特效所吸引；想着什么时候在实际项目中可以使用一下，无奈实际项目因行业特点，并不需要使用到CoordinateLayout这么高端的交互体验；所以本着学习的态度，便用CoordinateLayout模仿了一下知乎首页效果，这也是现在掘金APP首页的效果；这种效果其实很友好，能让用户最大限度的使用到手机屏幕。</p>
 <p>好了，废话不多说，先看看模仿效果。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/12/22/仿知乎首页学习CoordinateLayout用法/#more" rel="contents">
+              <a class="btn" href="/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -404,7 +403,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/12/真的需要使用RxJava+Retrofit吗/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/12/%E7%9C%9F%E7%9A%84%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8RxJava+Retrofit%E5%90%97/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -418,7 +417,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/12/12/真的需要使用RxJava+Retrofit吗/" class="post-title-link" itemprop="url">我们真的需要使用RxJava+Retrofit吗？</a>
+            <a href="/2016/12/12/%E7%9C%9F%E7%9A%84%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8RxJava+Retrofit%E5%90%97/" class="post-title-link" itemprop="url">我们真的需要使用RxJava+Retrofit吗？</a>
         </h1>
 
         <div class="post-meta">
@@ -443,8 +442,107 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-进阶，Android-三方框架/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6%EF%BC%8CAndroid-%E4%B8%89%E6%96%B9%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 进阶，Android 三方框架</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>29 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>可以说RxJava+Retrofit是整个2016年Android 开发圈内最受关注的的组合。各大Android论坛上有大量以RxJava+Retrofit+xxx 为标题的文章，此类文章也备受大家的关注。这个组合仿佛已经成为了Android开发的必备组件，项目里没使用这个组合好像自己都out了似的。</p>
+<p>平心而论，RxJava和Retrofit 相较于以往的各种框架（如 AsyncHttpClient，Volley等 )学习和使用起来会有一些难度；RxJava 强大而又庞大的操作符，Retrofit采用注解风格定义接口，都会让初学者花费不少功夫，绕不少圈子，踩大量的坑。既然这样，那么就会有人怀疑，我们真的需要学习RxJava和Retrofit吗？</p>
+<p>任意一款需要联网的APP，最典型的套路就是请求后端数据，解析数据进行UI更新；响应用户操作，再次请求数据，更新UI。这里我们就从最基础的网络请求出发，带着疑问，逐步了解一下Retrofit的前生今世，看一看RxJava和Retrofit的价值所在。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/12/12/%E7%9C%9F%E7%9A%84%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8RxJava+Retrofit%E5%90%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/19/Android%20%E5%8A%A8%E7%94%BB%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/19/Android%20%E5%8A%A8%E7%94%BB%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Android 动画总结</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-10-19 22:07:46" itemprop="dateCreated datePublished" datetime="2016-10-19T22:07:46+08:00">2016-10-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">Android 进阶</span>
                   </a>
                 </span>
             </span>
@@ -474,105 +572,6 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>可以说RxJava+Retrofit是整个2016年Android 开发圈内最受关注的的组合。各大Android论坛上有大量以RxJava+Retrofit+xxx 为标题的文章，此类文章也备受大家的关注。这个组合仿佛已经成为了Android开发的必备组件，项目里没使用这个组合好像自己都out了似的。</p>
-<p>平心而论，RxJava和Retrofit 相较于以往的各种框架（如 AsyncHttpClient，Volley等 )学习和使用起来会有一些难度；RxJava 强大而又庞大的操作符，Retrofit采用注解风格定义接口，都会让初学者花费不少功夫，绕不少圈子，踩大量的坑。既然这样，那么就会有人怀疑，我们真的需要学习RxJava和Retrofit吗？</p>
-<p>任意一款需要联网的APP，最典型的套路就是请求后端数据，解析数据进行UI更新；响应用户操作，再次请求数据，更新UI。这里我们就从最基础的网络请求出发，带着疑问，逐步了解一下Retrofit的前生今世，看一看RxJava和Retrofit的价值所在。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/12/12/真的需要使用RxJava+Retrofit吗/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/19/Android 动画总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/19/Android 动画总结/" class="post-title-link" itemprop="url">Android 动画总结</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-10-19 22:07:46" itemprop="dateCreated datePublished" datetime="2016-10-19T22:07:46+08:00">2016-10-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>16k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>27 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
           <p>在日常的Android开发中，经常会使用到动画，这里就对Android开发中的动画做一下总结。</p>
 <h2 id="Android-动画分类"><a href="#Android-动画分类" class="headerlink" title="Android 动画分类"></a>Android 动画分类</h2><p>总的来说，Android动画可以分为两类，最初的<strong>传统动画</strong>和Android3.0 之后出现的<strong>属性动画</strong>；<br>传统动画又包括 帧动画（Frame Animation）和补间动画（Tweened Animation）。</p>
 <h2 id="传统动画"><a href="#传统动画" class="headerlink" title="传统动画"></a>传统动画</h2><h3 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h3><p>帧动画是最容易实现的一种动画，这种动画更多的依赖于完善的UI资源，他的原理就是将一张张单独的图片连贯的进行播放，<br>从而在视觉上产生一种动画的效果；有点类似于某些软件制作gif动画的方式。</p>
@@ -580,7 +579,7 @@
 <p>如上图中的京东加载动画，代码要做的事情就是把一幅幅的图片按顺序显示，造成动画的视觉效果。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/10/19/Android 动画总结/#more" rel="contents">
+              <a class="btn" href="/2016/10/19/Android%20%E5%8A%A8%E7%94%BB%E6%80%BB%E7%BB%93/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -604,7 +603,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/24/理解Android中的注解与反射/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/24/%E7%90%86%E8%A7%A3Android%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -618,7 +617,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/09/24/理解Android中的注解与反射/" class="post-title-link" itemprop="url">理解Android中的注解与反射</a>
+            <a href="/2016/09/24/%E7%90%86%E8%A7%A3Android%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">理解Android中的注解与反射</a>
         </h1>
 
         <div class="post-meta">
@@ -643,7 +642,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-进阶/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 进阶</span>
                   </a>
                 </span>
@@ -662,7 +661,7 @@
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
+              <span>19 分钟</span>
             </span>
 
         </div>
@@ -674,11 +673,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近一段时间在研究EventBus和Retrofit 的过程中，都遇到了<strong>注解</strong>这个概念。由于在学习Java的时候对这方面没有深入了解过，所以看起相关的代码来，总会有点不知其所以然，这里就注解和反射的使用做一下总结。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言##"></a>前言##</h2><p>最近一段时间在研究EventBus和Retrofit 的过程中，都遇到了<strong>注解</strong>这个概念。由于在学习Java的时候对这方面没有深入了解过，所以看起相关的代码来，总会有点不知其所以然，这里就注解和反射的使用做一下总结。</p>
 <p><em>这里我们先从反射说起，了解了反射的意义及用法后，我们在看看注解的使用，最后叙述一下在Android开发中是怎样结合使用注解与反射。</em></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/09/24/理解Android中的注解与反射/#more" rel="contents">
+              <a class="btn" href="/2016/09/24/%E7%90%86%E8%A7%A3Android%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -702,7 +701,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/23/EventBus 3.0 相见恨晚/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -716,7 +715,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/07/23/EventBus 3.0 相见恨晚/" class="post-title-link" itemprop="url">EventBus 3.0 相见恨晚</a>
+            <a href="/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/" class="post-title-link" itemprop="url">EventBus 3.0 相见恨晚</a>
         </h1>
 
         <div class="post-meta">
@@ -741,7 +740,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-三方框架/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E4%B8%89%E6%96%B9%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 三方框架</span>
                   </a>
                 </span>
@@ -753,7 +752,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.6k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -772,11 +771,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="为什么要用EventBus？它是干什么用的？"><a href="#为什么要用EventBus？它是干什么用的？" class="headerlink" title="为什么要用EventBus？它是干什么用的？"></a>为什么要用EventBus？它是干什么用的？</h2><h3 id="EventBus是什么"><a href="#EventBus是什么" class="headerlink" title="EventBus是什么"></a>EventBus是什么</h3><p>EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。</p>
+          <h2 id="为什么要用EventBus？它是干什么用的？"><a href="#为什么要用EventBus？它是干什么用的？" class="headerlink" title="为什么要用EventBus？它是干什么用的？##"></a>为什么要用EventBus？它是干什么用的？##</h2><h3 id="EventBus是什么"><a href="#EventBus是什么" class="headerlink" title="EventBus是什么###"></a>EventBus是什么###</h3><p>EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。</p>
 <p>这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/07/23/EventBus 3.0 相见恨晚/#more" rel="contents">
+              <a class="btn" href="/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -800,7 +799,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/06/我的少年时代/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/06/06/%E6%88%91%E7%9A%84%E5%B0%91%E5%B9%B4%E6%97%B6%E4%BB%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -814,7 +813,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/06/06/我的少年时代/" class="post-title-link" itemprop="url">我的少年时代</a>
+            <a href="/2016/06/06/%E6%88%91%E7%9A%84%E5%B0%91%E5%B9%B4%E6%97%B6%E4%BB%A3/" class="post-title-link" itemprop="url">我的少年时代</a>
         </h1>
 
         <div class="post-meta">
@@ -839,7 +838,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/诗与远方/" itemprop="url" rel="index">
+                  <a href="/categories/%E8%AF%97%E4%B8%8E%E8%BF%9C%E6%96%B9/" itemprop="url" rel="index">
                     <span itemprop="name">诗与远方</span>
                   </a>
                 </span>
@@ -851,7 +850,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.9k</span>
+              <span>6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -870,14 +869,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="蝉鸣的夏季-我想遇见你"><a href="#蝉鸣的夏季-我想遇见你" class="headerlink" title="蝉鸣的夏季 我想遇见你"></a>蝉鸣的夏季 我想遇见你</h4><p>2006年的夏天，郭然读高一。</p>
+          <h4 id="蝉鸣的夏季-我想遇见你"><a href="#蝉鸣的夏季-我想遇见你" class="headerlink" title="蝉鸣的夏季 我想遇见你####"></a>蝉鸣的夏季 我想遇见你####</h4><p>2006年的夏天，郭然读高一。</p>
 <p>在后来许许多多的日子里，回忆起那个夏天，郭然总是笑着说，那是最最快乐的青春时光。</p>
 <p>二中是县里的重点高中，每年初中毕业后能踏进二中校门的人，在内心深处总有着几分悲壮与莫名的骄傲。而一上高中，就直接进入实验班的人，更是许多人眼里神一样的存在，就像郭然，初中三年，始终是那个全年级考第一的人，没有人去嫉妒，就像你不会嫉妒马云赚的比你多一样。所以呢，他能进入实验班在我们一群初中同学眼中是理所当然，反倒是亦安没能进实验班让我们一群人很是诧异，因为亦安虽然不如郭然一样那么稳定的始终待在全年级第一的宝座上，但初中三年下来也没跌出过年纪前五。</p>
 <p>那个时候，刚住校的我们，每周五都会一起坐车回家；每次在车上和亦安同属六班的“狗圣”都会说，一定是哪个有钱人家给学校塞了钱把自己家的孩子硬塞进了实验班，挤掉了原本属于亦安的名额，对此，我们几个人都是义愤填膺。反倒是亦安自己觉得没什么，按照她的话就是，只要自己努力，还怕考不上自己心目中的大学，在哪里都无所谓。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1115031-8a3ae7cb4ba9086f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1115031-8a3ae7cb4ba9086f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/06/06/我的少年时代/#more" rel="contents">
+              <a class="btn" href="/2016/06/06/%E6%88%91%E7%9A%84%E5%B0%91%E5%B9%B4%E6%97%B6%E4%BB%A3/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -901,7 +900,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/07/Android View事件记录/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -915,7 +914,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2016/05/07/Android View事件记录/" class="post-title-link" itemprop="url">Android View 事件分发记录</a>
+            <a href="/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">Android View 事件分发记录</a>
         </h1>
 
         <div class="post-meta">
@@ -940,7 +939,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-基础/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
                     <span itemprop="name">Android 基础</span>
                   </a>
                 </span>
@@ -952,7 +951,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.4k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -976,7 +975,7 @@
 </blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/05/07/Android View事件记录/#more" rel="contents">
+              <a class="btn" href="/2016/05/07/Android%20View%E4%BA%8B%E4%BB%B6%E8%AE%B0%E5%BD%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1084,7 +1083,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/08/19/你的生活会变成什么样子/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/08/19/%E4%BD%A0%E7%9A%84%E7%94%9F%E6%B4%BB%E4%BC%9A%E5%8F%98%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -1098,7 +1097,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2013/08/19/你的生活会变成什么样子/" class="post-title-link" itemprop="url">你的生活会变成什么样子</a>
+            <a href="/2013/08/19/%E4%BD%A0%E7%9A%84%E7%94%9F%E6%B4%BB%E4%BC%9A%E5%8F%98%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90/" class="post-title-link" itemprop="url">你的生活会变成什么样子</a>
         </h1>
 
         <div class="post-meta">
@@ -1123,7 +1122,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/诗与远方/" itemprop="url" rel="index">
+                  <a href="/categories/%E8%AF%97%E4%B8%8E%E8%BF%9C%E6%96%B9/" itemprop="url" rel="index">
                     <span itemprop="name">诗与远方</span>
                   </a>
                 </span>
@@ -1158,7 +1157,7 @@
 <p>那天在微博上看到一个段子，感觉挺搞笑。说是某市高考状元填报志愿，所填的第一志愿是“北京有空调大学”，其后依次才是xx大学（传说中的国内名牌大学）。这当然只是调侃北京的天气，故事的真假倒是其次。但北京的热真是快到让人无法忍受的地步了。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2013/08/19/你的生活会变成什么样子/#more" rel="contents">
+              <a class="btn" href="/2013/08/19/%E4%BD%A0%E7%9A%84%E7%94%9F%E6%B4%BB%E4%BC%9A%E5%8F%98%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1305,14 +1304,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -1357,9 +1356,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -1368,7 +1375,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

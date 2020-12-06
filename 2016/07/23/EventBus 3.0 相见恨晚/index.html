@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -47,20 +47,22 @@
   };
 </script>
 
-  <meta name="description" content="为什么要用EventBus？它是干什么用的？EventBus是什么EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。 这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。">
-<meta name="keywords" content="三方库源码分析,EventBus,设计模式">
+  <meta name="description" content="为什么要用EventBus？它是干什么用的？##EventBus是什么###EventBus是一个Android端优化的publish&#x2F;subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。 这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EventBus 3.0 相见恨晚">
-<meta property="og:url" content="http://yoursite.com/2016/07/23/EventBus 3.0 相见恨晚/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/index.html">
 <meta property="og:site_name" content="诗与远方">
-<meta property="og:description" content="为什么要用EventBus？它是干什么用的？EventBus是什么EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。 这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-01-15T13:48:19.843Z">
+<meta property="og:description" content="为什么要用EventBus？它是干什么用的？##EventBus是什么###EventBus是一个Android端优化的publish&#x2F;subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。 这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-07-23T14:16:47.000Z">
+<meta property="article:modified_time" content="2020-01-15T13:48:19.843Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="三方库源码分析">
+<meta property="article:tag" content="EventBus">
+<meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EventBus 3.0 相见恨晚">
-<meta name="twitter:description" content="为什么要用EventBus？它是干什么用的？EventBus是什么EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。 这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。">
 
-<link rel="canonical" href="http://yoursite.com/2016/07/23/EventBus 3.0 相见恨晚/">
+<link rel="canonical" href="http://yoursite.com/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/">
 
 
 <script id="page-configurations">
@@ -208,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/23/EventBus 3.0 相见恨晚/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/23/EventBus%203.0%20%E7%9B%B8%E8%A7%81%E6%81%A8%E6%99%9A/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -246,7 +248,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-三方框架/" itemprop="url" rel="index">
+                  <a href="/categories/Android-%E4%B8%89%E6%96%B9%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index">
                     <span itemprop="name">Android 三方框架</span>
                   </a>
                 </span>
@@ -265,7 +267,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.6k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -284,31 +286,29 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="为什么要用EventBus？它是干什么用的？"><a href="#为什么要用EventBus？它是干什么用的？" class="headerlink" title="为什么要用EventBus？它是干什么用的？"></a>为什么要用EventBus？它是干什么用的？</h2><h3 id="EventBus是什么"><a href="#EventBus是什么" class="headerlink" title="EventBus是什么"></a>EventBus是什么</h3><p>EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。</p>
+        <h2 id="为什么要用EventBus？它是干什么用的？"><a href="#为什么要用EventBus？它是干什么用的？" class="headerlink" title="为什么要用EventBus？它是干什么用的？##"></a>为什么要用EventBus？它是干什么用的？##</h2><h3 id="EventBus是什么"><a href="#EventBus是什么" class="headerlink" title="EventBus是什么###"></a>EventBus是什么###</h3><p>EventBus是一个Android端优化的publish/subscribe消息总线，简化了应用程序内各组件间、组件与后台线程间的通信。</p>
 <p>这样一个简单的概念，可能让你不足以感受到EventBus的魅力。我们来思考一下下面这些情况。</p>
 <a id="more"></a>
 
 <ul>
-<li>使用购物类APP时，我们在商品详情页将商品加入购物车时，底部tab栏的购物车tab右上角的小数字也同步发生了变化。</li>
+<li> 使用购物类APP时，我们在商品详情页将商品加入购物车时，底部tab栏的购物车tab右上角的小数字也同步发生了变化。</li>
 </ul>
 <p>面对这样的需求，一般情况下都是在详情页中提供一个接口，在tab栏所在的Activity（或者是Fragment）中注册这个接口，当点击事件发生是，回调这个接口，更新tab栏的内容。甚至有时候，由于Activity+多个fragment 的组合，可能需要多个接口经过层层传递才能实现某些在产品经理看来很简单的UI更新。</p>
 <ul>
-<li>大部分APP在用户完成用户登录操作后，需要在返回界面同步更新用户信息。</li>
+<li> 大部分APP在用户完成用户登录操作后，需要在返回界面同步更新用户信息。</li>
 </ul>
 <p>这个时候，我们一般会在返回界面的onActivityResult方法中，通过requestCode及resultCode做出种种判断，最后在确认用户登录成功的情况下，请求用户信息完成UI的更新，这种体验其实是非常不好，作为一个用户希望的是登录成功的同时完成用户信息的更新。</p>
 <p>当然上面两种情况，用BroadcastReceiver实现，也是完全可以的，肯能会相对简单一些，但是从整体性能来说，这样是不好的。</p>
 <p>而EventBus的出现，很好的解决了这些让我们头疼的问题。首先就用一个简单的列子来实现一下用户登录信息<strong>异步</strong>更新的情况。</p>
-<h2 id="EventBus-3-0-使用Demo"><a href="#EventBus-3-0-使用Demo" class="headerlink" title="EventBus 3.0 使用Demo"></a>EventBus 3.0 使用Demo</h2><p>这里用两个Activity简单的模拟常见的用户登录。</p>
-<h3 id="用户信息界面"><a href="#用户信息界面" class="headerlink" title="用户信息界面"></a>用户信息界面</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class FirstActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Button btn;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    //User Info</span><br><span class="line">    private TextView userName;</span><br><span class="line">    private ImageView usreImg;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        mContext = this;</span><br><span class="line">        EventBus.getDefault().register(mContext);</span><br><span class="line">        InitView();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void InitView() &#123;</span><br><span class="line">        setContentView(R.layout.activity_first);</span><br><span class="line">        userName = (TextView) findViewById(R.id.userName);</span><br><span class="line">        usreImg = (ImageView) findViewById(R.id.userImg);</span><br><span class="line">        btn = (Button) findViewById(R.id.button);</span><br><span class="line">        btn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                startActivity(new Intent(mContext, SecondActivity.class));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Subscribe</span><br><span class="line">    public void onUserEvent(UserEvent event) &#123;</span><br><span class="line">        userName.setText(&quot;用户名:&quot; + event.nameStr);</span><br><span class="line">        Glide.with(mContext).load(event.imgUrl).into(usreImg);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line">        EventBus.getDefault().unregister(mContext);</span><br><span class="line">        super.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="用户登录界面"><a href="#用户登录界面" class="headerlink" title="用户登录界面"></a>用户登录界面</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class SecondActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    private Button btn;</span><br><span class="line">    private EditText name;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        mContext=this;</span><br><span class="line">        setContentView(R.layout.activity_second);</span><br><span class="line">        name = (EditText) findViewById(R.id.name);</span><br><span class="line">        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                //测试数据</span><br><span class="line">                String userImg = &quot;http://img5.imgtn.bdimg.com/it/u=3774008831,1558972780&amp;fm=21&amp;gp=0.jpg&quot;;</span><br><span class="line">                //这里只是为了方便测试,随便写的登录逻辑</span><br><span class="line">                String userName=&quot;&quot;;</span><br><span class="line">                if(!TextUtils.isEmpty(name.getText().toString()))&#123;</span><br><span class="line">                    userName = name.getText().toString();</span><br><span class="line">                    UserEvent userEvent = new UserEvent(userName, userImg);</span><br><span class="line">                    EventBus.getDefault().post(userEvent);</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    //不再发送事件Event</span><br><span class="line">                    Toast.makeText(mContext,&quot;登录失败&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="UserEvent-类"><a href="#UserEvent-类" class="headerlink" title="UserEvent 类"></a>UserEvent 类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class UserEvent &#123;</span><br><span class="line">    public final String nameStr;</span><br><span class="line">    public final String imgUrl;</span><br><span class="line"></span><br><span class="line">    public UserEvent(String nameStr, String imgUrl) &#123;</span><br><span class="line">        this.nameStr = nameStr;</span><br><span class="line">        this.imgUrl = imgUrl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="EventBus-3-0-使用Demo"><a href="#EventBus-3-0-使用Demo" class="headerlink" title="EventBus 3.0 使用Demo##"></a>EventBus 3.0 使用Demo##</h2><p>这里用两个Activity简单的模拟常见的用户登录。</p>
+<h3 id="用户信息界面"><a href="#用户信息界面" class="headerlink" title="用户信息界面###"></a>用户信息界面###</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class FirstActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Button btn;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    &#x2F;&#x2F;User Info</span><br><span class="line">    private TextView userName;</span><br><span class="line">    private ImageView usreImg;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        mContext &#x3D; this;</span><br><span class="line">        EventBus.getDefault().register(mContext);</span><br><span class="line">        InitView();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void InitView() &#123;</span><br><span class="line">        setContentView(R.layout.activity_first);</span><br><span class="line">        userName &#x3D; (TextView) findViewById(R.id.userName);</span><br><span class="line">        usreImg &#x3D; (ImageView) findViewById(R.id.userImg);</span><br><span class="line">        btn &#x3D; (Button) findViewById(R.id.button);</span><br><span class="line">        btn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                startActivity(new Intent(mContext, SecondActivity.class));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Subscribe</span><br><span class="line">    public void onUserEvent(UserEvent event) &#123;</span><br><span class="line">        userName.setText(&quot;用户名:&quot; + event.nameStr);</span><br><span class="line">        Glide.with(mContext).load(event.imgUrl).into(usreImg);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line">        EventBus.getDefault().unregister(mContext);</span><br><span class="line">        super.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="用户登录界面"><a href="#用户登录界面" class="headerlink" title="用户登录界面###"></a>用户登录界面###</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class SecondActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Context mContext;</span><br><span class="line">    private Button btn;</span><br><span class="line">    private EditText name;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        mContext&#x3D;this;</span><br><span class="line">        setContentView(R.layout.activity_second);</span><br><span class="line">        name &#x3D; (EditText) findViewById(R.id.name);</span><br><span class="line">        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                &#x2F;&#x2F;测试数据</span><br><span class="line">                String userImg &#x3D; &quot;http:&#x2F;&#x2F;img5.imgtn.bdimg.com&#x2F;it&#x2F;u&#x3D;3774008831,1558972780&amp;fm&#x3D;21&amp;gp&#x3D;0.jpg&quot;;</span><br><span class="line">                &#x2F;&#x2F;这里只是为了方便测试,随便写的登录逻辑</span><br><span class="line">                String userName&#x3D;&quot;&quot;;</span><br><span class="line">                if(!TextUtils.isEmpty(name.getText().toString()))&#123;</span><br><span class="line">                    userName &#x3D; name.getText().toString();</span><br><span class="line">                    UserEvent userEvent &#x3D; new UserEvent(userName, userImg);</span><br><span class="line">                    EventBus.getDefault().post(userEvent);</span><br><span class="line">                &#125;else &#123;</span><br><span class="line">                    &#x2F;&#x2F;不再发送事件Event</span><br><span class="line">                    Toast.makeText(mContext,&quot;登录失败&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="UserEvent-类"><a href="#UserEvent-类" class="headerlink" title="UserEvent 类###"></a>UserEvent 类###</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class UserEvent &#123;</span><br><span class="line">    public final String nameStr;</span><br><span class="line">    public final String imgUrl;</span><br><span class="line"></span><br><span class="line">    public UserEvent(String nameStr, String imgUrl) &#123;</span><br><span class="line">        this.nameStr &#x3D; nameStr;</span><br><span class="line">        this.imgUrl &#x3D; imgUrl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这里可以看到没有Handler，没有onActivityResult的判断，没有没有任何接口。就实现了如gif图中所示效果。</p>
 <p>接下来，就总结一下如何使用EventBus3.0 。</p>
-<h2 id="EventBus-3-0-使用步骤"><a href="#EventBus-3-0-使用步骤" class="headerlink" title="EventBus 3.0 使用步骤"></a>EventBus 3.0 使用步骤</h2><p>1.首先我们需要将EventBus添加到我们的项目中。在AndroidStudio中我们可以在gradle里面直接配置即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;org.greenrobot:eventbus:3.0.0&apos;</span><br></pre></td></tr></table></figure>
+<h2 id="EventBus-3-0-使用步骤"><a href="#EventBus-3-0-使用步骤" class="headerlink" title="EventBus 3.0 使用步骤##"></a>EventBus 3.0 使用步骤##</h2><p>1.首先我们需要将EventBus添加到我们的项目中。在AndroidStudio中我们可以在gradle里面直接配置即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &#39;org.greenrobot:eventbus:3.0.0&#39;</span><br></pre></td></tr></table></figure>
 
 <p>2.创建一个事件类（这个类似于JavaBean)，就是上面的UserEvent类。</p>
 <p>这里的Demo只是举例说明简单用法，实际中可以根据需要创建不同的事件类</p>
@@ -320,10 +320,19 @@
 
 <p>这里的注解@Subscribe 很关键，表明这个方法为订阅者，这个方法的名字也已经不在重要了（相对于以前的版本来说），在这个方法里，我们实现了UI更新。</p>
 <p>5.分发事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UserEvent userEvent = new UserEvent(userName, userImg);</span><br><span class="line">                    EventBus.getDefault().post(userEvent);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UserEvent userEvent &#x3D; new UserEvent(userName, userImg);</span><br><span class="line">                    EventBus.getDefault().post(userEvent);</span><br></pre></td></tr></table></figure>
 
 <p>6.解除注册</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EventBus.getDefault().unregister(mContext);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
 
 
     </div>
@@ -354,9 +363,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/三方库源码分析/" rel="tag"># 三方库源码分析</a>
+              <a href="/tags/%E4%B8%89%E6%96%B9%E5%BA%93%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="tag"># 三方库源码分析</a>
               <a href="/tags/EventBus/" rel="tag"># EventBus</a>
-              <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
           </div>
 
         
@@ -365,11 +374,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2016/06/06/我的少年时代/" rel="prev" title="我的少年时代">
+    <a href="/2016/06/06/%E6%88%91%E7%9A%84%E5%B0%91%E5%B9%B4%E6%97%B6%E4%BB%A3/" rel="prev" title="我的少年时代">
       <i class="fa fa-chevron-left"></i> 我的少年时代
     </a></div>
       <div class="post-nav-item">
-    <a href="/2016/09/24/理解Android中的注解与反射/" rel="next" title="理解Android中的注解与反射">
+    <a href="/2016/09/24/%E7%90%86%E8%A7%A3Android%E4%B8%AD%E7%9A%84%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/" rel="next" title="理解Android中的注解与反射">
       理解Android中的注解与反射 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -431,7 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用EventBus？它是干什么用的？"><span class="nav-number">1.</span> <span class="nav-text">为什么要用EventBus？它是干什么用的？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventBus是什么"><span class="nav-number">1.1.</span> <span class="nav-text">EventBus是什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventBus-3-0-使用Demo"><span class="nav-number">2.</span> <span class="nav-text">EventBus 3.0 使用Demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用户信息界面"><span class="nav-number">2.1.</span> <span class="nav-text">用户信息界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户登录界面"><span class="nav-number">2.2.</span> <span class="nav-text">用户登录界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserEvent-类"><span class="nav-number">2.3.</span> <span class="nav-text">UserEvent 类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventBus-3-0-使用步骤"><span class="nav-number">3.</span> <span class="nav-text">EventBus 3.0 使用步骤</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8EventBus%EF%BC%9F%E5%AE%83%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%94%A8%E7%9A%84%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">为什么要用EventBus？它是干什么用的？##</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventBus%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">EventBus是什么###</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventBus-3-0-%E4%BD%BF%E7%94%A8Demo"><span class="nav-number">2.</span> <span class="nav-text">EventBus 3.0 使用Demo##</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%95%8C%E9%9D%A2"><span class="nav-number">2.1.</span> <span class="nav-text">用户信息界面###</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2"><span class="nav-number">2.2.</span> <span class="nav-text">用户登录界面###</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserEvent-%E7%B1%BB"><span class="nav-number">2.3.</span> <span class="nav-text">UserEvent 类###</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventBus-3-0-%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">EventBus 3.0 使用步骤##</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -502,14 +511,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -554,9 +563,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -565,7 +582,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

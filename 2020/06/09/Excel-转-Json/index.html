@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -48,22 +48,22 @@
 </script>
 
   <meta name="description" content="前言用 Python 读取  Excel 文件并转换为 Json 的实现">
-<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Excel 转 Json">
-<meta property="og:url" content="http://yoursite.com/2020/06/09/Excel-转-Json/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/index.html">
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言用 Python 读取  Excel 文件并转换为 Json 的实现">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/Excel-转-Json/excel_header.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/Excel-转-Json/excel_sheet.jpg">
-<meta property="og:updated_time" content="2020-06-13T08:49:30.448Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/excel_header.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/excel_sheet.jpg">
+<meta property="article:published_time" content="2020-06-09T00:58:33.000Z">
+<meta property="article:modified_time" content="2020-06-13T08:49:30.448Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Excel 转 Json">
-<meta name="twitter:description" content="前言用 Python 读取  Excel 文件并转换为 Json 的实现">
-<meta name="twitter:image" content="http://yoursite.com/2020/06/09/Excel-转-Json/excel_header.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/excel_header.jpg">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/09/Excel-转-Json/">
+<link rel="canonical" href="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/">
 
 
 <script id="page-configurations">
@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/Excel-转-Json/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/Excel-%E8%BD%AC-Json/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -257,7 +257,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -276,7 +276,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <img src="/2020/06/09/Excel-转-Json/excel_header.jpg" width="40%/">
+        <img src="/2020/06/09/Excel-%E8%BD%AC-Json/excel_header.jpg" width="40%/">
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用 Python 读取  Excel 文件并转换为 Json 的实现</p>
 <a id="more"></a>
@@ -310,18 +310,16 @@
 </li>
 </ul>
 <p>为了方便，后面以下图中这张表为例</p>
-<img src="/2020/06/09/Excel-转-Json/excel_sheet.jpg">
+<img src="/2020/06/09/Excel-%E8%BD%AC-Json/excel_sheet.jpg">
 
 <p>对于一张普通的表来说，第一行特别重要，因为他记录了这张表要统计哪些具体的信息，相当于是一个对象的属性。当然，在某些情况下，不一定是表的第一行，但一定是某个固定的行。</p>
-<h3 id="获取表的关键属性"><a href="#获取表的关键属性" class="headerlink" title="获取表的关键属性"></a>获取表的关键属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">row = xl_sheet.row(<span class="number">0</span>)  <span class="comment"># 1st row</span></span><br><span class="line">keys = []  <span class="comment"># sheet prop</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx, cell_obj <span class="keyword">in</span> enumerate(row):</span><br><span class="line">    cell_type_str = ctype_text.get(cell_obj.ctype, <span class="string">'unknown type'</span>)</span><br><span class="line">    print(<span class="string">'(%s) %s %s'</span> % (idx, cell_type_str, cell_obj.value))</span><br><span class="line">    keys.append(cell_obj.value)</span><br><span class="line">print(keys)</span><br></pre></td></tr></table></figure>
-
+<h3 id="获取表的关键属性"><a href="#获取表的关键属性" class="headerlink" title="获取表的关键属性"></a>获取表的关键属性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">row = xl_sheet.row(<span class="number">0</span>)  <span class="comment"># 1st row</span></span><br><span class="line">keys = []  <span class="comment"># sheet prop</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx, cell_obj <span class="keyword">in</span> <span class="built_in">enumerate</span>(row):</span><br><span class="line">    cell_type_str = ctype_text.get(cell_obj.ctype, <span class="string">&#x27;unknown type&#x27;</span>)</span><br><span class="line">    print(<span class="string">&#x27;(%s) %s %s&#x27;</span> % (idx, cell_type_str, cell_obj.value))</span><br><span class="line">    keys.append(cell_obj.value)</span><br><span class="line">print(keys)</span><br></pre></td></tr></table></figure>
 <p>output</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(0) text Company</span><br><span class="line">(1) text Address 1</span><br><span class="line">(2) text City</span><br><span class="line">(3) text State</span><br><span class="line">['Company', 'Address 1', 'City', 'State']</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(0) text Company</span><br><span class="line">(1) text Address 1</span><br><span class="line">(2) text City</span><br><span class="line">(3) text State</span><br><span class="line">[&#x27;Company&#x27;, &#x27;Address 1&#x27;, &#x27;City&#x27;, &#x27;State&#x27;]</span><br></pre></td></tr></table></figure>
 <p>可以看到我们可以获取表格中每一列的内容的值和他的属性。</p>
 <p><strong>这里的属性其实非常有用，由于上述表格非常简单，每一列都只是简单的文字描述，因此都是 text。如果你的表格设计的比较高端，比如这里是一个 excel 的选择器，那么就可以做更多的事情了。</strong></p>
 <h3 id="按行读取文件"><a href="#按行读取文件" class="headerlink" title="按行读取文件"></a>按行读取文件</h3><p>其实，上图中的表就是一个 list ，每一个相当于是一个对象或者说是字典，因此我们要做的就是按行访问表，并按照每一行进行赋值即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">results = []</span><br><span class="line">num_cols = xl_sheet.ncols  <span class="comment"># 表格的列数</span></span><br><span class="line"><span class="keyword">for</span> row_idx <span class="keyword">in</span> range(<span class="number">1</span>, xl_sheet.nrows):  <span class="comment"># 对表格的行数循环</span></span><br><span class="line">    result = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> col_idx <span class="keyword">in</span> range(<span class="number">0</span>, num_cols):  <span class="comment"># Iterate through columns</span></span><br><span class="line">        cell_obj = xl_sheet.cell(row_idx, col_idx)  <span class="comment"># Get cell object by row, col</span></span><br><span class="line">        result[keys[col_idx]] = cell_obj.value</span><br><span class="line">    results.append(result)</span><br><span class="line">print(json.dumps(results, ensure_ascii=<span class="keyword">False</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">results = []</span><br><span class="line">num_cols = xl_sheet.ncols  <span class="comment"># 表格的列数</span></span><br><span class="line"><span class="keyword">for</span> row_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, xl_sheet.nrows):  <span class="comment"># 对表格的行数循环</span></span><br><span class="line">    result = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> col_idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, num_cols):  <span class="comment"># Iterate through columns</span></span><br><span class="line">        cell_obj = xl_sheet.cell(row_idx, col_idx)  <span class="comment"># Get cell object by row, col</span></span><br><span class="line">        result[keys[col_idx]] = cell_obj.value</span><br><span class="line">    results.append(result)</span><br><span class="line">print(json.dumps(results, ensure_ascii=<span class="literal">False</span>))</span><br></pre></td></tr></table></figure>
 
 <p>由于第0行是属性，因此直接从第一行开始遍历，用属性构造字典对象并添加到数组中，最后使用 json 库进行一个转换即可。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>用 Python 进行数据处理果然方便，同样的功能用其他语言，可能需要多的代码，但是 Python 却可以非常快速的完成。</p>
@@ -363,11 +361,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/04/Git-非常规操作/" rel="prev" title="Git 非常规操作">
+    <a href="/2020/06/04/Git-%E9%9D%9E%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C/" rel="prev" title="Git 非常规操作">
       <i class="fa fa-chevron-left"></i> Git 非常规操作
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/20/Android-App-包体积变化史（二）/" rel="next" title="Android App 包体积变化史（二）">
+    <a href="/2020/06/20/Android-App-%E5%8C%85%E4%BD%93%E7%A7%AF%E5%8F%98%E5%8C%96%E5%8F%B2%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="next" title="Android App 包体积变化史（二）">
       Android App 包体积变化史（二） <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -429,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-xlrd-库"><span class="nav-number">2.</span> <span class="nav-text">使用 xlrd 库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xlrl-简单了解"><span class="nav-number">2.1.</span> <span class="nav-text">xlrl 简单了解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取表的关键属性"><span class="nav-number">2.2.</span> <span class="nav-text">获取表的关键属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按行读取文件"><span class="nav-number">2.3.</span> <span class="nav-text">按行读取文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-xlrd-%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">使用 xlrd 库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xlrl-%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3"><span class="nav-number">2.1.</span> <span class="nav-text">xlrl 简单了解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8%E7%9A%84%E5%85%B3%E9%94%AE%E5%B1%9E%E6%80%A7"><span class="nav-number">2.2.</span> <span class="nav-text">获取表的关键属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E8%A1%8C%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">按行读取文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -500,14 +498,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -552,9 +550,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -563,7 +569,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 

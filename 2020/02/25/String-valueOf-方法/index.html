@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
+<meta name="generator" content="Hexo 5.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -47,22 +47,22 @@
   };
 </script>
 
-  <meta name="description" content="结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 == 和 equals 的区别 ，加深理解。">
-<meta name="keywords" content="Java">
+  <meta name="description" content="结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 &#x3D;&#x3D; 和 equals 的区别 ，加深理解。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="两个对象 hashcode 相同，他们就一定相等吗？">
-<meta property="og:url" content="http://yoursite.com/2020/02/25/String-valueOf-方法/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="诗与远方">
-<meta property="og:description" content="结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 == 和 equals 的区别 ，加深理解。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2020/02/25/String-valueOf-方法/valueof.png">
-<meta property="og:updated_time" content="2020-03-16T13:26:04.596Z">
+<meta property="og:description" content="结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 &#x3D;&#x3D; 和 equals 的区别 ，加深理解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/valueof.png">
+<meta property="article:published_time" content="2020-02-25T12:06:13.000Z">
+<meta property="article:modified_time" content="2020-03-16T13:26:04.596Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="两个对象 hashcode 相同，他们就一定相等吗？">
-<meta name="twitter:description" content="结合 String 不变的特性，从 String.valueOf 所引发的一个小 bug 出发，再次探索一下 == 和 equals 的区别 ，加深理解。">
-<meta name="twitter:image" content="http://yoursite.com/2020/02/25/String-valueOf-方法/valueof.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/valueof.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/02/25/String-valueOf-方法/">
+<link rel="canonical" href="http://yoursite.com/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -210,7 +210,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/String-valueOf-方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -256,14 +256,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -281,16 +281,16 @@
 <!-- TOC -->
 
 <ul>
-<li><a href="#%e5%89%8d%e8%a8%80">前言</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
 <li><a href="#vs-equals">== vs equals</a></li>
 <li><a href="#string">String</a></li>
 </ul>
 <!-- /TOC -->
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Java 中 String 类提供了一系列 valueOf 方法，方便开发者非常方便的将意义对象转换为 String。</p>
-<img src="/2020/02/25/String-valueOf-方法/valueof.png" width="60%/">
+<img src="/2020/02/25/String-valueOf-%E6%96%B9%E6%B3%95/valueof.png" width="60%/">
 
-<h2 id="vs-equals"><a href="#vs-equals" class="headerlink" title="== vs equals"></a>== vs equals</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOnStringValueOf</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a = <span class="string">'a'</span>;</span><br><span class="line">    <span class="keyword">char</span> b = <span class="string">'a'</span>;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"a==b "</span> + (a == b));</span><br><span class="line"></span><br><span class="line">    String ab = <span class="string">"aa"</span>;</span><br><span class="line">    String a1 = String.valueOf(ab.charAt(<span class="number">0</span>));</span><br><span class="line">    String a2 = String.valueOf(ab.charAt(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"a1==a2 "</span> + (a1 == a2));</span><br><span class="line">    System.out.println(<span class="string">"a1.equals(a2) "</span> + (a1.equals(a2)));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"1==1 ? "</span> + (String.valueOf(<span class="number">1</span>) == String.valueOf(<span class="number">1</span>)));</span><br><span class="line">    System.out.println(<span class="string">"1eq1 ? "</span> + (String.valueOf(<span class="number">1</span>).equals(String.valueOf(<span class="number">1</span>))));</span><br><span class="line"></span><br><span class="line">    String s1 = <span class="string">"a"</span>;</span><br><span class="line">    String s2 = <span class="string">"a"</span>;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"s1==s2 "</span> + (s1 == s2));</span><br><span class="line">    System.out.println(<span class="string">"s1.equals(s2) "</span> + (s1.equals(s2)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="vs-equals"><a href="#vs-equals" class="headerlink" title="== vs equals"></a>== vs equals</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testOnStringValueOf</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    <span class="keyword">char</span> b = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;a==b &quot;</span> + (a == b));</span><br><span class="line"></span><br><span class="line">    String ab = <span class="string">&quot;aa&quot;</span>;</span><br><span class="line">    String a1 = String.valueOf(ab.charAt(<span class="number">0</span>));</span><br><span class="line">    String a2 = String.valueOf(ab.charAt(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;a1==a2 &quot;</span> + (a1 == a2));</span><br><span class="line">    System.out.println(<span class="string">&quot;a1.equals(a2) &quot;</span> + (a1.equals(a2)));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;1==1 ? &quot;</span> + (String.valueOf(<span class="number">1</span>) == String.valueOf(<span class="number">1</span>)));</span><br><span class="line">    System.out.println(<span class="string">&quot;1eq1 ? &quot;</span> + (String.valueOf(<span class="number">1</span>).equals(String.valueOf(<span class="number">1</span>))));</span><br><span class="line"></span><br><span class="line">    String s1 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">    String s2 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">&quot;s1==s2 &quot;</span> + (s1 == s2));</span><br><span class="line">    System.out.println(<span class="string">&quot;s1.equals(s2) &quot;</span> + (s1.equals(s2)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以事先在大脑中模拟输出一下结果 </p>
 <p>实际输出：</p>
@@ -299,47 +299,43 @@
 <p>a1 a2 和 s1 s2 到底有什么区别，为什么比较结果不一致呢？</p>
 <p>我们回顾一下 == 和 equals 的区别 </p>
 <ul>
-<li>对于基本类型的数据，我们用 &gt;,&gt;=, &lt;,&lt;=, == 进行相等相等性的比较。 比如 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">boolean</span> result = a &gt;= <span class="number">5</span>;</span><br><span class="line">result = a == b</span><br></pre></td></tr></table></figure>
-
+<li><p>对于基本类型的数据，我们用 &gt;,&gt;=, &lt;,&lt;=, == 进行相等相等性的比较。 比如</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">int</span> b = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">boolean</span> result = a &gt;= <span class="number">5</span>;</span><br><span class="line">result = a == b</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于对象(或者说是引用)类型的数据，当我们用 == 进行相等性比较时，其实是在比较对象在内存中地址，因此指向堆上两个不同对象的引用（或者说是指针）的大小一定是不同的。</p>
 </li>
 </ul>
-<ul>
-<li>对于对象(或者说是引用)类型的数据，当我们用 == 进行相等性比较时，其实是在比较对象在内存中地址，因此指向堆上两个不同对象的引用（或者说是指针）的大小一定是不同的。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Object obj1 = <span class="keyword">new</span> People(<span class="string">"mike"</span>); </span><br><span class="line">Object obj2 = <span class="keyword">new</span> People(<span class="string">"mike"</span>);</span><br><span class="line">Object obj3 = obj2;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"===="</span> + obj1.hashCode());</span><br><span class="line">System.out.println(<span class="string">"===="</span> + obj2.hashCode());</span><br><span class="line">System.out.println(<span class="string">"===="</span> + obj3.hashCode());</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"obj1 == obj2 ? ="</span> + (obj1 == obj2));</span><br><span class="line">System.out.println(<span class="string">"obj3 == obj2 ? ="</span> + (obj3 == obj2));</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">结果 </span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">====<span class="number">1625635731</span></span><br><span class="line">====<span class="number">1580066828</span></span><br><span class="line">====<span class="number">1580066828</span></span><br><span class="line">obj1 == obj2 ? =<span class="keyword">false</span></span><br><span class="line">obj3 == obj2 ? =<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Object obj1 = <span class="keyword">new</span> People(<span class="string">&quot;mike&quot;</span>); </span><br><span class="line">Object obj2 = <span class="keyword">new</span> People(<span class="string">&quot;mike&quot;</span>);</span><br><span class="line">Object obj3 = obj2;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;====&quot;</span> + obj1.hashCode());</span><br><span class="line">System.out.println(<span class="string">&quot;====&quot;</span> + obj2.hashCode());</span><br><span class="line">System.out.println(<span class="string">&quot;====&quot;</span> + obj3.hashCode());</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;obj1 == obj2 ? =&quot;</span> + (obj1 == obj2));</span><br><span class="line">System.out.println(<span class="string">&quot;obj3 == obj2 ? =&quot;</span> + (obj3 == obj2));</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">结果 </span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">====<span class="number">1625635731</span></span><br><span class="line">====<span class="number">1580066828</span></span><br><span class="line">====<span class="number">1580066828</span></span><br><span class="line">obj1 == obj2 ? =<span class="keyword">false</span></span><br><span class="line">obj3 == obj2 ? =<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
 
 <p>obj1 和 obj2 是通过 new 操作符创建的两个完全不同的对象，因此他们再内存中的地址必然是不一样的，因此直接进行 <strong>==</strong> 结果肯定是完全不相同。而 obj3 通过 <strong>=</strong> 赋值操作符，相等于和 obj2 指向了完全相同的地址，因此他们是相等的。</p>
 <p><del>这里内存地址的说法似乎比较玄学，我们就理解为对象的 hashCode 好了，至于这个值是怎么计算的，暂时不展开了。</del></p>
 <ul>
 <li>对于对象类型的数据，当我们用 equals() 方法进行比较时，就是比较其<strong>内容</strong>是否真的相等了。那么内容相等是什么意思呢？别着急，先看个代码</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">System.out.println(<span class="string">"obj1.equals(obj2) ? =="</span> +(obj1.equals(obj2)));</span><br><span class="line">System.out.println(<span class="string">"obj3.equals(obj2) ? =="</span> +(obj3.equals(obj2)));</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;obj1.equals(obj2) ? ==&quot;</span> +(obj1.equals(obj2)));</span><br><span class="line">System.out.println(<span class="string">&quot;obj3.equals(obj2) ? ==&quot;</span> +(obj3.equals(obj2)));</span><br></pre></td></tr></table></figure>
 <p>结果： </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj1.equals(obj2) ? ==false</span><br><span class="line">obj3.equals(obj2) ? ==true</span><br></pre></td></tr></table></figure>
 
 <p>结果似乎和 <strong>==</strong> 比较的结果一样啊。是的，默认就是一样的。因为Java 中超级父类 Object 进行 equals 比较时，默认进行的就是 == 比较。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣</p>
 <p>现在来说<strong>内容相同</strong>这件事。什么叫内容相同呢？其实就是看定义类的作者如何去限定。比如这里的 People，当两个对象的 name 字段相同时我们便认为二者相等。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">People</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">People</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        People other = (People) obj;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name.equals(other.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这时候，再运行刚才的 equals 比较代码，就可以得到两个对象相同的结果了。当然，对一个复杂的对象，有时候我们可能还需要根据其他字段综合决定。但是一般情况下我们都会根据某个特定的字段决定，比如商品 id ,或订单 id 这样符合实际意义的字段确定。</p>
 <p>对于一般的相等性比较场景，覆写 equals 似乎已经足够了。但是你一定看到过这种说法<strong>覆写 equals()方法的同时， 一般需要覆写 hashcode()方法</strong>。 为什么一定要覆写 hashcode() 方法呢。因为所有以散列表（或者说 哈希表）为结构的数据集合（或者说是数据容器），其中 key 的相等性比较涉及 hashcode() 方法。比如这里的 People 对象，由于我们没有覆写 hashcode ,当我们用 People 对象作为哈希表的 key 时，两个相等的对象会被当做不相等的对象。因此，这里可以简单处理，按照 equals 比较中内容的 hashcode 决定。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name.hashCode();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
 <p>话说回来，大部分情况我们都会用 String 作为 HashMap 的 key。这又是为何呢？</p>
 <h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p>看一下 String 类的 equals 方法和 hashcode 方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object anObject)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">this</span> == anObject) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (anObject <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">          String anotherString = (String)anObject;</span><br><span class="line">          <span class="keyword">int</span> n = value.length;</span><br><span class="line">          <span class="keyword">if</span> (n == anotherString.value.length) &#123;</span><br><span class="line">              <span class="keyword">char</span> v1[] = value;</span><br><span class="line">              <span class="keyword">char</span> v2[] = anotherString.value;</span><br><span class="line">              <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;</span><br><span class="line">                  <span class="keyword">if</span> (v1[i] != v2[i])</span><br><span class="line">                      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                  i++;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> h = hash;</span><br><span class="line">      <span class="keyword">if</span> (h == <span class="number">0</span> &amp;&amp; value.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">char</span> val[] = value;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; value.length; i++) &#123;</span><br><span class="line">              h = <span class="number">31</span> * h + val[i];</span><br><span class="line">          &#125;</span><br><span class="line">          hash = h;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> h;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>注意，这里的 value 是一个 char[],它存储的就是字符串的实际值</strong></p>
 <ul>
 <li>equals() 可以看到字符串相等性比较，首先会进行 <strong>==</strong> 比较，也就是先比较两个 String 的内存地址，在内存地址不相等的情况下，是严格按照字符串中的每一个 char 进行精确比较的。</li>
 <li>hashcode() 和字符串的实际值强相关，同时从算法也可以看出，两个字符串如果内容完全一致，那么他们的 hashcode 一定是相等的，而如果连个字符串哪怕相差一个字符，二者的 hashcode 可能会有天壤之别。</li>
 </ul>
 <p>再来回顾一下最开始的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">String ab = <span class="string">"aa"</span>;</span><br><span class="line">String a1 = String.valueOf(ab.charAt(<span class="number">0</span>));</span><br><span class="line">String a2 = String.valueOf(ab.charAt(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"a1 hashcode = "</span>+(a1.hashCode()));</span><br><span class="line">System.out.println(<span class="string">"a2 hashcode = "</span>+(a2.hashCode()));</span><br><span class="line">System.out.println(<span class="string">"a1 == a2 "</span> + (a1 == a2));</span><br><span class="line">System.out.println(<span class="string">"a1.equals(a2) "</span> + (a1.equals(a2)));</span><br><span class="line"></span><br><span class="line">String s1 = <span class="string">"a"</span>;</span><br><span class="line">String s2 = <span class="string">"a"</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"s1 hashcode = "</span>+(s1.hashCode()));</span><br><span class="line">System.out.println(<span class="string">"s2 hashcode = "</span>+(s2.hashCode()));</span><br><span class="line">System.out.println(<span class="string">"s1 == s2 "</span> + (s1 == s2));</span><br><span class="line">System.out.println(<span class="string">"s1.equals(s2) "</span> + (s1.equals(s2)));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">String ab = <span class="string">&quot;aa&quot;</span>;</span><br><span class="line">String a1 = String.valueOf(ab.charAt(<span class="number">0</span>));</span><br><span class="line">String a2 = String.valueOf(ab.charAt(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;a1 hashcode = &quot;</span>+(a1.hashCode()));</span><br><span class="line">System.out.println(<span class="string">&quot;a2 hashcode = &quot;</span>+(a2.hashCode()));</span><br><span class="line">System.out.println(<span class="string">&quot;a1 == a2 &quot;</span> + (a1 == a2));</span><br><span class="line">System.out.println(<span class="string">&quot;a1.equals(a2) &quot;</span> + (a1.equals(a2)));</span><br><span class="line"></span><br><span class="line">String s1 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">String s2 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;s1 hashcode = &quot;</span>+(s1.hashCode()));</span><br><span class="line">System.out.println(<span class="string">&quot;s2 hashcode = &quot;</span>+(s2.hashCode()));</span><br><span class="line">System.out.println(<span class="string">&quot;s1 == s2 &quot;</span> + (s1 == s2));</span><br><span class="line">System.out.println(<span class="string">&quot;s1.equals(s2) &quot;</span> + (s1.equals(s2)));</span><br></pre></td></tr></table></figure>
 
 <p>结果：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a1 hashcode = 97</span><br><span class="line">a2 hashcode = 97</span><br><span class="line">a1 == a2 false</span><br><span class="line">a1.equals(a2) true</span><br><span class="line">s1 hashcode = 97</span><br><span class="line">s2 hashcode = 97</span><br><span class="line">s1 == s2 true</span><br><span class="line">s1.equals(s2) true</span><br></pre></td></tr></table></figure>
@@ -348,7 +344,6 @@
 <p>a1.equals(a2) 和 s1.equals(s2) 的结果没有什么好说的，这里看一下 <strong>==</strong> 比较的差异从何而来。</p>
 <p>这里首先看 s1 和 s2 两个不同的引用，但是 ”a” 在内存中的地址是唯一的，因此他们其实是指向了同一块内存区域，也就是这两个指针是相等的。因此 s1 == s2 结果为 true 。再看一下 a1 和 a2 ，同样的内容 a 发生了什么呢？看一下 String.valueOf() 的实现。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">valueOf</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span> data[] = &#123;c&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> String(data, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>可以看到这是完全返回了一个新的对象，因此 a1 和 a2 这两个引用完全指向了不同的对象。因此 a1 == a2 的结果就必然为 false 了。</p>
 <p><strong>其实，由于 String 是 final 的，因此关于 String 的所有操作都会创建新对象，== 的比较结果必然是 false</strong></p>
 
@@ -389,11 +384,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/02/07/漫长的岁月/" rel="prev" title="漫长的岁月">
+    <a href="/2020/02/07/%E6%BC%AB%E9%95%BF%E7%9A%84%E5%B2%81%E6%9C%88/" rel="prev" title="漫长的岁月">
       <i class="fa fa-chevron-left"></i> 漫长的岁月
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/02/25/kotlin-和-java-的细微差异/" rel="next" title="Kotlin 和 Java 的细微差异与坑 （持续更新）">
+    <a href="/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/" rel="next" title="Kotlin 和 Java 的细微差异与坑 （持续更新）">
       Kotlin 和 Java 的细微差异与坑 （持续更新） <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -455,7 +450,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vs-equals"><span class="nav-number">2.</span> <span class="nav-text">== vs equals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">3.</span> <span class="nav-text">String</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vs-equals"><span class="nav-number">2.</span> <span class="nav-text">&#x3D;&#x3D; vs equals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">3.</span> <span class="nav-text">String</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -526,14 +521,14 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">377k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">10:01</span>
+    <span title="站点阅读时长">10:28</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
@@ -578,9 +573,17 @@
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/pisces.js"></script>
+
+
 <script src="/js/next-boot.js"></script>
+
 
 
 
@@ -589,7 +592,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 
