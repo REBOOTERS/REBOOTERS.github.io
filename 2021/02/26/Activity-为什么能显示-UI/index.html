@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言Activity 作为 Android 中承载 UI 显示的组件，背后的原理是什么呢？本文简单窥探一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity 为什么能显示 UI">
+<meta property="og:url" content="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言Activity 作为 Android 中承载 UI 显示的组件，背后的原理是什么呢？本文简单窥探一下。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/with_content.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/without_content.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/windowmanger.png">
+<meta property="article:published_time" content="2021-02-26T05:50:12.000Z">
+<meta property="article:modified_time" content="2021-03-14T15:01:59.328Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="Android源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/with_content.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Activity 为什么能显示 UI | 诗与远方</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Activity 为什么能显示 UI
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-26 13:50:12" itemprop="dateCreated datePublished" datetime="2021-02-26T13:50:12+08:00">2021-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-14 23:01:59" itemprop="dateModified" datetime="2021-03-14T23:01:59+08:00">2021-03-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Activity 作为 Android 中承载 UI 显示的组件，背后的原理是什么呢？本文简单窥探一下。</p>
+<a id="more"></a>
+
+<h2 id="Activity-和-UI-的关系"><a href="#Activity-和-UI-的关系" class="headerlink" title="Activity 和 UI 的关系"></a>Activity 和 UI 的关系</h2><p>在 Android 中，调用 <code>startActivity(Intent)</code> 方法就可以打开一个新的页面。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<details>
+<summary>
+activity_main.xml
+</summary>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span> <span class="attr">xmlns:android</span>=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">&quot;http://schemas.android.com/tools&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">&quot;match_parent&quot;</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">&quot;.MainActivity&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:text=&quot;Hello World!&quot;</span><br><span class="line">        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">        app:layout_constraintTop_toTopOf=&quot;parent&quot; /&gt;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.constraintlayout.widget.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+</details>
+
+<p>我们知道 Activity 启动后在其 onCreate 方法，通过开发者主动调用 setContentView 方法，会加载和显示在 activity_main.xml 中定义的 View 组件们。那么，如果我们不调用这个方法会怎么样呢？会正常打开一个新的页面吗？</p>
+<p>简单试一下，其实是可以的。</p>
+<ul>
+<li>调用 setContentView 后 Activity UI 及 LayoutInspect 结果</li>
+</ul>
+<img src="/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/with_content.png" width="60%/">
+
+<ul>
+<li>不调用 setContentView 后 Activity UI 及 LayoutInspect 结果</li>
+</ul>
+<img src="/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/without_content.png" width="60%/">
+
+<p>可以看到两种场景相差的恰好就是 activity_main.xml 当中的内容。剩下的都是两种场景下公共的部分，比如 DecorView ,StatusBar , NavigationBar 等。那么这些 View 又是怎么如何被管理和添加到当前页面的。再有，一个 Activity 呈现的一个页面，到底是什么？ 严格从面向对象的角度出发，他到底是哪个类的实例？一个普通的 Java 类怎么就可以变成花花绿绿的东西，可以显示在屏幕上的？</p>
+<p>如果你思考过以上问题，可能多多少少看过一些相关的介绍。当我们调用 <code>startActivity(Intent)</code> 方法启动一个 Activity 的时候，最终 AMS 通过一系列复杂的运作，会回到 ActivityThread 当中执行 <code>performLaunchActivity()</code> 方法，在其中会创建 activity 的实例，并调用 Activity.attach 方法，实现创建 Window 及 View 添加和渲染的一系列操作。</p>
+<p>通过以上，我们也可以知道，Activity 类其实并不是负责进行页面渲染的类，他更多的功能是 Android 系统提供给应用开发者方便进行页面生命周期管理和 UI 实现模板类。当然，Activity 自身涉及到的设计模式也有很多，从不同的角度出发会有不同的答案。</p>
+<p>下面就来看看 Android 中 Window 到底是什么？</p>
+<h2 id="WindowManager-amp-View"><a href="#WindowManager-amp-View" class="headerlink" title="WindowManager &amp; View"></a>WindowManager &amp; View</h2><h3 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Abstract base class for a top-level window look and behavior policy.  An</span></span><br><span class="line"><span class="comment"> * instance of this class should be used as the top-level view added to the</span></span><br><span class="line"><span class="comment"> * window manager. It provides standard UI policies such as a background, title</span></span><br><span class="line"><span class="comment"> * area, default key processing, etc.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The only existing implementation of this abstract class is</span></span><br><span class="line"><span class="comment"> * android.view.PhoneWindow, which you should instantiate when needing a</span></span><br><span class="line"><span class="comment"> * Window.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Window</span> </span>&#123;</span><br><span class="line">    <span class="meta">@UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 115609023)</span></span><br><span class="line">    <span class="keyword">private</span> WindowManager mWindowManager;</span><br><span class="line">    <span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">    <span class="keyword">private</span> IBinder mAppToken;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Window 这个抽象类定义了上层 window 的基础及一些行为策略。他的唯一实现是 PhoneWindow。</p>
+<p>Window 有两个特别重要的或者说常见的属性 WindowManager 和 IBinder 。尤其是当我们在日常开发中错误的操作 Window 时（比如用 application 的 context 调用 startActivity 或进行打开 AlertDialog 的操作）经常会看到 token 相关的报错信息。下面重点说一下 WindowManager 。</p>
+<h3 id="WindowManager"><a href="#WindowManager" class="headerlink" title="WindowManager"></a>WindowManager</h3><p>首先看看 WindowManager 的基类 ViewManager</p>
+<h4 id="ViewManager"><a href="#ViewManager" class="headerlink" title="ViewManager"></a>ViewManager</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Interface to let you add and remove child views to an Activity. To get an instance</span></span><br><span class="line"><span class="comment">  * of this class, call &#123;<span class="doctag">@link</span> android.content.Context#getSystemService(java.lang.String) Context.getSystemService()&#125;.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ViewManager</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View view, ViewGroup.LayoutParams params)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateViewLayout</span><span class="params">(View view, ViewGroup.LayoutParams params)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeView</span><span class="params">(View view)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>这里关于这个 ViewManager 的注释很有意思，他是专门用于给 Activity 添加和移除 View 的接口。</strong> 注意这里的 LayoutParamas 是 ViewGroup 内定义的。<br>我们通过调用 <code>getSystemService(Context.WINDOW_SERVICE)</code> 就可以获取到他的实例，当然他本身是个接口，他的实例一般都是用他的子类 WindowManager。</p>
+<h4 id="LayoutParamas"><a href="#LayoutParamas" class="headerlink" title="LayoutParamas"></a>LayoutParamas</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The interface that apps use to talk to the window manager.</span></span><br><span class="line"><span class="comment"> * &lt;/p&gt;&lt;p&gt;</span></span><br><span class="line"><span class="comment"> * Each window manager instance is bound to a particular &#123;<span class="doctag">@link</span> Display&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SystemService(Context.WINDOW_SERVICE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WindowManager</span> <span class="keyword">extends</span> <span class="title">ViewManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeViewImmediate</span><span class="params">(View view)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutParams</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span>.<span class="title">LayoutParams</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>WindowManger 继承 ViewManager 后，添加了键盘弹出收起及截屏的相关接口。最重要的是定义了内部类 LayoutParams 以规范对 WindowManger 进行 add 和 update 的操作时的边界。</p>
+<p>有了 WindowManger 我们就可以把一个 View 添加到屏幕上了，只要添加的规则符合 WindowManager.LayoutParams 中定义参数即可。这里及不具体操作了，类似的实现比如屏幕上的悬浮球，悬浮弹窗之类的实现就太多了，具体参考<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/VDdDy3_nU0W1byM8H5B0Pw">Window/WindowManager 不可不知之事
+</a></p>
+<p><strong>从以上定义可以看到，我们具体操作的还是 View，Window 不仅是一个抽象类，更是一个抽象的概念。我们添加到屏幕上或更新的东西并不是 Window ,而是更加可以具体话的 View 组件。</strong></p>
+<p>这就和我们平时说吃饭是一个道理，虽说是吃饭，但吃的并不是叫做饭的东西，因为实际上你在任何一个菜谱有一个叫做饭的菜，我们吃的是具体一到菜，比如宫保鸡丁盖饭或牛肉面。</p>
+<h4 id="WindowManagerImpl"><a href="#WindowManagerImpl" class="headerlink" title="WindowManagerImpl"></a>WindowManagerImpl</h4><p>WindowManger 依然是抽象的，我们需要看他的具体实现 WindowManagerImpl。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Provides low-level communication with the system window manager for</span></span><br><span class="line"><span class="comment"> * operations that are bound to a particular context, display or parent window.</span></span><br><span class="line"><span class="comment"> * Instances of this object are sensitive to the compatibility info associated</span></span><br><span class="line"><span class="comment"> * with the running application.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * This object implements the &#123;<span class="doctag">@link</span> ViewManager&#125; interface,</span></span><br><span class="line"><span class="comment"> * allowing you to add any View subclass as a top-level window on the screen.</span></span><br><span class="line"><span class="comment"> * Additional window manager specific layout parameters are defined for</span></span><br><span class="line"><span class="comment"> * control over how windows are displayed.  It also implements the &#123;<span class="doctag">@link</span> WindowManager&#125;</span></span><br><span class="line"><span class="comment"> * interface, allowing you to control the displays attached to the device.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Applications will not normally use WindowManager directly, instead relying</span></span><br><span class="line"><span class="comment"> * on the higher-level facilities in &#123;<span class="doctag">@link</span> android.app.Activity&#125; and</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> android.app.Dialog&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Even for low-level window manager access, it is almost never correct to use</span></span><br><span class="line"><span class="comment"> * this class.  For example, &#123;<span class="doctag">@link</span> android.app.Activity#getWindowManager&#125;</span></span><br><span class="line"><span class="comment"> * provides a window manager for adding windows that are associated with that</span></span><br><span class="line"><span class="comment"> * activity -- the window manager will not normally allow you to add arbitrary</span></span><br><span class="line"><span class="comment"> * windows that are not associated with an activity.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> WindowManager</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> WindowManagerGlobal</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowManagerImpl</span> <span class="keyword">implements</span> <span class="title">WindowManager</span> </span>&#123;</span><br><span class="line">    <span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> WindowManagerGlobal mGlobal = WindowManagerGlobal.getInstance();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Window mParentWindow;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IBinder mDefaultToken;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WindowManagerImpl</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">WindowManagerImpl</span><span class="params">(Context context, Window parentWindow)</span> </span>&#123;</span><br><span class="line">        mContext = context;</span><br><span class="line">        mParentWindow = parentWindow;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WindowManagerImpl <span class="title">createLocalWindowManager</span><span class="params">(Window parentWindow)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WindowManagerImpl(mContext, parentWindow);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> WindowManagerImpl <span class="title">createPresentationWindowManager</span><span class="params">(Context displayContext)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WindowManagerImpl(displayContext, mParentWindow);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Sets the window token to assign when none is specified by the client or</span></span><br><span class="line"><span class="comment">     * available from the parent window.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> token The default token to assign.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDefaultToken</span><span class="params">(IBinder token)</span> </span>&#123;</span><br><span class="line">        mDefaultToken = token;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(<span class="meta">@NonNull</span> View view, <span class="meta">@NonNull</span> ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">        applyDefaultToken(params);</span><br><span class="line">        mGlobal.addView(view, params, mContext.getDisplayNoVerify(), mParentWindow,</span><br><span class="line">                mContext.getUserId());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateViewLayout</span><span class="params">(<span class="meta">@NonNull</span> View view, <span class="meta">@NonNull</span> ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">        applyDefaultToken(params);</span><br><span class="line">        mGlobal.updateViewLayout(view, params);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...   </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这个类的注释很清楚的表达了以下几点</p>
+<ul>
+<li>这个类是在更低一层负责和系统的 WindowManagerService 进行通讯，在客户端这个要进行通讯的可能是一个具体的 Context 、Display 或一个存在 Window. <ul>
+<li>这一点从其构造函数也可以看到，mParentWindow 是可能为 null 的</li>
+</ul>
+</li>
+<li>按照设计模式面向接口编程的理念，上层业务只会接触到 WindowManger ，而具体的操作由他来实现。</li>
+</ul>
+<p>但是，具体的操作依旧不是由 WindowManagerImpl 来实现，而是统一桥接到了 WindowManagerGlobal。</p>
+<h4 id="WindowManagerGlobal"><a href="#WindowManagerGlobal" class="headerlink" title="WindowManagerGlobal"></a>WindowManagerGlobal</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Provides low-level communication with the system window manager for</span></span><br><span class="line"><span class="comment"> * operations that are not associated with any particular context.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * This class is only used internally to implement global functions where</span></span><br><span class="line"><span class="comment"> * the caller already knows the display and relevant compatibility information</span></span><br><span class="line"><span class="comment"> * for the operation.  For most purposes, you should use &#123;<span class="doctag">@link</span> WindowManager&#125; instead</span></span><br><span class="line"><span class="comment"> * since it is bound to a context.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> WindowManagerImpl</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowManagerGlobal</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;View&gt; mViews = <span class="keyword">new</span> ArrayList&lt;View&gt;();</span><br><span class="line">    <span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;ViewRootImpl&gt; mRoots = <span class="keyword">new</span> ArrayList&lt;ViewRootImpl&gt;();</span><br><span class="line">    <span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArrayList&lt;WindowManager.LayoutParams&gt; mParams =</span><br><span class="line">            <span class="keyword">new</span> ArrayList&lt;WindowManager.LayoutParams&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ArraySet&lt;View&gt; mDyingViews = <span class="keyword">new</span> ArraySet&lt;View&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以对比一下这里的注释和上面 WindowManagerImpl 的注释，同样 low-level 的实现，WindowManagerGlobal 可以说是更加的通用。从命名及之前在 WindowManagerImpl 的初始化可以看到，WindowManagerGlobal 是全局单例的设计模式。因此，可以说他是整个 App 负责进行 window 添加、更新、删除的大管家。</p>
+<p>关于 WindowManagerGlobal 内部 view 具体的操作，可以参考 《Android 开发艺术探索》一书了解（这部分内容还是将的很清楚的，虽然是很久之前出的书，这部分的逻辑其实也没怎么变化，还是值得参考的)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View view, ViewGroup.LayoutParams params,</span></span></span><br><span class="line"><span class="function"><span class="params">        Display display, Window parentWindow, <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        root = <span class="keyword">new</span> ViewRootImpl(view.getContext(), display);</span><br><span class="line"></span><br><span class="line">        view.setLayoutParams(wparams);</span><br><span class="line"></span><br><span class="line">        mViews.add(view);</span><br><span class="line">        mRoots.add(root);</span><br><span class="line">        mParams.add(wparams);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// do this last because it fires off messages to start doing things</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            root.setView(view, wparams, panelParentView, userId);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>最后，在沿着最后的逻辑，看看大名鼎鼎的 ViewRootImpl </p>
+<h4 id="ViewRootImpl"><a href="#ViewRootImpl" class="headerlink" title="ViewRootImpl"></a>ViewRootImpl</h4><h5 id="ViewParent"><a href="#ViewParent" class="headerlink" title="ViewParent"></a>ViewParent</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Defines the responsibilities for a class that will be a parent of a View.</span></span><br><span class="line"><span class="comment"> * This is the API that a view sees when it wants to interact with its parent.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ViewParent</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Called when something has changed which has invalidated the layout of a</span></span><br><span class="line"><span class="comment">     * child of this view parent. This will schedule a layout pass of the view</span></span><br><span class="line"><span class="comment">     * tree.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestLayout</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ViewRootImpl.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The top of a view hierarchy, implementing the needed protocol between View</span></span><br><span class="line"><span class="comment"> * and the WindowManager.  This is for the most part an internal implementation</span></span><br><span class="line"><span class="comment"> * detail of &#123;<span class="doctag">@link</span> WindowManagerGlobal&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SuppressWarnings(&#123;&quot;EmptyCatchBlock&quot;, &quot;PointlessBooleanExpression&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewRootImpl</span> <span class="keyword">implements</span> <span class="title">ViewParent</span>,</span></span><br><span class="line"><span class="class">        <span class="title">View</span>.<span class="title">AttachInfo</span>.<span class="title">Callbacks</span>, <span class="title">ThreadedRenderer</span>.<span class="title">DrawCallbacks</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setView </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setView</span><span class="params">(View view, WindowManager.LayoutParams attrs, View panelParentView,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// Schedule the first layout -before- adding to the window</span></span><br><span class="line">                <span class="comment">// manager, to make sure we do the relayout before receiving</span></span><br><span class="line">                <span class="comment">// any other events from the system.</span></span><br><span class="line">                requestLayout();</span><br><span class="line">           </span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//... </span></span><br><span class="line">                    res = mWindowSession.addToDisplayAsUser(mWindow, mSeq, mWindowAttributes,</span><br><span class="line">                            getHostVisibility(), mDisplay.getDisplayId(), userId, mTmpFrame,</span><br><span class="line">                            mAttachInfo.mContentInsets, mAttachInfo.mStableInsets,</span><br><span class="line">                            mAttachInfo.mDisplayCutout, inputChannel,</span><br><span class="line">                            mTempInsets, mTempControls);</span><br><span class="line">                    setFrame(mTmpFrame);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e) &#123;&#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里就变成了一次跨进程通信，由系统的 WindowManagerService 进行后续操作的流程了。</p>
+<ul>
+<li>requestLayout </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mHandlingLayoutInLayoutRequest) &#123;</span><br><span class="line">        checkThread();</span><br><span class="line">        mLayoutRequested = <span class="keyword">true</span>;</span><br><span class="line">        scheduleTraversals();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="类结构关系"><a href="#类结构关系" class="headerlink" title="类结构关系"></a>类结构关系</h3><p>下面通过 UML 图对上文中提到的类总结一下</p>
+<img src="/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/windowmanger.png">
+
+<p>上面的图简单梳理一下涉及到显示一个页面或者说 Window 的类，以及他们之间的关系。</p>
+<h3 id="Activity-添加到-WindowManger-的流程"><a href="#Activity-添加到-WindowManger-的流程" class="headerlink" title="Activity 添加到 WindowManger 的流程"></a>Activity 添加到 WindowManger 的流程</h3><p>回到一开始我们的例子，一个 Activity 是如何变成一个可以显示的页面的呢 ？</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li>《Android 开发艺术探索》</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/VDdDy3_nU0W1byM8H5B0Pw">Window/WindowManager 不可不知之事
+</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加个鸡腿呗.</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="九尾灵狐 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android%E6%BA%90%E7%A0%81/" rel="tag"># Android源码</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/" rel="prev" title="Android 原生项目集成 Flutter">
+      <i class="fa fa-chevron-left"></i> Android 原生项目集成 Flutter
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/16/InspectUI-Code-Review/" rel="next" title="InspectUI Code Review">
+      InspectUI Code Review <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity-%E5%92%8C-UI-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">Activity 和 UI 的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WindowManager-amp-View"><span class="nav-number">3.</span> <span class="nav-text">WindowManager &amp; View</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Window"><span class="nav-number">3.1.</span> <span class="nav-text">Window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WindowManager"><span class="nav-number">3.2.</span> <span class="nav-text">WindowManager</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ViewManager"><span class="nav-number">3.2.1.</span> <span class="nav-text">ViewManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LayoutParamas"><span class="nav-number">3.2.2.</span> <span class="nav-text">LayoutParamas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WindowManagerImpl"><span class="nav-number">3.2.3.</span> <span class="nav-text">WindowManagerImpl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WindowManagerGlobal"><span class="nav-number">3.2.4.</span> <span class="nav-text">WindowManagerGlobal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ViewRootImpl"><span class="nav-number">3.2.5.</span> <span class="nav-text">ViewRootImpl</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ViewParent"><span class="nav-number">3.2.5.1.</span> <span class="nav-text">ViewParent</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%BB%93%E6%9E%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.3.</span> <span class="nav-text">类结构关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Activity-%E6%B7%BB%E5%8A%A0%E5%88%B0-WindowManger-%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">3.4.</span> <span class="nav-text">Activity 添加到 WindowManger 的流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">4.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">415k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

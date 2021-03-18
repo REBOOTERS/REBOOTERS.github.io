@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="音视频基础知识什么是视频">
+<meta property="og:type" content="article">
+<meta property="og:title" content="音视频入门">
+<meta property="og:url" content="http://yoursite.com/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="音视频基础知识什么是视频">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/video.gif">
+<meta property="article:published_time" content="2020-02-01T12:33:33.000Z">
+<meta property="article:modified_time" content="2021-03-07T13:57:49.590Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="音视频">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/video.gif">
+
+<link rel="canonical" href="http://yoursite.com/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>音视频入门 | 诗与远方</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          音视频入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-01 20:33:33" itemprop="dateCreated datePublished" datetime="2020-02-01T20:33:33+08:00">2020-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-07 21:57:49" itemprop="dateModified" datetime="2021-03-07T21:57:49+08:00">2021-03-07</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="音视频基础知识"><a href="#音视频基础知识" class="headerlink" title="音视频基础知识"></a>音视频基础知识</h2><h3 id="什么是视频"><a href="#什么是视频" class="headerlink" title="什么是视频"></a>什么是视频</h3><img src="/2020/02/01/%E9%9F%B3%E8%A7%86%E9%A2%91%E7%9F%A5%E8%AF%86/video.gif">
+
+<a id="more"></a>
+
+<h4 id="视频帧"><a href="#视频帧" class="headerlink" title="视频帧"></a>视频帧</h4><p>帧，是视频的一个基本概念，表示一张画面，如上面的翻页动画书中的一页，就是一帧。一个视频就是由许许多多帧组成的。</p>
+<h4 id="帧率"><a href="#帧率" class="headerlink" title="帧率"></a>帧率</h4><p>帧率，即单位时间内帧的数量，单位为：帧/秒 或fps（frames per second）。如动画书中，一秒内包含多少张图片，图片越多，画面越顺滑，过渡越自然。<br>帧率的一般以下几个典型值：<br>24/25 fps：1秒 24/25 帧，一般的电影帧率。<br>30/60 fps：1秒 30/60 帧，游戏的帧率，30帧可以接受，60帧会感觉更加流畅逼真。<br>85 fps以上人眼基本无法察觉出来了，所以更高的帧率在视频里没有太大意义。</p>
+<h4 id="色彩空间"><a href="#色彩空间" class="headerlink" title="色彩空间"></a>色彩空间</h4><ul>
+<li>YUV</li>
+</ul>
+<p>早期的电视都是黑白的，即只有亮度值，即Y。有了彩色电视以后，加入了UV两种色度，形成现在的YUV，也叫YCbCr。</p>
+<p>Y：亮度，就是灰度值。除了表示亮度信号外，还含有较多的绿色通道量。</p>
+<p>U：蓝色通道与亮度的差值。</p>
+<p>V：红色通道与亮度的差值。</p>
+<p>采用YUV有什么优势呢？</p>
+<blockquote>
+<p>人眼对亮度敏感，对色度不敏感，因此减少部分UV的数据量，人眼却无法感知出来，这样可以通过压缩UV的分辨率，在不影响观感的前提下，减小视频的体积。</p>
+</blockquote>
+<ul>
+<li>RGB和YUV的换算</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Y &#x3D; 0.299R ＋ 0.587G ＋ 0.114B </span><br><span class="line">U &#x3D; －0.147R － 0.289G ＋ 0.436B</span><br><span class="line">V &#x3D; 0.615R － 0.515G － 0.100B</span><br><span class="line">——————————————————</span><br><span class="line">R &#x3D; Y ＋ 1.14V</span><br><span class="line">G &#x3D; Y － 0.39U － 0.58V</span><br><span class="line">B &#x3D; Y ＋ 2.03U</span><br></pre></td></tr></table></figure>
+
+<h3 id="什么是音频"><a href="#什么是音频" class="headerlink" title="什么是音频"></a>什么是音频</h3><p>音频数据的承载方式最常用的是脉冲编码调制，即PCM。</p>
+<h4 id="采样率和采样位数"><a href="#采样率和采样位数" class="headerlink" title="采样率和采样位数"></a>采样率和采样位数</h4><p>采样率，即采样的频率。<br>采样率要大于原声波频率的2倍，人耳能听到的最高频率为20kHz，所以为了满足人耳的听觉要求，采样率至少为40kHz，通常为44.1kHz，更高的通常为48kHz。</p>
+<h3 id="视频编码"><a href="#视频编码" class="headerlink" title="视频编码"></a>视频编码</h3><h4 id="H264编码简介"><a href="#H264编码简介" class="headerlink" title="H264编码简介"></a>H264编码简介</h4><p>H264是目前最主流的视频编码标准，所以我们后续的文章中主要以该编码格式为基准。</p>
+<p>H264由ITU和MPEG共同定制，属于MPEG-4第十部分内容。</p>
+<h4 id="视频帧-1"><a href="#视频帧-1" class="headerlink" title="视频帧"></a>视频帧</h4><p>视频是由一帧一帧画面构成的，但是在视频的数据中，并不是真正按照一帧一帧原始数据保存下来的（如果这样，压缩编码就没有意义了）。<br>H264会根据一段时间内，画面的变化情况，选取一帧画面作为完整编码，下一帧只记录与上一帧完整数据的差别，是一个动态压缩的过程。<br>在H264中，三种类型的帧数据分别为<br>I帧：帧内编码帧。就是一个完整帧。<br>P帧：前向预测编码帧。是一个非完整帧，通过参考前面的I帧或P帧生成。<br>B帧：双向预测内插编码帧。参考前后图像帧编码生成。B帧依赖其前最近的一个I帧或P帧及其后最近的一个P帧。</p>
+<h4 id="音视频容器"><a href="#音视频容器" class="headerlink" title="音视频容器"></a>音视频容器</h4><p>前面我们介绍的各种音视频的编码格式，没有一种是我们平时使用到的视频格式，比如：mp4、rmvb、avi、mkv、mov…<br>没错，这些我们熟悉的视频格式，其实是包裹了音视频编码数据的容器，用来把以特定编码标准编码的视频流和音频流混在一起，成为一个文件。<br>例如：mp4支持H264、H265等视频编码和AAC、MP3等音频编码</p>
+<blockquote>
+<p>以上就是 音视频相关的一些概念和术语的简单了解，后续如果有更多奇怪的支持增加了，会持续补充。</p>
+</blockquote>
+<ul>
+<li><input disabled type="checkbox"> 视频旁路 sei 插帧技术</li>
+</ul>
+<h2 id="音视频硬解码流程：封装基础解码框架"><a href="#音视频硬解码流程：封装基础解码框架" class="headerlink" title="音视频硬解码流程：封装基础解码框架"></a>音视频硬解码流程：封装基础解码框架</h2><blockquote>
+<p>主要简介Android使用硬解码API实现硬解码的流程，包含MediaCodec输入输出缓冲、MediaCodec解码流程、解码代码封装和讲解。</p>
+</blockquote>
+<hr>
+<p>参考链接及更多细节</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903949451919368">【Android 音视频开发打怪升级：音视频硬解码篇】一、音视频基础知识</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加个鸡腿呗.</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="九尾灵狐 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag"># 音视频</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/12/ASM-%E5%8C%BF%E5%90%8D%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E5%A4%84%E7%90%86/" rel="prev" title="ASM 匿名内部类 & Lambda 表达式的处理">
+      <i class="fa fa-chevron-left"></i> ASM 匿名内部类 & Lambda 表达式的处理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/02/ReLearn-C/" rel="next" title="ReLearn C++">
+      ReLearn C++ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">音视频基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A7%86%E9%A2%91"><span class="nav-number">1.1.</span> <span class="nav-text">什么是视频</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E5%B8%A7"><span class="nav-number">1.1.1.</span> <span class="nav-text">视频帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A7%E7%8E%87"><span class="nav-number">1.1.2.</span> <span class="nav-text">帧率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4"><span class="nav-number">1.1.3.</span> <span class="nav-text">色彩空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%9F%B3%E9%A2%91"><span class="nav-number">1.2.</span> <span class="nav-text">什么是音频</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%87%E6%A0%B7%E7%8E%87%E5%92%8C%E9%87%87%E6%A0%B7%E4%BD%8D%E6%95%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">采样率和采样位数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text">视频编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#H264%E7%BC%96%E7%A0%81%E7%AE%80%E4%BB%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">H264编码简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E5%B8%A7-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">视频帧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E5%AE%B9%E5%99%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">音视频容器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E7%A1%AC%E8%A7%A3%E7%A0%81%E6%B5%81%E7%A8%8B%EF%BC%9A%E5%B0%81%E8%A3%85%E5%9F%BA%E7%A1%80%E8%A7%A3%E7%A0%81%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">音视频硬解码流程：封装基础解码框架</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">415k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

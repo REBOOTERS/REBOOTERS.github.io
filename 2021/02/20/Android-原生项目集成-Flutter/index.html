@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.json',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言了解一下如何在 Android 原生项目中集成 Flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 原生项目集成 Flutter">
+<meta property="og:url" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/index.html">
+<meta property="og:site_name" content="诗与远方">
+<meta property="og:description" content="前言了解一下如何在 Android 原生项目中集成 Flutter">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter.jpeg">
+<meta property="article:published_time" content="2021-02-20T05:34:05.000Z">
+<meta property="article:modified_time" content="2021-03-14T11:47:15.985Z">
+<meta property="article:author" content="九尾灵狐">
+<meta property="article:tag" content="flutter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter.jpeg">
+
+<link rel="canonical" href="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Android 原生项目集成 Flutter | 诗与远方</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">诗与远方</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/REBOOTERS" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android 原生项目集成 Flutter
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-02-20 13:34:05" itemprop="dateCreated datePublished" datetime="2021-02-20T13:34:05+08:00">2021-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-14 19:47:15" itemprop="dateModified" datetime="2021-03-14T19:47:15+08:00">2021-03-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter.jpeg">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>了解一下如何在 Android 原生项目中集成 Flutter </p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C">具体操作</a><ul>
+<li><a href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE">生成配置</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settingsgradle">配置原生项目 settings.gradle</a><ul>
+<li><a href="#%E5%85%B3%E4%BA%8E-include_fluttergroovy">关于 include_flutter.groovy</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BE%9D%E8%B5%96-flutter">依赖 flutter</a></li>
+</ul>
+</li>
+<li><a href="#flutter-pub-get">flutter pub get</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">参考文档</a></li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h2><h3 id="生成配置"><a href="#生成配置" class="headerlink" title="生成配置"></a>生成配置</h3><p>在原生项目根目录执行命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">flutter create -t module --org &#123;package_name&#125; &#123;module_name&#125;</span><br><span class="line"></span><br><span class="line">// 此处 module_name 的命令遵循 Android 子 module 的命名即可。不能有中划线。</span><br><span class="line"></span><br><span class="line">// 比如, </span><br><span class="line"></span><br><span class="line">flutter create -t module --org com.engineer.mini.flutter flutter_sub</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Creating project sub_flutter...</span><br><span class="line">  sub_flutter/test/widget_test.dart (created)</span><br><span class="line">  sub_flutter/sub_flutter.iml (created)</span><br><span class="line">  sub_flutter/.gitignore (created)</span><br><span class="line">  sub_flutter/.metadata (created)</span><br><span class="line">  sub_flutter/pubspec.yaml (created)</span><br><span class="line">  sub_flutter/README.md (created)</span><br><span class="line">  sub_flutter/lib/main.dart (created)</span><br><span class="line">  sub_flutter/sub_flutter_android.iml (created)</span><br><span class="line">  sub_flutter/.idea/libraries/Dart_SDK.xml (created)</span><br><span class="line">  sub_flutter/.idea/modules.xml (created)</span><br><span class="line">  sub_flutter/.idea/workspace.xml (created)</span><br><span class="line">Running &quot;flutter pub get&quot; in sub_flutter...                      1,054ms</span><br><span class="line">Wrote 11 files.</span><br></pre></td></tr></table></figure>
+<p>最终生成了以上文件，注意这里最后<strong>自动执行了 flutter pub get</strong> 的命令。关于 flutter pub get 具体做了什么，可以参考后面的<a href="#%E4%BE%9D%E8%B5%96-flutter">描述</a>。</p>
+<p><strong>这里在项目根目录创建子 module 只是为了把代码放在一个仓库，方便维护，理论上可以放在硬盘的任何位置</strong>。</p>
+<h3 id="配置原生项目-settings-gradle"><a href="#配置原生项目-settings-gradle" class="headerlink" title="配置原生项目 settings.gradle"></a>配置原生项目 settings.gradle</h3><p>在配置 settings.gradle 之前先来简单回顾一下关于 Gradle 的一些基础知识。</p>
+<p>如果你了解过 Gradle 相关的配置的话，一定会看到一个概念，就是<strong>约定优于配置</strong>，什么意思呢，按照面向对象的思路来理解，每一个工程是一个巨大的 Project 类，整个类里有很多的属性。而我们创建的每一个项目其实就是一个具体的 Project 对象（也就是实例).约定优于配置的意思，就是在 project 实例化的时候，其内部的属性已经有了默认值。那么我们怎么知道有哪些默认值呢？在项目根目录执行 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew properties</span><br></pre></td></tr></table></figure>
+<p>就可以得到整个 Project 的一些默认配置，比如（此处节选部分结果）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Root project</span><br><span class="line">------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">allprojects: [root project &#x27;MiniApp&#x27;, project &#x27;:app&#x27;, project &#x27;:thirdlib&#x27;]</span><br><span class="line">android.agp.version.check.performed: true</span><br><span class="line">android.enableJetifier: true</span><br><span class="line">android.enableR8: true</span><br><span class="line">android.enableR8.libraries: true</span><br><span class="line">android.useAndroidX: true</span><br><span class="line">buildDir: /Users/username/Documents/mygithub/MinApp/build</span><br><span class="line">buildFile: /Users/username/Documents/mygithub/MinApp/build.gradle</span><br><span class="line">projectDir: /Users/username/Documents/mygithub/MinApp</span><br><span class="line">rootDir: /Users/username/Documents/mygithub/MinApp</span><br><span class="line">rootProject: root project &#x27;MiniApp&#x27;</span><br></pre></td></tr></table></figure>
+<p>这里当前有一些是我们配置的，比如 useAndroidX，但也有一些是约定的，比如 对于整个 project 来说 buildDir 就是项目根目录的 build 文件夹等。</p>
+<p>执行 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew :app:properties</span><br></pre></td></tr></table></figure>
+<p>节选部分结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buildDir: /Users/username/Documents/mygithub/MinApp/app/build</span><br><span class="line">buildFile: /Users/username/Documents/mygithub/MinApp/app/build.gradle</span><br></pre></td></tr></table></figure>
+
+<p>就会得到关于 app 整个 module 现阶段的一些配置信息，当然这些配置信息除了约定的，还有你自己配置的，比如 buildToolsVersion ，签名等相关信息。可以看到 buildDir 和整个 project 的是不一样的。</p>
+<p>回到主题， 看看如何把我们刚才创建的 sub_flutter 模块集成到项目中。（严格来说并不是集成 sub_flutter 模块，因为他只是一个 flutter 的模块，而在 Android 主项目只能集成子 Android module，那么具体改怎么做呢，下面就来看看其中的奥秘）</p>
+<p>按照官方的操作方法，会要求我们添加以下配置到 settings.gradle 中。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Include the host app project.</span><br><span class="line">include &#x27;:app&#x27;                                    // assumed existing content</span><br><span class="line">setBinding(new Binding([gradle: this]))                                // new</span><br><span class="line">evaluate(new File(                                                     // new</span><br><span class="line">  settingsDir.parentFile,                                              // new</span><br><span class="line">  &#x27;my_flutter/.android/include_flutter.groovy&#x27;                         // new</span><br><span class="line">))                                                                     // new</span><br></pre></td></tr></table></figure>
+
+<p>首先看看 这里的 settingsDir 的值。在 settings.gradle 中直接添加</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">println <span class="string">&quot;settings.dir=&quot;</span> + settingsDir</span><br><span class="line">println <span class="string">&quot;settings.dir.parent=&quot;</span> + settingsDir.parent</span><br></pre></td></tr></table></figure>
+<p>sync 之后就会看到输出</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">settings.dir=/Users/username/Documents/mygithub/MinApp</span><br><span class="line">settings.dir.parent=/Users/username/Documents/mygithub</span><br></pre></td></tr></table></figure>
+<p>所以，上面的配置信息，就是说结合 settings 所在目录的父目录和我们配置的目录结合，找到一个名为 include_flutter.groovy 的文件，然后去执行他。</p>
+<p>前面说了，创建子 module 的时候，可以是在项目根目录，也可以是在其他位置，如果是在其他位置，这里的 my_flutter 可以替换为你创建目录的绝对路劲。</p>
+<p>这里是在根目录直接创建的，那么以上的配置就可以简化为</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setBinding(<span class="keyword">new</span> Binding([gradle: <span class="keyword">this</span>]))</span><br><span class="line">evaluate(<span class="keyword">new</span> <span class="keyword">File</span>(settingsDir, <span class="string">&#x27;sub_flutter/.android/include_flutter.groovy&#x27;</span>))</span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;:sub_flutter&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="关于-include-flutter-groovy"><a href="#关于-include-flutter-groovy" class="headerlink" title="关于 include_flutter.groovy"></a>关于 include_flutter.groovy</h5><p>上面说了，settings.gradle 的配置，其实就是去执行 include_flutter.groovy 这个文件，可以简单看一下这个文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> scriptFile = getClass().protectionDomain.codeSource.location.toURI()</span><br><span class="line"><span class="keyword">def</span> flutterProjectRoot = <span class="keyword">new</span> File(scriptFile).parentFile.parentFile</span><br><span class="line"></span><br><span class="line">gradle.include <span class="string">&quot;:flutter&quot;</span></span><br><span class="line">gradle.project(<span class="string">&quot;:flutter&quot;</span>).projectDir = <span class="keyword">new</span> File(flutterProjectRoot, <span class="string">&quot;.android/Flutter&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> localPropertiesFile = <span class="keyword">new</span> File(flutterProjectRoot, <span class="string">&quot;.android/local.properties&quot;</span>)</span><br><span class="line"><span class="keyword">def</span> properties = <span class="keyword">new</span> Properties()</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> localPropertiesFile.exists(), <span class="string">&quot;❗️The Flutter module doesn&#x27;t have a `$localPropertiesFile` file.&quot;</span> +</span><br><span class="line">                                     <span class="string">&quot;\nYou must run `flutter pub get` in `$flutterProjectRoot`.&quot;</span></span><br><span class="line">localPropertiesFile.withReader(<span class="string">&quot;UTF-8&quot;</span>) &#123; reader -&gt; properties.load(reader) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> flutterSdkPath = properties.getProperty(<span class="string">&quot;flutter.sdk&quot;</span>)</span><br><span class="line"><span class="keyword">assert</span> flutterSdkPath != <span class="literal">null</span>, <span class="string">&quot;flutter.sdk not set in local.properties&quot;</span></span><br><span class="line">gradle.apply <span class="attr">from:</span> <span class="string">&quot;$flutterSdkPath/packages/flutter_tools/gradle/module_plugin_loader.gradle&quot;</span></span><br></pre></td></tr></table></figure>
+<p>.android 其实就是一个 Android 项目，他包含一个 Flutter 文件夹，这 Flutter 是一个 library 类型的 Android module ，这个一点从他的 build.gradle 文件就可以看出。 include_flutter.groovy 所做的事情，就是将当前 library 命名为 flutter 的一个 moudle。然后检查项目中 local.properties 中 sdk 的相关配置，最后去执行 FlutterSDK 的中 gradle 脚本，这里具体的分析就不再展开了。</p>
+<p>也就是说，现在有一个名为  flutter 的 Android Library Module 。这个 module 包含 flutter 的所有配置。我们如果依赖了这个 module ,那么就相当于是依赖了 Flutter .</p>
+<h3 id="依赖-flutter"><a href="#依赖-flutter" class="headerlink" title="依赖 flutter"></a>依赖 flutter</h3><p>最后在原生项目的 application-module 的 build.gradle 的 dependencies 闭包中添加</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="keyword">project</span>(<span class="string">&#x27;:flutter&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>至此，原生项目已经有了 Flutter 的依赖，可以使用 Flutter 的 View 了。</p>
+<p>至此，现在的原生项目就包含 Flutter SDK 的所有依赖了，UI 相关的内容，改怎么写还是用 dart 在 main.dart 中写，然后我们就可以把这个 dart 渲染出来的内容按照 Activity 、Fragment 或 View 的形式添加到已有的项目中了。具体怎么添加，看下一篇。</p>
+<h2 id="flutter-pub-get"><a href="#flutter-pub-get" class="headerlink" title="flutter pub get"></a>flutter pub get</h2><p>flutter pub get 或者 pub get 是在做 flutter 的时候在使用第三方 lib 或版本更新的时候经常会使用一个命令，通过这个命令会拉取相关的依赖，其实这个命令还会自动生成 Android 和 iOS 的原生项目。比如在我们创建就的 sub_flutter 模块中，均自动生成了 .android 和 .ios 的原生项目目录。同时这两个目录都是点打头的，那么一般情况下就是隐藏文件，同时通过 .gitignore 文件也可以看到，对于 flutter module 形式来说，这两个文件夹都是被忽略的，毕竟 flutter module 的核心，还是为了方便以 module 的形式集成到原生的项目中，内部的两个原生目录，一方面是为了方便集成，另一方面是便于直接运行执行 hot-reload 的调试。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a target="_blank" rel="noopener" href="https://flutter.dev/docs/development/add-to-app/android/add-flutter-fragment?tab=cached-engine-with-initial-route-java-tab">Add-To-An-Android-App</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加个鸡腿呗.</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="九尾灵狐 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="九尾灵狐 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/flutter/" rel="tag"># flutter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/05/Java%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="Java 之 goto, 标签的使用">
+      <i class="fa fa-chevron-left"></i> Java 之 goto, 标签的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/" rel="next" title="Activity 为什么能显示 UI">
+      Activity 为什么能显示 UI <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">生成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settings-gradle"><span class="nav-number">2.2.</span> <span class="nav-text">配置原生项目 settings.gradle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-include-flutter-groovy"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">关于 include_flutter.groovy</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96-flutter"><span class="nav-number">2.3.</span> <span class="nav-text">依赖 flutter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flutter-pub-get"><span class="nav-number">3.</span> <span class="nav-text">flutter pub get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">4.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九尾灵狐"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">九尾灵狐</p>
+  <div class="site-description" itemprop="description">人生不止眼前的苟且，还有诗与远方和田野</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">415k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">11:31</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
