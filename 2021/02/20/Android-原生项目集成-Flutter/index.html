@@ -47,16 +47,18 @@
   };
 </script>
 
-  <meta name="description" content="前言了解一下如何在 Android 原生项目中集成 Flutter">
+  <meta name="description" content="前言了解一下如何在 Android 原生项目中集成 Flutter ，通过项目中打开 Flutter 页面。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 原生项目集成 Flutter">
 <meta property="og:url" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/index.html">
 <meta property="og:site_name" content="诗与远方">
-<meta property="og:description" content="前言了解一下如何在 Android 原生项目中集成 Flutter">
+<meta property="og:description" content="前言了解一下如何在 Android 原生项目中集成 Flutter ，通过项目中打开 Flutter 页面。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter.jpeg">
+<meta property="og:image" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter-activity.png">
+<meta property="og:image" content="http://yoursite.com/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/dart-code.png">
 <meta property="article:published_time" content="2021-02-20T05:34:05.000Z">
-<meta property="article:modified_time" content="2021-03-14T11:47:15.985Z">
+<meta property="article:modified_time" content="2021-04-04T02:38:11.104Z">
 <meta property="article:author" content="九尾灵狐">
 <meta property="article:tag" content="flutter">
 <meta name="twitter:card" content="summary">
@@ -240,7 +242,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-14 19:47:15" itemprop="dateModified" datetime="2021-03-14T19:47:15+08:00">2021-03-14</time>
+                <time title="修改时间：2021-04-04 10:38:11" itemprop="dateModified" datetime="2021-04-04T10:38:11+08:00">2021-04-04</time>
               </span>
 
           
@@ -256,14 +258,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.3k</span>
+              <span>9.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>16 分钟</span>
             </span>
 
         </div>
@@ -277,29 +279,34 @@
       
         <img src="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter.jpeg">
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>了解一下如何在 Android 原生项目中集成 Flutter </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>了解一下如何在 Android 原生项目中集成 Flutter ，通过项目中打开 Flutter 页面。</p>
 <a id="more"></a>
 
 <!-- TOC -->
 
 <ul>
 <li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
-<li><a href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C">具体操作</a><ul>
+<li><a href="#%E6%B7%BB%E5%8A%A0-flutter-module-%E5%B9%B6%E4%BE%9D%E8%B5%96">添加 Flutter Module 并依赖</a><ul>
 <li><a href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE">生成配置</a></li>
-<li><a href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settingsgradle">配置原生项目 settings.gradle</a><ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settingsgradle">配置原生项目 settings.gradle</a></li>
 <li><a href="#%E5%85%B3%E4%BA%8E-include_fluttergroovy">关于 include_flutter.groovy</a></li>
-</ul>
-</li>
 <li><a href="#%E4%BE%9D%E8%B5%96-flutter">依赖 flutter</a></li>
 </ul>
 </li>
+<li><a href="#%E9%9B%86%E6%88%90-flutter-ui-%E5%88%B0%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE">集成 Flutter UI 到原生项目</a><ul>
+<li><a href="#flutterengine-%E6%8F%90%E5%89%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E5%B9%B6%E7%BC%93%E5%AD%98">FlutterEngine 提前初始化并缓存</a></li>
+<li><a href="#%E6%89%93%E5%BC%80-flutteractivity-%E6%88%96-flutterfragment">打开 FlutterActivity 或 FlutterFragment</a></li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%9D%91">一些坑</a></li>
+</ul>
+</li>
 <li><a href="#flutter-pub-get">flutter pub get</a></li>
+<li><a href="#flutter-%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83">Flutter 一些思考</a></li>
 <li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">参考文档</a></li>
 </ul>
 <!-- /TOC -->
 
-<h2 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h2><h3 id="生成配置"><a href="#生成配置" class="headerlink" title="生成配置"></a>生成配置</h3><p>在原生项目根目录执行命令 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">flutter create -t module --org &#123;package_name&#125; &#123;module_name&#125;</span><br><span class="line"></span><br><span class="line">// 此处 module_name 的命令遵循 Android 子 module 的命名即可。不能有中划线。</span><br><span class="line"></span><br><span class="line">// 比如, </span><br><span class="line"></span><br><span class="line">flutter create -t module --org com.engineer.mini.flutter flutter_sub</span><br></pre></td></tr></table></figure>
+<h2 id="添加-Flutter-Module-并依赖"><a href="#添加-Flutter-Module-并依赖" class="headerlink" title="添加 Flutter Module 并依赖"></a>添加 Flutter Module 并依赖</h2><h3 id="生成配置"><a href="#生成配置" class="headerlink" title="生成配置"></a>生成配置</h3><p>在原生项目根目录执行命令 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">flutter create -t module --org &#123;package_name&#125; &#123;module_name&#125;</span><br><span class="line"></span><br><span class="line">// 此处 module_name 的命令遵循 Android 子 module 的命名即可。不能有中划线。</span><br><span class="line"></span><br><span class="line">// 比如, </span><br><span class="line"></span><br><span class="line">flutter create -t module --org com.engineer.mini.flutter sub_flutter</span><br></pre></td></tr></table></figure>
 <p>结果</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Creating project sub_flutter...</span><br><span class="line">  sub_flutter/test/widget_test.dart (created)</span><br><span class="line">  sub_flutter/sub_flutter.iml (created)</span><br><span class="line">  sub_flutter/.gitignore (created)</span><br><span class="line">  sub_flutter/.metadata (created)</span><br><span class="line">  sub_flutter/pubspec.yaml (created)</span><br><span class="line">  sub_flutter/README.md (created)</span><br><span class="line">  sub_flutter/lib/main.dart (created)</span><br><span class="line">  sub_flutter/sub_flutter_android.iml (created)</span><br><span class="line">  sub_flutter/.idea/libraries/Dart_SDK.xml (created)</span><br><span class="line">  sub_flutter/.idea/modules.xml (created)</span><br><span class="line">  sub_flutter/.idea/workspace.xml (created)</span><br><span class="line">Running &quot;flutter pub get&quot; in sub_flutter...                      1,054ms</span><br><span class="line">Wrote 11 files.</span><br></pre></td></tr></table></figure>
 <p>最终生成了以上文件，注意这里最后<strong>自动执行了 flutter pub get</strong> 的命令。关于 flutter pub get 具体做了什么，可以参考后面的<a href="#%E4%BE%9D%E8%B5%96-flutter">描述</a>。</p>
@@ -316,7 +323,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">buildDir: /Users/username/Documents/mygithub/MinApp/app/build</span><br><span class="line">buildFile: /Users/username/Documents/mygithub/MinApp/app/build.gradle</span><br></pre></td></tr></table></figure>
 
 <p>就会得到关于 app 整个 module 现阶段的一些配置信息，当然这些配置信息除了约定的，还有你自己配置的，比如 buildToolsVersion ，签名等相关信息。可以看到 buildDir 和整个 project 的是不一样的。</p>
-<p>回到主题， 看看如何把我们刚才创建的 sub_flutter 模块集成到项目中。（严格来说并不是集成 sub_flutter 模块，因为他只是一个 flutter 的模块，而在 Android 主项目只能集成子 Android module，那么具体改怎么做呢，下面就来看看其中的奥秘）</p>
+<p>回到主题， 看看如何把我们刚才创建的 sub_flutter 模块集成到项目中。（严格来说并不是集成 sub_flutter 模块，因为他只是一个 flutter 的模块，而在 Android 主项目只能集成子 Android module，那么具体该怎么做呢，下面就来看看其中的奥秘）</p>
 <p>按照官方的操作方法，会要求我们添加以下配置到 settings.gradle 中。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Include the host app project.</span><br><span class="line">include &#x27;:app&#x27;                                    // assumed existing content</span><br><span class="line">setBinding(new Binding([gradle: this]))                                // new</span><br><span class="line">evaluate(new File(                                                     // new</span><br><span class="line">  settingsDir.parentFile,                                              // new</span><br><span class="line">  &#x27;my_flutter/.android/include_flutter.groovy&#x27;                         // new</span><br><span class="line">))                                                                     // new</span><br></pre></td></tr></table></figure>
 
@@ -329,15 +336,63 @@
 <p>这里是在根目录直接创建的，那么以上的配置就可以简化为</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setBinding(<span class="keyword">new</span> Binding([gradle: <span class="keyword">this</span>]))</span><br><span class="line">evaluate(<span class="keyword">new</span> <span class="keyword">File</span>(settingsDir, <span class="string">&#x27;sub_flutter/.android/include_flutter.groovy&#x27;</span>))</span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;:sub_flutter&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="关于-include-flutter-groovy"><a href="#关于-include-flutter-groovy" class="headerlink" title="关于 include_flutter.groovy"></a>关于 include_flutter.groovy</h5><p>上面说了，settings.gradle 的配置，其实就是去执行 include_flutter.groovy 这个文件，可以简单看一下这个文件</p>
+<h3 id="关于-include-flutter-groovy"><a href="#关于-include-flutter-groovy" class="headerlink" title="关于 include_flutter.groovy"></a>关于 include_flutter.groovy</h3><p>上面说了，settings.gradle 的配置，其实就是去执行 include_flutter.groovy 这个文件，可以简单看一下这个文件</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> scriptFile = getClass().protectionDomain.codeSource.location.toURI()</span><br><span class="line"><span class="keyword">def</span> flutterProjectRoot = <span class="keyword">new</span> File(scriptFile).parentFile.parentFile</span><br><span class="line"></span><br><span class="line">gradle.include <span class="string">&quot;:flutter&quot;</span></span><br><span class="line">gradle.project(<span class="string">&quot;:flutter&quot;</span>).projectDir = <span class="keyword">new</span> File(flutterProjectRoot, <span class="string">&quot;.android/Flutter&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> localPropertiesFile = <span class="keyword">new</span> File(flutterProjectRoot, <span class="string">&quot;.android/local.properties&quot;</span>)</span><br><span class="line"><span class="keyword">def</span> properties = <span class="keyword">new</span> Properties()</span><br><span class="line"></span><br><span class="line"><span class="keyword">assert</span> localPropertiesFile.exists(), <span class="string">&quot;❗️The Flutter module doesn&#x27;t have a `$localPropertiesFile` file.&quot;</span> +</span><br><span class="line">                                     <span class="string">&quot;\nYou must run `flutter pub get` in `$flutterProjectRoot`.&quot;</span></span><br><span class="line">localPropertiesFile.withReader(<span class="string">&quot;UTF-8&quot;</span>) &#123; reader -&gt; properties.load(reader) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> flutterSdkPath = properties.getProperty(<span class="string">&quot;flutter.sdk&quot;</span>)</span><br><span class="line"><span class="keyword">assert</span> flutterSdkPath != <span class="literal">null</span>, <span class="string">&quot;flutter.sdk not set in local.properties&quot;</span></span><br><span class="line">gradle.apply <span class="attr">from:</span> <span class="string">&quot;$flutterSdkPath/packages/flutter_tools/gradle/module_plugin_loader.gradle&quot;</span></span><br></pre></td></tr></table></figure>
 <p>.android 其实就是一个 Android 项目，他包含一个 Flutter 文件夹，这 Flutter 是一个 library 类型的 Android module ，这个一点从他的 build.gradle 文件就可以看出。 include_flutter.groovy 所做的事情，就是将当前 library 命名为 flutter 的一个 moudle。然后检查项目中 local.properties 中 sdk 的相关配置，最后去执行 FlutterSDK 的中 gradle 脚本，这里具体的分析就不再展开了。</p>
 <p>也就是说，现在有一个名为  flutter 的 Android Library Module 。这个 module 包含 flutter 的所有配置。我们如果依赖了这个 module ,那么就相当于是依赖了 Flutter .</p>
 <h3 id="依赖-flutter"><a href="#依赖-flutter" class="headerlink" title="依赖 flutter"></a>依赖 flutter</h3><p>最后在原生项目的 application-module 的 build.gradle 的 dependencies 闭包中添加</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="keyword">project</span>(<span class="string">&#x27;:flutter&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>至此，原生项目已经有了 Flutter 的依赖，可以使用 Flutter 的 View 了。</p>
-<p>至此，现在的原生项目就包含 Flutter SDK 的所有依赖了，UI 相关的内容，改怎么写还是用 dart 在 main.dart 中写，然后我们就可以把这个 dart 渲染出来的内容按照 Activity 、Fragment 或 View 的形式添加到已有的项目中了。具体怎么添加，看下一篇。</p>
+<p>至此，原生项目已经有了 Flutter 的依赖，可以使用 Flutter 的 UI 了。</p>
+<p>至此，现在的原生项目就包含 Flutter SDK 的所有依赖了。 Flutter UI 相关的内容，该怎么写还是用 dart 在 main.dart 中写，然后我们就可以把这个 dart 渲染出来的内容按照 Activity 、Fragment 或 View 的形式添加到已有的项目中了。具体怎么添加，下面来看。</p>
+<h2 id="集成-Flutter-UI-到原生项目"><a href="#集成-Flutter-UI-到原生项目" class="headerlink" title="集成 Flutter UI 到原生项目"></a>集成 Flutter UI 到原生项目</h2><h3 id="FlutterEngine-提前初始化并缓存"><a href="#FlutterEngine-提前初始化并缓存" class="headerlink" title="FlutterEngine 提前初始化并缓存"></a>FlutterEngine 提前初始化并缓存</h3><p>按照官方的建议以及实际体验，在这种原生项目后集成 Flutter 的场景下，需要提前预热（官方称为 pre-warm) Flutter 引擎，也就是说提前启动 Dart 的虚拟机，否则当你以其他方式添加 Flutter 的内容时再创建 Flutter 引擎，体验会非常糟糕，尤其是首次打开页面的时候。</p>
+<p>因此，简单起见我们可以使用 IdleHandler 在应用启动后进行预热操作。（理论上这种后期集成 Flutter 的页面应该不是首页及需要 App 启动后立即显示的页面，大部分情况下至少是个二级甚至三级页面，因此这样做是合理的）</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">()</span></span> &#123;</span><br><span class="line">        Looper.myQueue().addIdleHandler &#123;</span><br><span class="line">            initFlutterEngine()</span><br><span class="line">            <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">initFlutterEngine</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> flutterEngine = FlutterEngine(context)</span><br><span class="line">        flutterEngine.navigationChannel.setInitialRoute(<span class="string">&quot;/custom/route/page&quot;</span>) <span class="comment">// 1</span></span><br><span class="line">        flutterEngine.dartExecutor.executeDartEntrypoint(</span><br><span class="line">                DartExecutor.DartEntrypoint.createDefault()  <span class="comment">// 2</span></span><br><span class="line"><span class="comment">//                DartExecutor.DartEntrypoint(FlutterInjector.instance()</span></span><br><span class="line"><span class="comment">//                        .flutterLoader().findAppBundlePath(), &quot;fakeMain&quot;)</span></span><br><span class="line">        )</span><br><span class="line">        FlutterEngineCache</span><br><span class="line">                .getInstance()</span><br><span class="line">                .put(MinApp.FLUTTER_ENGINE_KEY, flutterEngine)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注释 1 处的实现不是必须的，注释 2 处是默认实现。</p>
+<p>按照上面的代码，在这个 FlutterEngine 被启动的时候，会默认执行 main.dart 中的 main 方法。<code>DartExecutor.DartEntrypoint.createDefault()</code> 这个默认的实现结点就是 main 方法，这点从代码了很容易窥探到。当然，我们也可以在 FlutterEngine 启动的时候指定自定义的执行结点，比如上面注释中的 <code>fakeMain()</code> 方法，是定义在 main.dart 中的一个 Dart 方法。（当然，这里有一个坑，后面再说）。</p>
+<p>当然，我们也可以按注释 1 出写的那样， FlutterEngine 在启动的时候，执行指定路由对应页面的提前初始化工作。（当然，这里还是有坑的，后面统一说）</p>
+<h3 id="打开-FlutterActivity-或-FlutterFragment"><a href="#打开-FlutterActivity-或-FlutterFragment" class="headerlink" title="打开 FlutterActivity 或 FlutterFragment"></a>打开 FlutterActivity 或 FlutterFragment</h3><p>有了缓存好的 FlutterEngine，我们就可以用它打开 FlutterActivity 和 FlutterFragment 了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">viewBinding.flutterActivity.setOnClickListener &#123;</span><br><span class="line">    startActivity(</span><br><span class="line">        FlutterActivity</span><br><span class="line">            .withCachedEngine(MinApp.FLUTTER_ENGINE_ID)</span><br><span class="line">            .build(<span class="keyword">this</span>)</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line">viewBinding.flutterFragment.setOnClickListener &#123;</span><br><span class="line">    <span class="keyword">if</span> (supportFragmentManager.fragments.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span><span class="symbol">@setOnClickListener</span></span><br><span class="line">    &#125;</span><br><span class="line">    currentFragment = FlutterFragment.withCachedEngine(MinApp.FLUTTER_ENGINE_ID).build()</span><br><span class="line">    supportFragmentManager.beginTransaction()</span><br><span class="line">        .replace(R.id.flutter_container, currentFragment!!)</span><br><span class="line">        .commitAllowingStateLoss()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>FlutterActivity 和 FlutterFragment 都是 Flutter SDK 内封装好的，便于在原生项目中集成 Flutter 的实现。当然，你也可以使用 FlutterView ,但是比较复杂，具体可以参考官方指导 。</p>
+<p>这样上面打开的 Activity 或添加的 Fragment 就会默认展示 main.dart 中配置的 Widget 所对应的 UI。</p>
+<img src="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/flutter-activity.png" width="50%">
+
+<p>FlutterFragment 已经被 add 到当前页面的 FrameLayout 中了。</p>
+<h3 id="一些坑"><a href="#一些坑" class="headerlink" title="一些坑"></a>一些坑</h3><p>这里说一下这种做法的一些坑。</p>
+<ul>
+<li><p>官方是建议提前缓存 FlutterEngine ，但是按照实际体验与其说是建议，不如说是必须做的事情，否则打开页面的体验真的只能用非常卡来形容了。</p>
+</li>
+<li><p>关于 pre-warmed FlutterEngine 的一些细节。</p>
+</li>
+</ul>
+<blockquote>
+<p>Note: To warm up a FlutterEngine, you must execute a Dart entrypoint. Keep in mind that the moment executeDartEntrypoint() is invoked, your Dart entrypoint method begins executing. If your Dart entrypoint invokes runApp() to run a Flutter app, then your Flutter app behaves as if it were running in a window of zero size until this FlutterEngine is attached to a FlutterActivity, FlutterFragment, or FlutterView. Make sure that your app behaves appropriately between the time you warm it up and the time you display Flutter content.</p>
+</blockquote>
+<p>按照这段描述的意思，提前创建 FlutterEngine 并不只是创建了一个执行环境，而是在提前执行代码，类似于用一个 1 像素的 Activity 敲敲执行一些后台逻辑。因此，但是我们的 Flutter 代码的执行依赖于一个 Activity 或者是 Window,那么就会失败。</p>
+<p>比如，我要做一个显示用户相册的页面，因此需要申请权限，但在 pre-warmed 的时候，Flutter Widget 所要要依赖的 Activity 并没有被 attached. 这个时候，势必会导致代码运行的异常。</p>
+<ul>
+<li><p>前面说了，我们可以在 FlutterEngine 创建的时候，指定特定的执行结点，而不一定要执行 main() 方法，从而规避一些问题，是这样没错。但是，当打出 release 版本的 Apk时， main.dart 中的代码被混淆了，自定义的执行结点找不到了，比如上面代码中注释掉的 fakeMain() 方法，在 Debug 阶段时正常的，但是在 release 的版本就会出现找不到方法的异常日志。这里其实很好奇 main 方法是怎么找到的，难道没有被混淆？</p>
+</li>
+<li><p>在来说说 <code>flutterEngine.navigationChannel.setInitialRoute</code> 这个似乎很牛逼的配置，意思是我可以在初始化 FlutterEngine 的时候，执行特定路由所对应的 Widget ，而不是默认的 home 配置。比如，main.dart 默认加载的是 A Widget，可以通过路由配置在初始化的时候执行 B Widget 的逻辑。似乎很好，如果 B Widget 恰好很耗时的话，似乎还可以做优化呢？但是我们再看一下打开页面时候的代码</p>
+</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">startActivity(</span><br><span class="line">    FlutterActivity</span><br><span class="line">        .withCachedEngine(MinApp.FLUTTER_ENGINE_ID)</span><br><span class="line">        .build(<span class="keyword">this</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>是的，你没法做任何其他和 FlutterEngine 有关的配置了，现在打开的 FlutterActivity 会默认显示 B Widget ，A Widget 直接被忽略了。是不是很坑？（o(╥﹏╥)o</p>
+<ul>
+<li>最后这个集成的 Flutter module 会导致整个项目编译变慢，是非常明显的变慢了。</li>
+</ul>
+<p>坦白来说，在原生项目中接入 Flutter 现阶段还是会有投入产出比不高的体验，虽然写实际功能或业务的代码可以复用了，似乎是省了人力成本，但是实际上这中间的还是有许多意想不到的坑要去趟，有些问题都是前人没有遇到过的，到最后只能自己去读源码或是自己给官提 issue 找答案，总体来说整体流程还是比较费时的。</p>
 <h2 id="flutter-pub-get"><a href="#flutter-pub-get" class="headerlink" title="flutter pub get"></a>flutter pub get</h2><p>flutter pub get 或者 pub get 是在做 flutter 的时候在使用第三方 lib 或版本更新的时候经常会使用一个命令，通过这个命令会拉取相关的依赖，其实这个命令还会自动生成 Android 和 iOS 的原生项目。比如在我们创建就的 sub_flutter 模块中，均自动生成了 .android 和 .ios 的原生项目目录。同时这两个目录都是点打头的，那么一般情况下就是隐藏文件，同时通过 .gitignore 文件也可以看到，对于 flutter module 形式来说，这两个文件夹都是被忽略的，毕竟 flutter module 的核心，还是为了方便以 module 的形式集成到原生的项目中，内部的两个原生目录，一方面是为了方便集成，另一方面是便于直接运行执行 hot-reload 的调试。</p>
+<h2 id="Flutter-一些思考"><a href="#Flutter-一些思考" class="headerlink" title="Flutter 一些思考"></a>Flutter 一些思考</h2><p>Flutter 的确很棒，尤其在低端机上的表现，比如我手边的小米 5 上，长列表滑动或者网格图显示图片，流畅度和原生页面几乎是一样的。但是在高端机上就没有什么优势了，总不能比原生实现还牛逼吧。 HotReload 很实用，尤其是客户端还是比较偏 UI 的情况下，对开发效率是一个很大的提升。同时现阶段各类需要和原生通信的插件还是挺丰富的，虽然适配情况及实现质量层次不齐，比如 Android 权限获取的适配，Android Q 沙盒机制下存储空间访问的适配，相册读写的适配等，都没有非常完美的实现。同时这类跨平台的插件实现，需要满足 Android、iOS 双端甚至是未来更多端的需求，所以还有很长的路要走。</p>
+<p>至于 Flutter 自身，Dart 语法写 UI 的嵌套问题其实也不是什么完全无法接受的事情，写多了，自然而然就习惯了，或者说实在不行就不断的创建小方法，将局部的嵌套用方法体来包裹掉。</p>
+<img src="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/dart-code.png">
+
+<p>比如上面这样，按照一些都是 Widget 的思路，做一些封装之后，代码看起来也还行，写起来也能习惯。</p>
+<p>槽点：</p>
+<p>最后，再说一下 Flutter 页面的生命周期简直是过于捡漏了，关键结点太少了，来来去去就是 build 、setState .很多场景下，限制太大了。</p>
+<p>好了，暂时这些，Flutter 未来可期。新项目或试水项目值得投入，在试错阶段可以有非常高效的产出。</p>
 <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a target="_blank" rel="noopener" href="https://flutter.dev/docs/development/add-to-app/android/add-flutter-fragment?tab=cached-engine-with-initial-route-java-tab">Add-To-An-Android-App</a></p>
 
     </div>
@@ -443,7 +498,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">生成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settings-gradle"><span class="nav-number">2.2.</span> <span class="nav-text">配置原生项目 settings.gradle</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-include-flutter-groovy"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">关于 include_flutter.groovy</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96-flutter"><span class="nav-number">2.3.</span> <span class="nav-text">依赖 flutter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flutter-pub-get"><span class="nav-number">3.</span> <span class="nav-text">flutter pub get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">4.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0-Flutter-Module-%E5%B9%B6%E4%BE%9D%E8%B5%96"><span class="nav-number">2.</span> <span class="nav-text">添加 Flutter Module 并依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">生成配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE-settings-gradle"><span class="nav-number">2.2.</span> <span class="nav-text">配置原生项目 settings.gradle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-include-flutter-groovy"><span class="nav-number">2.3.</span> <span class="nav-text">关于 include_flutter.groovy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96-flutter"><span class="nav-number">2.4.</span> <span class="nav-text">依赖 flutter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E6%88%90-Flutter-UI-%E5%88%B0%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.</span> <span class="nav-text">集成 Flutter UI 到原生项目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FlutterEngine-%E6%8F%90%E5%89%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E5%B9%B6%E7%BC%93%E5%AD%98"><span class="nav-number">3.1.</span> <span class="nav-text">FlutterEngine 提前初始化并缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%BC%80-FlutterActivity-%E6%88%96-FlutterFragment"><span class="nav-number">3.2.</span> <span class="nav-text">打开 FlutterActivity 或 FlutterFragment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9D%91"><span class="nav-number">3.3.</span> <span class="nav-text">一些坑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flutter-pub-get"><span class="nav-number">4.</span> <span class="nav-text">flutter pub get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flutter-%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">Flutter 一些思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -459,7 +514,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -514,12 +569,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">415k</span>
+    <span title="站点总字数">437k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">11:31</span>
+    <span title="站点阅读时长">12:09</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
   </div>
