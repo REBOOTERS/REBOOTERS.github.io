@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="668px" preserveAspectRatio="none" style="width:483px;height:668px;background:#FFFFFF;" version="1.1" viewBox="0 0 483 668" width="483px" zoomAndPan="magnify"><defs><filter height="300%" id="f15krydnqrrne6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><path d="M162,15.3171 L162,43.0715 A0,0 0 0 0 162,43.0715 L294,43.0715 A0,0 0 0 0 294,43.0715 L294,33.3171 L314,29.1943 L294,25.3171 L294,25.3171 L284,15.3171 L162,15.3171 A0,0 0 0 0 162,15.3171 " fill="#FBFB77" filter="url(#f15krydnqrrne6)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M284,15.3171 L284,25.3171 L294,25.3171 L284,15.3171 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="168" y="35.2151">Java 对象创建过程;</text><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="108" x="314" y="11"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="88" x="324" y="34.752">new AnyObject()</text><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="80" x="328" y="116.9001"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="60" x="338" y="140.6521">类的初始化</text><path d="M10,222.8003 L10,268.3091 A0,0 0 0 0 10,268.3091 L326,268.3091 A0,0 0 0 0 326,268.3091 L326,249.5547 L346,245.5547 L326,241.5547 L326,232.8003 L316,222.8003 L10,222.8003 A0,0 0 0 0 10,222.8003 " fill="#FBFB77" filter="url(#f15krydnqrrne6)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M316,222.8003 L316,232.8003 L326,232.8003 L316,222.8003 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="295" x="16" y="242.6982">虚拟机通过各种途径查找.class文件并生成字节流，</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="269" x="16" y="260.4526">然后根据字节流创建java.lang.Class对象的过程</text><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="44" x="346" y="227.3604"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="24" x="356" y="251.1123">装载</text><path d="M201,305.5662 L201,333.3206 A0,0 0 0 0 201,333.3206 L326,333.3206 A0,0 0 0 0 326,333.3206 L326,323.5662 L346,319.4434 L326,315.5662 L326,315.5662 L316,305.5662 L201,305.5662 A0,0 0 0 0 201,305.5662 " fill="#FBFB77" filter="url(#f15krydnqrrne6)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M316,305.5662 L316,315.5662 L326,315.5662 L316,305.5662 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="104" x="207" y="325.4641">验证、准备、解析</text><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="44" x="346" y="301.249"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="24" x="356" y="325.001">链接</text><polygon fill="#FEFECE" filter="url(#f15krydnqrrne6)" points="313,173.2888,423,173.2888,435,185.2888,423,197.2888,313,197.2888,301,185.2888,313,173.2888" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="12" x="372" y="209.8948">no</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="110" x="313" y="190.3833">类是否已经装载、链接</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="435" y="182.8718">yes</text><polygon fill="#FEFECE" filter="url(#f15krydnqrrne6)" points="368,357.6377,380,369.6377,368,381.6377,356,369.6377,368,357.6377" style="stroke:#A80036;stroke-width:1.5;"/><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="139" x="298.5" y="401.6377"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="119" x="308.5" y="425.3896">类构造器&lt;clinit&gt;()方法</text><rect fill="#FF4500" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="152" x="292" y="458.0264"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132" x="302" y="481.7783">类中各个类成员赋初始值</text><polygon fill="#FEFECE" filter="url(#f15krydnqrrne6)" points="335,67.3887,401,67.3887,413,79.3887,401,91.3887,335,91.3887,323,79.3887,335,67.3887" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="12" x="372" y="103.9946">no</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="66" x="335" y="84.4832">类已经初始化</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="413" y="76.9717">yes</text><polygon fill="#FEFECE" filter="url(#f15krydnqrrne6)" points="368,514.415,380,526.415,368,538.415,356,526.415,368,514.415" style="stroke:#A80036;stroke-width:1.5;"/><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="104" x="316" y="558.415"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="84" x="326" y="582.167">直接对象实例化</text><path d="M189,619.1208 L189,646.8752 A0,0 0 0 0 189,646.8752 L275,646.8752 A0,0 0 0 0 275,646.8752 L275,637.1208 L295,632.998 L275,629.1208 L275,629.1208 L265,619.1208 L189,619.1208 A0,0 0 0 0 189,619.1208 " fill="#FBFB77" filter="url(#f15krydnqrrne6)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M265,619.1208 L265,629.1208 L275,629.1208 L265,619.1208 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="65" x="195" y="639.0188">即构造函数</text><rect fill="#FEFECE" filter="url(#f15krydnqrrne6)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="146" x="295" y="614.8037"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="126" x="305" y="638.5557">调用类对象的&lt;init&gt;方法</text><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="263.749" y2="301.249"/><polygon fill="#A80036" points="364,291.249,368,301.249,372,291.249,368,295.249" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="197.2888" y2="227.3604"/><polygon fill="#A80036" points="364,217.3604,368,227.3604,372,217.3604,368,221.3604" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="435" x2="447" y1="185.2888" y2="185.2888"/><polygon fill="#A80036" points="443,271.249,447,281.249,451,271.249,447,275.249" style="stroke:#A80036;stroke-width:1.5;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="447" x2="447" y1="185.2888" y2="369.6377"/><line style="stroke:#A80036;stroke-width:1.5;" x1="447" x2="380" y1="369.6377" y2="369.6377"/><polygon fill="#A80036" points="390,365.6377,380,369.6377,390,373.6377,386,369.6377" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="337.6377" y2="357.6377"/><polygon fill="#A80036" points="364,347.6377,368,357.6377,372,347.6377,368,351.6377" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="153.2888" y2="173.2888"/><polygon fill="#A80036" points="364,163.2888,368,173.2888,372,163.2888,368,167.2888" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="381.6377" y2="401.6377"/><polygon fill="#A80036" points="364,391.6377,368,401.6377,372,391.6377,368,395.6377" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="438.0264" y2="458.0264"/><polygon fill="#A80036" points="364,448.0264,368,458.0264,372,448.0264,368,452.0264" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="91.3887" y2="116.9001"/><polygon fill="#A80036" points="364,106.9001,368,116.9001,372,106.9001,368,110.9001" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="413" x2="457" y1="79.3887" y2="79.3887"/><polygon fill="#A80036" points="453,304.8833,457,314.8833,461,304.8833,457,308.8833" style="stroke:#A80036;stroke-width:1.5;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="457" x2="457" y1="79.3887" y2="526.415"/><line style="stroke:#A80036;stroke-width:1.5;" x1="457" x2="380" y1="526.415" y2="526.415"/><polygon fill="#A80036" points="390,522.415,380,526.415,390,530.415,386,526.415" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="494.415" y2="514.415"/><polygon fill="#A80036" points="364,504.415,368,514.415,372,504.415,368,508.415" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="47.3887" y2="67.3887"/><polygon fill="#A80036" points="364,57.3887,368,67.3887,372,57.3887,368,61.3887" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="538.415" y2="558.415"/><polygon fill="#A80036" points="364,548.415,368,558.415,372,548.415,368,552.415" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="368" x2="368" y1="594.8037" y2="614.8037"/><polygon fill="#A80036" points="364,604.8037,368,614.8037,372,604.8037,368,608.8037" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7a0546bce145c575c0296e99993e3d57]
+@startuml
+'https://plantuml.com/sequence-diagram
+
+:new AnyObject();
+note left:Java 对象创建过程;
+if (类已经初始化) then (yes)
+else (no)
+    :类的初始化;
+    if (类是否已经装载、链接) then (yes)
+    else (no)
+        :装载;
+        note left : 虚拟机通过各种途径查找.class文件并生成字节流，\n然后根据字节流创建java.lang.Class对象的过程
+        :链接;
+        note left: 验证、准备、解析
+    endif
+    :类构造器<clinit>()方法;
+    #OrangeRed:类中各个类成员赋初始值;
+endif
+:直接对象实例化;
+:调用类对象的<init>方法;
+note left: 即构造函数
+
+
+@enduml
+
+@startuml
+
+:new AnyObject();
+note left:Java 对象创建过程;
+if (类已经初始化) then (yes)
+else (no)
+    :类的初始化;
+    if (类是否已经装载、链接) then (yes)
+    else (no)
+        :装载;
+        note left : 虚拟机通过各种途径查找.class文件并生成字节流，\n然后根据字节流创建java.lang.Class对象的过程
+        :链接;
+        note left: 验证、准备、解析
+    endif
+    :类构造器<clinit>()方法;
+    #OrangeRed:类中各个类成员赋初始值;
+endif
+:直接对象实例化;
+:调用类对象的<init>方法;
+note left: 即构造函数
+
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 20:40:07 CST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg>

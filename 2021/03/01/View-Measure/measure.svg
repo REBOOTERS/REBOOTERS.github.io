@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1015px" preserveAspectRatio="none" style="width:858px;height:1015px;background:#FFFFFF;" version="1.1" viewBox="0 0 858 1015" width="858px" zoomAndPan="magnify"><defs><filter height="300%" id="f1rop54zc3t3s1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="181" x="337.5" y="30.6279">Android View 测量流程</text><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="0" x="430.5" y="55.2109"/><polygon fill="#FFFF88" filter="url(#f1rop54zc3t3s1)" points="390.25,59.166,480.25,59.166,487.25,84.2861,557.25,84.2861,557.25,368.8408,390.25,368.8408,390.25,59.166" style="stroke:#000000;stroke-width:2.0;"/><line style="stroke:#000000;stroke-width:2.0;" x1="390.25" x2="487.25" y1="84.2861" y2="84.2861"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="394.25" y="77.21">ViewRootImpl</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="129" x="409.25" y="98.2861"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="109" x="419.25" y="122.0381">performTraversals()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="130" x="408.75" y="169.6748"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="110" x="418.75" y="193.4268">measureHierarchy()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="147" x="400.25" y="241.0635"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="127" x="410.25" y="264.8154">getRootMeasureSpec()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="119" x="414.25" y="312.4521"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="99" x="424.25" y="336.2041">performMeasure()</text><polygon fill="#FFFF11" filter="url(#f1rop54zc3t3s1)" points="20,422.8408,55,422.8408,62,447.9609,820,447.9609,820,955.0244,20,955.0244,20,422.8408" style="stroke:#000000;stroke-width:2.0;"/><line style="stroke:#000000;stroke-width:2.0;" x1="20" x2="62" y1="447.9609" y2="447.9609"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29" x="24" y="440.8848">View</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="104" x="421.75" y="461.9609"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="84" x="431.75" y="485.7129">final measure()</text><path d="M538.75,537.6667 L538.75,547.5439 L518.75,551.5439 L538.75,555.5439 L538.75,565.4211 A0,0 0 0 0 538.75,565.4211 L783.75,565.4211 A0,0 0 0 0 783.75,565.4211 L783.75,547.6667 L773.75,537.6667 L538.75,537.6667 A0,0 0 0 0 538.75,537.6667 " fill="#FBFB77" filter="url(#f1rop54zc3t3s1)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M773.75,537.6667 L773.75,547.6667 L783.75,547.6667 L773.75,537.6667 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="224" x="544.75" y="557.5647">onMeasure 方法是可以被子类复写的。</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="90" x="428.75" y="533.3496"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="70" x="438.75" y="557.1016">onMeasure()</text><polygon fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" points="442.75,604.7383,504.75,604.7383,516.75,616.7383,504.75,628.7383,442.75,628.7383,430.75,616.7383,442.75,604.7383" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="62" x="442.75" y="621.8328">ViewGroup?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="18" x="412.75" y="614.3213">yes</text><polygon fill="#FFFF88" filter="url(#f1rop54zc3t3s1)" points="40,638.7383,115,638.7383,122,663.8584,619,663.8584,619,929.0244,40,929.0244,40,638.7383" style="stroke:#000000;stroke-width:2.0;"/><line style="stroke:#000000;stroke-width:2.0;" x1="40" x2="122" y1="663.8584" y2="663.8584"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69" x="44" y="656.7822">ViewGroup</text><path d="M416,779.5642 L416,807.3186 L599,807.3186 L599,789.5642 L589,779.5642 L416,779.5642 " fill="#FBFB77" filter="url(#f1rop54zc3t3s1)" style="stroke:#A80036;stroke-width:1.0;"/><path d="M589,779.5642 L589,789.5642 L599,789.5642 L589,779.5642 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="162" x="422" y="799.4622">这个三个方法都是 protected</text><rect fill="#000000" filter="url(#f1rop54zc3t3s1)" height="6" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="356" x="50" y="677.8584"/><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="175" x="64" y="739.5527"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="155" x="74" y="763.3047">measureChildWithMargins()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="125" x="267" y="703.8584"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="105" x="277" y="727.6104">measureChildren()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="107" x="276" y="775.2471"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="87" x="286" y="798.999">measureChild()</text><rect fill="#000000" filter="url(#f1rop54zc3t3s1)" height="6" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="356" x="50" y="831.6357"/><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="161" x="147.5" y="872.6357"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="141" x="157.5" y="896.3877">setMeasuredDimension()</text><rect fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" height="36.3887" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="161" x="639" y="638.7383"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="141" x="649" y="662.4902">setMeasuredDimension()</text><ellipse cx="719.5" cy="721.127" fill="#FFFFFF" filter="url(#f1rop54zc3t3s1)" rx="11" ry="11" style="stroke:#000000;stroke-width:1.0;"/><ellipse cx="719.5" cy="721.127" fill="#000000" rx="6" ry="6" style="stroke:#7F7F7F;stroke-width:1.0;"/><polygon fill="#FEFECE" filter="url(#f1rop54zc3t3s1)" points="473.75,388.8408,485.75,400.8408,473.75,412.8408,461.75,400.8408,473.75,388.8408" style="stroke:#A80036;stroke-width:1.5;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="134.6748" y2="169.6748"/><polygon fill="#A80036" points="469.75,159.6748,473.75,169.6748,477.75,159.6748,473.75,163.6748" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="206.0635" y2="241.0635"/><polygon fill="#A80036" points="469.75,231.0635,473.75,241.0635,477.75,231.0635,473.75,235.0635" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="277.4521" y2="312.4521"/><polygon fill="#A80036" points="469.75,302.4521,473.75,312.4521,477.75,302.4521,473.75,306.4521" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="498.3496" y2="533.3496"/><polygon fill="#A80036" points="469.75,523.3496,473.75,533.3496,477.75,523.3496,473.75,527.3496" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="329.5" x2="329.5" y1="740.2471" y2="775.2471"/><polygon fill="#A80036" points="325.5,765.2471,329.5,775.2471,333.5,765.2471,329.5,769.2471" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="151.5" x2="151.5" y1="683.8584" y2="739.5527"/><polygon fill="#A80036" points="147.5,729.5527,151.5,739.5527,155.5,729.5527,151.5,733.5527" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="329.5" x2="329.5" y1="683.8584" y2="703.8584"/><polygon fill="#A80036" points="325.5,693.8584,329.5,703.8584,333.5,693.8584,329.5,697.8584" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="151.5" x2="151.5" y1="775.9414" y2="831.6357"/><polygon fill="#A80036" points="147.5,821.6357,151.5,831.6357,155.5,821.6357,151.5,825.6357" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="329.5" x2="329.5" y1="811.6357" y2="831.6357"/><polygon fill="#A80036" points="325.5,821.6357,329.5,831.6357,333.5,821.6357,329.5,825.6357" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="228" x2="228" y1="837.6357" y2="872.6357"/><polygon fill="#A80036" points="224,862.6357,228,872.6357,232,862.6357,228,866.6357" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="719.5" x2="719.5" y1="675.127" y2="710.127"/><polygon fill="#A80036" points="715.5,700.127,719.5,710.127,723.5,700.127,719.5,704.127" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="430.75" x2="228" y1="616.7383" y2="616.7383"/><line style="stroke:#A80036;stroke-width:1.5;" x1="228" x2="228" y1="616.7383" y2="677.8584"/><polygon fill="#A80036" points="224,667.8584,228,677.8584,232,667.8584,228,671.8584" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="516.75" x2="719.5" y1="616.7383" y2="616.7383"/><line style="stroke:#A80036;stroke-width:1.5;" x1="719.5" x2="719.5" y1="616.7383" y2="638.7383"/><polygon fill="#A80036" points="715.5,628.7383,719.5,638.7383,723.5,628.7383,719.5,632.7383" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="228" x2="228" y1="909.0244" y2="935.0244"/><line style="stroke:#A80036;stroke-width:1.5;" x1="228" x2="473.75" y1="935.0244" y2="935.0244"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="935.0244" y2="1003.0244"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="569.7383" y2="604.7383"/><polygon fill="#A80036" points="469.75,594.7383,473.75,604.7383,477.75,594.7383,473.75,598.7383" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="412.8408" y2="461.9609"/><polygon fill="#A80036" points="469.75,451.9609,473.75,461.9609,477.75,451.9609,473.75,455.9609" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="832" y1="1003.0244" y2="1003.0244"/><polygon fill="#A80036" points="828,692.9326,832,682.9326,836,692.9326,832,688.9326" style="stroke:#A80036;stroke-width:1.5;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="832" x2="832" y1="400.8408" y2="1003.0244"/><line style="stroke:#A80036;stroke-width:1.5;" x1="832" x2="485.75" y1="400.8408" y2="400.8408"/><polygon fill="#A80036" points="495.75,396.8408,485.75,400.8408,495.75,404.8408,491.75,400.8408" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.5;" x1="473.75" x2="473.75" y1="348.8408" y2="388.8408"/><polygon fill="#A80036" points="469.75,378.8408,473.75,388.8408,477.75,378.8408,473.75,382.8408" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[fb7005d5020dedec07fcd3e4c67f5027]
+@startuml
+
+title
+Android View 测量流程
+
+end title
+
+package ViewRootImpl #ff8 {
+:performTraversals();
+:measureHierarchy();
+:getRootMeasureSpec();
+:performMeasure();
+}
+
+repeat
+package View #ff1 {
+:final measure();
+:onMeasure();
+note right: onMeasure 方法是可以被子类复写的。
+
+if (ViewGroup?) then (yes)
+
+package ViewGroup #ff8 
+    note right : 这个三个方法都是 protected
+fork
+    :measureChildWithMargins();
+fork again
+    :measureChildren();
+    :measureChild();
+end fork
+:setMeasuredDimension();
+}
+else 
+:setMeasuredDimension();
+stop
+
+' repeat while (包含 view?)
+@enduml
+
+@startuml
+
+title
+Android View 测量流程
+
+end title
+
+package ViewRootImpl #ff8 {
+:performTraversals();
+:measureHierarchy();
+:getRootMeasureSpec();
+:performMeasure();
+}
+
+repeat
+package View #ff1 {
+:final measure();
+:onMeasure();
+note right: onMeasure 方法是可以被子类复写的。
+
+if (ViewGroup?) then (yes)
+
+package ViewGroup #ff8 
+    note right : 这个三个方法都是 protected
+fork
+    :measureChildWithMargins();
+fork again
+    :measureChildren();
+    :measureChild();
+end fork
+:setMeasuredDimension();
+}
+else 
+:setMeasuredDimension();
+stop
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 20:40:07 CST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: GBK
+Language: zh
+Country: CN
+--></g></svg>

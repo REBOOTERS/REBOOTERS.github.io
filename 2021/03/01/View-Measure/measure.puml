@@ -1,0 +1,38 @@
+@startuml
+
+title
+Android View 测量流程
+
+end title
+
+package ViewRootImpl #ff8 {
+:performTraversals();
+:measureHierarchy();
+:getRootMeasureSpec();
+:performMeasure();
+}
+
+repeat
+package View #ff1 {
+:final measure();
+:onMeasure();
+note right: onMeasure 方法是可以被子类复写的。
+
+if (ViewGroup?) then (yes)
+
+package ViewGroup #ff8 
+    note right : 这个三个方法都是 protected
+fork
+    :measureChildWithMargins();
+fork again
+    :measureChildren();
+    :measureChild();
+end fork
+:setMeasuredDimension();
+}
+else 
+:setMeasuredDimension();
+stop
+
+' repeat while (包含 view?)
+@enduml

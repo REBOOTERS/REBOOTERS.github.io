@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+:new AnyObject();
+note left:Java 对象创建过程;
+if (类已经初始化) then (yes)
+else (no)
+    :类的初始化;
+    if (类是否已经装载、链接) then (yes)
+    else (no)
+        :装载;
+        note left : 虚拟机通过各种途径查找.class文件并生成字节流，\n然后根据字节流创建java.lang.Class对象的过程
+        :链接;
+        note left: 验证、准备、解析
+    endif
+    :类构造器<clinit>()方法;
+    #OrangeRed:类中各个类成员赋初始值;
+endif
+:直接对象实例化;
+:调用类对象的<init>方法;
+note left: 即构造函数
+
+
+@enduml
