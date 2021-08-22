@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1011.6px" preserveAspectRatio="none" style="width:2797px;height:1011px;background:#FFFFFF;" version="1.1" viewBox="0 0 2797 1011" width="2797.2px" zoomAndPan="magnify"><defs><filter height="300%" id="f9tfvtgvofoyv" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.6"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="7.2" dy="7.2" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[89f29652318123143659beb393f561e6]
+cluster Jetpack-ViewModel--><polygon fill="#FFFF00" filter="url(#f9tfvtgvofoyv)" points="28.8,10.8,286.2,10.8,298.8,53.2969,2766.6,53.2969,2766.6,999,28.8,999,28.8,10.8" style="stroke:#000000;stroke-width:2.7;"/><line style="stroke:#000000;stroke-width:2.7;" x1="28.8" x2="298.8" y1="53.2969" y2="53.2969"/><text fill="#000000" font-family="sans-serif" font-size="25.2" font-weight="bold" lengthAdjust="spacing" textLength="246.6" x="36" y="40.5598">Jetpack-ViewModel</text><!--MD5=[373ab0b54d88daa45eff81eac22c3975]
+class ViewModelStoreOwner--><rect codeLine="4" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="ViewModelStoreOwner" style="stroke:#A80036;stroke-width:2.7;" width="361.8" x="2375.1" y="150.3"/><ellipse cx="2439.36" cy="179.1" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M2441.16,173.7 L2441.16,184.5 L2444.76,184.5 L2445.6319,184.5 L2446.56,185.625 L2446.56,186.3 L2446.56,186.975 L2445.6319,188.1 L2444.76,188.1 L2433.96,188.1 L2433.0881,188.1 L2432.16,186.975 L2432.16,186.3 L2432.16,185.625 L2433.0881,184.5 L2433.96,184.5 L2437.56,184.5 L2437.56,173.7 L2433.96,173.7 L2433.0881,173.7 L2432.16,172.575 L2432.16,171.9 L2432.16,171.225 L2433.0881,170.1 L2433.96,170.1 L2444.76,170.1 L2445.6319,170.1 L2446.56,171.225 L2446.56,171.9 L2446.56,172.575 L2445.6319,173.7 L2444.76,173.7 L2441.16,173.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="221.4" x="2472.84" y="187.9383">ViewModelStoreOwner</text><line style="stroke:#A80036;stroke-width:2.7;" x1="2376.9" x2="2735.1" y1="207.9" y2="207.9"/><line style="stroke:#A80036;stroke-width:2.7;" x1="2376.9" x2="2735.1" y1="222.3" y2="222.3"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="340.2" x="2385.9" y="250.0541">getViewModelStore(): ViewModelStore</text><!--MD5=[ad15540d58a567c78f7b368d9528a5fe]
+class HasDefaultViewModelProviderFactory--><rect codeLine="8" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="HasDefaultViewModelProviderFactory" style="stroke:#A80036;stroke-width:2.7;" width="606.6" x="1705.5" y="150.3"/><ellipse cx="1815.75" cy="179.1" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M1817.55,173.7 L1817.55,184.5 L1821.15,184.5 L1822.0219,184.5 L1822.95,185.625 L1822.95,186.3 L1822.95,186.975 L1822.0219,188.1 L1821.15,188.1 L1810.35,188.1 L1809.4781,188.1 L1808.55,186.975 L1808.55,186.3 L1808.55,185.625 L1809.4781,184.5 L1810.35,184.5 L1813.95,184.5 L1813.95,173.7 L1810.35,173.7 L1809.4781,173.7 L1808.55,172.575 L1808.55,171.9 L1808.55,171.225 L1809.4781,170.1 L1810.35,170.1 L1821.15,170.1 L1822.0219,170.1 L1822.95,171.225 L1822.95,171.9 L1822.95,172.575 L1822.0219,173.7 L1821.15,173.7 L1817.55,173.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="370.8" x="1852.65" y="187.9383">HasDefaultViewModelProviderFactory</text><line style="stroke:#A80036;stroke-width:2.7;" x1="1707.3" x2="2310.3" y1="207.9" y2="207.9"/><line style="stroke:#A80036;stroke-width:2.7;" x1="1707.3" x2="2310.3" y1="222.3" y2="222.3"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="585" x="1716.3" y="250.0541">getDefaultViewModelProviderFactory():ViewModelProvider.Factory</text><!--MD5=[c55b4541e8af434aed7eafe96483bef7]
+class SavedStateRegistryOwner--><rect codeLine="12" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="SavedStateRegistryOwner" style="stroke:#A80036;stroke-width:2.7;" width="414" x="1227.6" y="150.3"/><ellipse cx="1299.15" cy="179.1" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M1300.95,173.7 L1300.95,184.5 L1304.55,184.5 L1305.4219,184.5 L1306.35,185.625 L1306.35,186.3 L1306.35,186.975 L1305.4219,188.1 L1304.55,188.1 L1293.75,188.1 L1292.8781,188.1 L1291.95,186.975 L1291.95,186.3 L1291.95,185.625 L1292.8781,184.5 L1293.75,184.5 L1297.35,184.5 L1297.35,173.7 L1293.75,173.7 L1292.8781,173.7 L1291.95,172.575 L1291.95,171.9 L1291.95,171.225 L1292.8781,170.1 L1293.75,170.1 L1304.55,170.1 L1305.4219,170.1 L1306.35,171.225 L1306.35,171.9 L1306.35,172.575 L1305.4219,173.7 L1304.55,173.7 L1300.95,173.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="257.4" x="1334.25" y="187.9383">SavedStateRegistryOwner</text><line style="stroke:#A80036;stroke-width:2.7;" x1="1229.4" x2="1639.8" y1="207.9" y2="207.9"/><line style="stroke:#A80036;stroke-width:2.7;" x1="1229.4" x2="1639.8" y1="222.3" y2="222.3"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="392.4" x="1238.4" y="250.0541">getSavedStateRegistry():SavedStateRegistry</text><!--MD5=[d8b740307ce215e55e2fc5b7754053b2]
+class FragmentViewLifecycleOwner--><rect codeLine="16" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="86.4" id="FragmentViewLifecycleOwner" style="stroke:#A80036;stroke-width:2.7;" width="349.2" x="1834.2" y="457.2"/><ellipse cx="1861.2" cy="486" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M1864.8,479.7 Q1865.1656,478.8 1865.5875,478.35 Q1866.0094,477.9 1866.4875,477.9 Q1867.3313,477.9 1867.8656,478.4063 Q1868.4,478.9125 1868.4,480.0938 L1868.4,482.9063 Q1868.4,484.0875 1867.8938,484.5938 Q1867.3875,485.1 1866.6,485.1 Q1865.8969,485.1 1865.4469,484.7906 Q1864.9969,484.4813 1864.8,483.6656 Q1864.7156,483.1031 1864.4063,482.7938 Q1863.8438,482.2031 1862.8313,481.8656 Q1861.8188,481.5 1860.8063,481.5 Q1859.5406,481.5 1858.4719,482.0063 Q1857.4313,482.5125 1856.6156,483.6375 Q1855.8,484.7625 1855.8,486.3094 L1855.8,487.9688 Q1855.8,489.825 1857.3188,491.0625 Q1858.8375,492.3 1861.5375,492.3 Q1863.1406,492.3 1864.2656,491.9344 Q1864.9125,491.7375 1865.6438,491.0906 Q1866.1219,490.725 1866.375,490.6125 Q1866.6281,490.5 1866.9375,490.5 Q1867.5281,490.5 1867.95,490.9781 Q1868.4,491.4281 1868.4,492.075 Q1868.4,492.6938 1867.7813,493.425 Q1866.8813,494.4938 1865.4469,495.0844 Q1863.5625,495.9 1861.2563,495.9 Q1858.5563,495.9 1856.3906,494.8313 Q1854.6469,493.9875 1853.4094,492.1594 Q1852.2,490.3313 1852.2,488.1656 L1852.2,486.1969 Q1852.2,483.9469 1853.2688,481.9781 Q1854.3656,480.0094 1856.25,478.9688 Q1858.1625,477.9 1860.3,477.9 Q1861.5938,477.9 1862.7188,478.35 Q1863.8438,478.8 1864.8,479.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="291.6" x="1886.4" y="494.8383">FragmentViewLifecycleOwner</text><line style="stroke:#A80036;stroke-width:2.7;" x1="1836" x2="2181.6" y1="514.8" y2="514.8"/><line style="stroke:#A80036;stroke-width:2.7;" x1="1836" x2="2181.6" y1="529.2" y2="529.2"/><!--MD5=[2d6c1e58d2e8c8bd71efbd424a7a4a71]
+class ComponentActivity--><rect codeLine="18" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="86.4" id="ComponentActivity" style="stroke:#A80036;stroke-width:2.7;" width="237.6" x="2437.2" y="676.8"/><ellipse cx="2464.2" cy="705.6" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M2467.8,699.3 Q2468.1656,698.4 2468.5875,697.95 Q2469.0094,697.5 2469.4875,697.5 Q2470.3313,697.5 2470.8656,698.0063 Q2471.4,698.5125 2471.4,699.6938 L2471.4,702.5063 Q2471.4,703.6875 2470.8938,704.1938 Q2470.3875,704.7 2469.6,704.7 Q2468.8969,704.7 2468.4469,704.3906 Q2467.9969,704.0813 2467.8,703.2656 Q2467.7156,702.7031 2467.4063,702.3938 Q2466.8438,701.8031 2465.8313,701.4656 Q2464.8188,701.1 2463.8063,701.1 Q2462.5406,701.1 2461.4719,701.6063 Q2460.4313,702.1125 2459.6156,703.2375 Q2458.8,704.3625 2458.8,705.9094 L2458.8,707.5688 Q2458.8,709.425 2460.3188,710.6625 Q2461.8375,711.9 2464.5375,711.9 Q2466.1406,711.9 2467.2656,711.5344 Q2467.9125,711.3375 2468.6438,710.6906 Q2469.1219,710.325 2469.375,710.2125 Q2469.6281,710.1 2469.9375,710.1 Q2470.5281,710.1 2470.95,710.5781 Q2471.4,711.0281 2471.4,711.675 Q2471.4,712.2938 2470.7813,713.025 Q2469.8813,714.0938 2468.4469,714.6844 Q2466.5625,715.5 2464.2563,715.5 Q2461.5563,715.5 2459.3906,714.4313 Q2457.6469,713.5875 2456.4094,711.7594 Q2455.2,709.9313 2455.2,707.7656 L2455.2,705.7969 Q2455.2,703.5469 2456.2688,701.5781 Q2457.3656,699.6094 2459.25,698.5688 Q2461.1625,697.5 2463.3,697.5 Q2464.5938,697.5 2465.7188,697.95 Q2466.8438,698.4 2467.8,699.3 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="180" x="2489.4" y="714.4383">ComponentActivity</text><line style="stroke:#A80036;stroke-width:2.7;" x1="2439" x2="2673" y1="734.4" y2="734.4"/><line style="stroke:#A80036;stroke-width:2.7;" x1="2439" x2="2673" y1="748.8" y2="748.8"/><!--MD5=[499a93d1a2128e7b640a788d1f7209bf]
+class Fragment--><rect codeLine="19" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="Fragment" style="stroke:#A80036;stroke-width:2.7;" width="522" x="1747.8" y="664.2"/><ellipse cx="1953.45" cy="693" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M1957.05,686.7 Q1957.4156,685.8 1957.8375,685.35 Q1958.2594,684.9 1958.7375,684.9 Q1959.5813,684.9 1960.1156,685.4063 Q1960.65,685.9125 1960.65,687.0938 L1960.65,689.9063 Q1960.65,691.0875 1960.1438,691.5938 Q1959.6375,692.1 1958.85,692.1 Q1958.1469,692.1 1957.6969,691.7906 Q1957.2469,691.4813 1957.05,690.6656 Q1956.9656,690.1031 1956.6563,689.7938 Q1956.0938,689.2031 1955.0813,688.8656 Q1954.0688,688.5 1953.0563,688.5 Q1951.7906,688.5 1950.7219,689.0063 Q1949.6813,689.5125 1948.8656,690.6375 Q1948.05,691.7625 1948.05,693.3094 L1948.05,694.9688 Q1948.05,696.825 1949.5688,698.0625 Q1951.0875,699.3 1953.7875,699.3 Q1955.3906,699.3 1956.5156,698.9344 Q1957.1625,698.7375 1957.8938,698.0906 Q1958.3719,697.725 1958.625,697.6125 Q1958.8781,697.5 1959.1875,697.5 Q1959.7781,697.5 1960.2,697.9781 Q1960.65,698.4281 1960.65,699.075 Q1960.65,699.6938 1960.0313,700.425 Q1959.1313,701.4938 1957.6969,702.0844 Q1955.8125,702.9 1953.5063,702.9 Q1950.8063,702.9 1948.6406,701.8313 Q1946.8969,700.9875 1945.6594,699.1594 Q1944.45,697.3313 1944.45,695.1656 L1944.45,693.1969 Q1944.45,690.9469 1945.5188,688.9781 Q1946.6156,687.0094 1948.5,685.9688 Q1950.4125,684.9 1952.55,684.9 Q1953.8438,684.9 1954.9688,685.35 Q1956.0938,685.8 1957.05,686.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="95.4" x="1990.35" y="701.8383">Fragment</text><line style="stroke:#A80036;stroke-width:2.7;" x1="1749.6" x2="2268" y1="721.8" y2="721.8"/><polygon fill="none" points="1767.6,734.4,1760.4,745.2,1774.8,745.2" style="stroke:#1963A0;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="475.2" x="1783.8" y="749.5541">FragmentViewLifecycleOwner mViewLifecycleOwner</text><line style="stroke:#A80036;stroke-width:2.7;" x1="1749.6" x2="2268" y1="761.1047" y2="761.1047"/><!--MD5=[ceb2c57246862a18eaa86f7897c27c03]
+class ViewModelProvider--><rect codeLine="30" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="260.7328" id="ViewModelProvider" style="stroke:#A80036;stroke-width:2.7;" width="619.2" x="545.4" y="75.6"/><ellipse cx="753.75" cy="104.4" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M757.35,98.1 Q757.7156,97.2 758.1375,96.75 Q758.5594,96.3 759.0375,96.3 Q759.8813,96.3 760.4156,96.8063 Q760.95,97.3125 760.95,98.4938 L760.95,101.3063 Q760.95,102.4875 760.4438,102.9938 Q759.9375,103.5 759.15,103.5 Q758.4469,103.5 757.9969,103.1906 Q757.5469,102.8813 757.35,102.0656 Q757.2656,101.5031 756.9563,101.1938 Q756.3938,100.6031 755.3813,100.2656 Q754.3688,99.9 753.3563,99.9 Q752.0906,99.9 751.0219,100.4063 Q749.9813,100.9125 749.1656,102.0375 Q748.35,103.1625 748.35,104.7094 L748.35,106.3688 Q748.35,108.225 749.8688,109.4625 Q751.3875,110.7 754.0875,110.7 Q755.6906,110.7 756.8156,110.3344 Q757.4625,110.1375 758.1938,109.4906 Q758.6719,109.125 758.925,109.0125 Q759.1781,108.9 759.4875,108.9 Q760.0781,108.9 760.5,109.3781 Q760.95,109.8281 760.95,110.475 Q760.95,111.0938 760.3313,111.825 Q759.4313,112.8938 757.9969,113.4844 Q756.1125,114.3 753.8063,114.3 Q751.1063,114.3 748.9406,113.2313 Q747.1969,112.3875 745.9594,110.5594 Q744.75,108.7313 744.75,106.5656 L744.75,104.5969 Q744.75,102.3469 745.8188,100.3781 Q746.9156,98.4094 748.8,97.3688 Q750.7125,96.3 752.85,96.3 Q754.1438,96.3 755.2688,96.75 Q756.3938,97.2 757.35,98.1 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="187.2" x="790.65" y="113.2383">ViewModelProvider</text><line style="stroke:#A80036;stroke-width:2.7;" x1="547.2" x2="1162.8" y1="133.2" y2="133.2"/><rect fill="none" height="10.8" style="stroke:#C82930;stroke-width:1.8;" width="10.8" x="559.8" y="147.6"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="153" x="581.4" y="160.9541">Factory mFactory</text><rect fill="none" height="10.8" style="stroke:#C82930;stroke-width:1.8;" width="10.8" x="559.8" y="172.5047"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="307.8" x="581.4" y="185.8588">ViewModelStore mViewModelStore</text><line style="stroke:#A80036;stroke-width:2.7;" x1="547.2" x2="1162.8" y1="197.4094" y2="197.4094"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="451.8" x="556.2" y="225.1635">ViewModelProvider(ViewModelStoreOwner owner)</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="597.6" x="556.2" y="250.0682">ViewModelProvider(ViewModelStoreOwner owner, Factory factory)</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="523.8" x="556.2" y="274.9729">ViewModelProvider(ViewModelStore store, Factory factory)</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="0" x="561.6" y="299.8775"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="561.6" x="556.2" y="324.7822">get(String key, Class&lt;T&gt; modelClass): &lt;T extends ViewModel&gt; T</text><!--MD5=[dcda66dabdb739ec36f1175150e3c9d5]
+class Factory--><rect codeLine="41" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="Factory" style="stroke:#A80036;stroke-width:2.7;" width="604.8" x="552.6" y="444.6"/><ellipse cx="811.35" cy="473.4" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M813.15,468 L813.15,478.8 L816.75,478.8 L817.6219,478.8 L818.55,479.925 L818.55,480.6 L818.55,481.275 L817.6219,482.4 L816.75,482.4 L805.95,482.4 L805.0781,482.4 L804.15,481.275 L804.15,480.6 L804.15,479.925 L805.0781,478.8 L805.95,478.8 L809.55,478.8 L809.55,468 L805.95,468 L805.0781,468 L804.15,466.875 L804.15,466.2 L804.15,465.525 L805.0781,464.4 L805.95,464.4 L816.75,464.4 L817.6219,464.4 L818.55,465.525 L818.55,466.2 L818.55,466.875 L817.6219,468 L816.75,468 L813.15,468 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="72" x="848.25" y="482.2383">Factory</text><line style="stroke:#A80036;stroke-width:2.7;" x1="554.4" x2="1155.6" y1="502.2" y2="502.2"/><line style="stroke:#A80036;stroke-width:2.7;" x1="554.4" x2="1155.6" y1="516.6" y2="516.6"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="583.2" x="563.4" y="544.3541">create(@NonNull Class&lt;T&gt; modelClass): &lt;T extends ViewModel&gt; T</text><!--MD5=[eeb5e2781aa55c8c0b62660ad4612e5f]
+class NewInstanceFactory--><rect codeLine="47" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="86.4" id="NewInstanceFactory" style="stroke:#A80036;stroke-width:2.7;" width="257.4" x="726.3" y="676.8"/><ellipse cx="753.3" cy="705.6" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M756.9,699.3 Q757.2656,698.4 757.6875,697.95 Q758.1094,697.5 758.5875,697.5 Q759.4313,697.5 759.9656,698.0063 Q760.5,698.5125 760.5,699.6938 L760.5,702.5063 Q760.5,703.6875 759.9938,704.1938 Q759.4875,704.7 758.7,704.7 Q757.9969,704.7 757.5469,704.3906 Q757.0969,704.0813 756.9,703.2656 Q756.8156,702.7031 756.5063,702.3938 Q755.9438,701.8031 754.9313,701.4656 Q753.9188,701.1 752.9063,701.1 Q751.6406,701.1 750.5719,701.6063 Q749.5313,702.1125 748.7156,703.2375 Q747.9,704.3625 747.9,705.9094 L747.9,707.5688 Q747.9,709.425 749.4188,710.6625 Q750.9375,711.9 753.6375,711.9 Q755.2406,711.9 756.3656,711.5344 Q757.0125,711.3375 757.7438,710.6906 Q758.2219,710.325 758.475,710.2125 Q758.7281,710.1 759.0375,710.1 Q759.6281,710.1 760.05,710.5781 Q760.5,711.0281 760.5,711.675 Q760.5,712.2938 759.8813,713.025 Q758.9813,714.0938 757.5469,714.6844 Q755.6625,715.5 753.3563,715.5 Q750.6563,715.5 748.4906,714.4313 Q746.7469,713.5875 745.5094,711.7594 Q744.3,709.9313 744.3,707.7656 L744.3,705.7969 Q744.3,703.5469 745.3688,701.5781 Q746.4656,699.6094 748.35,698.5688 Q750.2625,697.5 752.4,697.5 Q753.6938,697.5 754.8188,697.95 Q755.9438,698.4 756.9,699.3 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="199.8" x="778.5" y="714.4383">NewInstanceFactory</text><line style="stroke:#A80036;stroke-width:2.7;" x1="728.1" x2="981.9" y1="734.4" y2="734.4"/><line style="stroke:#A80036;stroke-width:2.7;" x1="728.1" x2="981.9" y1="748.8" y2="748.8"/><!--MD5=[6d223eeb40ea365c15df5c44c444b7f6]
+class AndroidViewModelFactory--><rect codeLine="50" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="86.4" id="AndroidViewModelFactory" style="stroke:#A80036;stroke-width:2.7;" width="309.6" x="700.2" y="883.8"/><ellipse cx="727.2" cy="912.6" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M730.8,906.3 Q731.1656,905.4 731.5875,904.95 Q732.0094,904.5 732.4875,904.5 Q733.3313,904.5 733.8656,905.0063 Q734.4,905.5125 734.4,906.6938 L734.4,909.5063 Q734.4,910.6875 733.8938,911.1938 Q733.3875,911.7 732.6,911.7 Q731.8969,911.7 731.4469,911.3906 Q730.9969,911.0813 730.8,910.2656 Q730.7156,909.7031 730.4063,909.3938 Q729.8438,908.8031 728.8313,908.4656 Q727.8188,908.1 726.8063,908.1 Q725.5406,908.1 724.4719,908.6063 Q723.4313,909.1125 722.6156,910.2375 Q721.8,911.3625 721.8,912.9094 L721.8,914.5688 Q721.8,916.425 723.3188,917.6625 Q724.8375,918.9 727.5375,918.9 Q729.1406,918.9 730.2656,918.5344 Q730.9125,918.3375 731.6438,917.6906 Q732.1219,917.325 732.375,917.2125 Q732.6281,917.1 732.9375,917.1 Q733.5281,917.1 733.95,917.5781 Q734.4,918.0281 734.4,918.675 Q734.4,919.2938 733.7813,920.025 Q732.8813,921.0938 731.4469,921.6844 Q729.5625,922.5 727.2563,922.5 Q724.5563,922.5 722.3906,921.4313 Q720.6469,920.5875 719.4094,918.7594 Q718.2,916.9313 718.2,914.7656 L718.2,912.7969 Q718.2,910.5469 719.2688,908.5781 Q720.3656,906.6094 722.25,905.5688 Q724.1625,904.5 726.3,904.5 Q727.5938,904.5 728.7188,904.95 Q729.8438,905.4 730.8,906.3 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="252" x="752.4" y="921.4383">AndroidViewModelFactory</text><line style="stroke:#A80036;stroke-width:2.7;" x1="702" x2="1008" y1="941.4" y2="941.4"/><line style="stroke:#A80036;stroke-width:2.7;" x1="702" x2="1008" y1="955.8" y2="955.8"/><!--MD5=[3d362c4d3ca39b5e37fd774186d25a2f]
+class ViewModelStore--><rect codeLine="56" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="161.1141" id="ViewModelStore" style="stroke:#A80036;stroke-width:2.7;" width="423" x="58.5" y="125.1"/><ellipse cx="183.15" cy="153.9" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M186.75,147.6 Q187.1156,146.7 187.5375,146.25 Q187.9594,145.8 188.4375,145.8 Q189.2813,145.8 189.8156,146.3063 Q190.35,146.8125 190.35,147.9938 L190.35,150.8063 Q190.35,151.9875 189.8438,152.4938 Q189.3375,153 188.55,153 Q187.8469,153 187.3969,152.6906 Q186.9469,152.3813 186.75,151.5656 Q186.6656,151.0031 186.3563,150.6938 Q185.7938,150.1031 184.7813,149.7656 Q183.7688,149.4 182.7563,149.4 Q181.4906,149.4 180.4219,149.9063 Q179.3813,150.4125 178.5656,151.5375 Q177.75,152.6625 177.75,154.2094 L177.75,155.8688 Q177.75,157.725 179.2688,158.9625 Q180.7875,160.2 183.4875,160.2 Q185.0906,160.2 186.2156,159.8344 Q186.8625,159.6375 187.5938,158.9906 Q188.0719,158.625 188.325,158.5125 Q188.5781,158.4 188.8875,158.4 Q189.4781,158.4 189.9,158.8781 Q190.35,159.3281 190.35,159.975 Q190.35,160.5938 189.7313,161.325 Q188.8313,162.3938 187.3969,162.9844 Q185.5125,163.8 183.2063,163.8 Q180.5063,163.8 178.3406,162.7313 Q176.5969,161.8875 175.3594,160.0594 Q174.15,158.2313 174.15,156.0656 L174.15,154.0969 Q174.15,151.8469 175.2188,149.8781 Q176.3156,147.9094 178.2,146.8688 Q180.1125,145.8 182.25,145.8 Q183.5438,145.8 184.6688,146.25 Q185.7938,146.7 186.75,147.6 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="158.4" x="220.05" y="162.7383">ViewModelStore</text><line style="stroke:#A80036;stroke-width:2.7;" x1="60.3" x2="479.7" y1="182.7" y2="182.7"/><rect fill="none" height="10.8" style="stroke:#C82930;stroke-width:1.8;" width="10.8" x="72.9" y="197.1"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="316.8" x="94.5" y="210.4541">HashMap&lt;String, ViewModel&gt; mMap</text><line style="stroke:#A80036;stroke-width:2.7;" x1="60.3" x2="479.7" y1="222.0047" y2="222.0047"/><polygon fill="#4177AF" points="78.3,234.6047,71.1,245.4047,85.5,245.4047" style="stroke:#1963A0;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="376.2" x="94.5" y="249.7588">void put(String key, ViewModel viewModel)</text><polygon fill="#4177AF" points="78.3,259.5094,71.1,270.3094,85.5,270.3094" style="stroke:#1963A0;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="235.8" x="94.5" y="274.6635">get(String key): ViewModel</text><!--MD5=[b1d46488418bc0cd55cf54b5fc017696]
+class ViewModel--><rect codeLine="64" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="ViewModel" style="stroke:#A80036;stroke-width:2.7;" width="163.8" x="188.1" y="444.6"/><ellipse cx="215.1" cy="473.4" fill="#A9DCDF" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M218.25,476.1 L212.3156,476.1 L211.5281,477.9 L211.5281,477.9 L212.3719,477.9 L213.3,479.025 L213.3,479.7 L213.3,480.375 L212.3719,481.5 L211.5281,481.5 L208.125,481.5 L207.0281,481.5 L206.1,480.375 L206.1,479.7 L206.1,479.025 L207.0281,477.9 L208.125,477.9 L212.2875,467.1 L210.7125,467.1 L208.8281,467.1 L207.9,465.975 L207.9,465.3 L207.9,464.625 L208.8281,463.5 L210.7125,463.5 L217.3219,463.5 L222.1594,477.9 L223.1719,477.9 L223.1719,477.9 L224.1,479.025 L224.1,479.7 L224.1,480.375 L223.1719,481.5 L222.1594,481.5 L218.7563,481.5 L217.8281,481.5 L216.9,480.375 L216.9,479.7 L216.9,479.025 L217.8281,477.9 L218.7563,477.9 L218.7563,477.9 L218.25,476.1 Z M217.2656,472.5 L215.1,466.0594 L213.2438,472.5 L217.2656,472.5 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="106.2" x="240.3" y="482.2383">ViewModel</text><line style="stroke:#A80036;stroke-width:2.7;" x1="189.9" x2="350.1" y1="502.2" y2="502.2"/><line style="stroke:#A80036;stroke-width:2.7;" x1="189.9" x2="350.1" y1="516.6" y2="516.6"/><polygon fill="#4177AF" points="207.9,529.2,200.7,540,215.1,540" style="stroke:#1963A0;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="102.6" x="224.1" y="544.3541">onCleared()</text><!--MD5=[b33de3753d7070b0ed2d37a78e695e55]
+class AndroidViewModel--><rect codeLine="68" fill="#FEFECE" filter="url(#f9tfvtgvofoyv)" height="111.3047" id="AndroidViewModel" style="stroke:#A80036;stroke-width:2.7;" width="257.4" x="141.3" y="664.2"/><ellipse cx="175.59" cy="693" fill="#A9DCDF" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M178.74,695.7 L172.8056,695.7 L172.0181,697.5 L172.0181,697.5 L172.8619,697.5 L173.79,698.625 L173.79,699.3 L173.79,699.975 L172.8619,701.1 L172.0181,701.1 L168.615,701.1 L167.5181,701.1 L166.59,699.975 L166.59,699.3 L166.59,698.625 L167.5181,697.5 L168.615,697.5 L172.7775,686.7 L171.2025,686.7 L169.3181,686.7 L168.39,685.575 L168.39,684.9 L168.39,684.225 L169.3181,683.1 L171.2025,683.1 L177.8119,683.1 L182.6494,697.5 L183.6619,697.5 L183.6619,697.5 L184.59,698.625 L184.59,699.3 L184.59,699.975 L183.6619,701.1 L182.6494,701.1 L179.2463,701.1 L178.3181,701.1 L177.39,699.975 L177.39,699.3 L177.39,698.625 L178.3181,697.5 L179.2463,697.5 L179.2463,697.5 L178.74,695.7 Z M177.7556,692.1 L175.59,685.6594 L173.7338,692.1 L177.7556,692.1 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="183.6" x="202.41" y="701.8383">AndroidViewModel</text><line style="stroke:#A80036;stroke-width:2.7;" x1="143.1" x2="396.9" y1="721.8" y2="721.8"/><rect fill="none" height="10.8" style="stroke:#C82930;stroke-width:1.8;" width="10.8" x="155.7" y="736.2"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="210.6" x="177.3" y="749.5541">Application mApplication</text><line style="stroke:#A80036;stroke-width:2.7;" x1="143.1" x2="396.9" y1="761.1047" y2="761.1047"/><!--MD5=[e6e7d19414fe66b91e5562191721ab86]
+link FragmentViewLifecycleOwner to Fragment--><path codeLine="24" d="M2008.8,543.8466 C2008.8,571.005 2008.8,607.302 2008.8,639.7452 " fill="none" id="FragmentViewLifecycleOwner-to-Fragment" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="2008.8,663.5898,2016,652.7898,2008.8,641.9898,2001.6,652.7898,2008.8,663.5898" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[942ec97479b11b422e03aa4ef75d1dc5]
+reverse link ViewModelStoreOwner to FragmentViewLifecycleOwner--><path codeLine="25" d="M2439.738,281.0466 C2408.832,299.7468 2375.226,319.4136 2343.6,336.6 C2263.032,380.376 2168.838,425.4318 2100.924,456.8778 " fill="none" id="ViewModelStoreOwner-backto-FragmentViewLifecycleOwner" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2433.492,270.0918,2470.788,262.053,2446.65,291.5874,2433.492,270.0918" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[3dd02c1f008ac1b18c845aab7d1fff16]
+reverse link ViewModelStoreOwner to ComponentActivity--><path codeLine="26" d="M2556,298.044 C2556,409.3308 2556,593.9496 2556,676.3032 " fill="none" id="ViewModelStoreOwner-backto-ComponentActivity" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="2543.4,298.0278,2556,262.0278,2568.6,298.0278,2543.4,298.0278" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[47e0108906c8b9b6b225d1400fb993cc]
+reverse link HasDefaultViewModelProviderFactory to FragmentViewLifecycleOwner--><path codeLine="27" d="M2008.8,298.6146 C2008.8,351.5202 2008.8,415.7298 2008.8,456.8706 " fill="none" id="HasDefaultViewModelProviderFactory-backto-FragmentViewLifecycleOwner" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1996.2,298.5786,2008.8,262.5786,2021.4,298.5786,1996.2,298.5786" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[54b4ab65afbfe864e70c3ad344970b4c]
+reverse link SavedStateRegistryOwner to FragmentViewLifecycleOwner--><path codeLine="28" d="M1565.091,279.3492 C1600.2864,298.2654 1638.4644,318.4614 1674,336.6 C1756.818,378.873 1852.398,424.8468 1920.186,456.9822 " fill="none" id="SavedStateRegistryOwner-backto-FragmentViewLifecycleOwner" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="1558.7946,290.2698,1533.1068,262.0746,1570.77,268.0956,1558.7946,290.2698" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[e2b7760c1de88e4875633fbc5650d4ae]
+reverse link ViewModelProvider to Factory--><path codeLine="45" d="M855,364.5324 C855,393.1128 855,421.1064 855,444.06 " fill="none" id="ViewModelProvider-backto-Factory" style="stroke:#A80036;stroke-width:1.8;"/><ellipse cx="855" cy="351.4986" fill="#FFFFFF" rx="14.4" ry="14.4" style="stroke:#A80036;stroke-width:1.8;"/><line style="stroke:#A80036;stroke-width:1.8;" x1="855" x2="855" y1="365.8986" y2="337.0986"/><line style="stroke:#A80036;stroke-width:1.8;" x1="840.6" x2="869.4" y1="351.4986" y2="351.4986"/><!--MD5=[ae675b51f3a13169b50a30259db4d976]
+reverse link Factory to NewInstanceFactory--><path codeLine="53" d="M855,593.1792 C855,622.2186 855,652.9428 855,676.665 " fill="none" id="Factory-backto-NewInstanceFactory" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="842.4,592.7058,855,556.7058,867.6,592.7058,842.4,592.7058" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[77ec996bb36257625fdc99a8ad91b731]
+reverse link NewInstanceFactory to AndroidViewModelFactory--><path codeLine="54" d="M855,799.8066 C855,828.3276 855,859.4834 855,883.6038 " fill="none" id="NewInstanceFactory-backto-AndroidViewModelFactory" style="stroke:#A80036;stroke-width:1.8;"/><polygon fill="none" points="842.4,799.452,855,763.452,867.6,799.452,842.4,799.452" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[45b49bf53295707713e7e5dad83d74ac]
+reverse link ViewModelStore to ViewModel--><path codeLine="62" d="M270,310.8744 C270,355.806 270,406.6578 270,444.0924 " fill="none" id="ViewModelStore-backto-ViewModel" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="270,287.3358,262.8,298.1358,270,308.9358,277.2,298.1358,270,287.3358" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[01e1379289dbdc1f38d4ea103ababace]
+reverse link ViewModel to AndroidViewModel--><path codeLine="72" d="M270,592.8714 C270,616.9572 270,642.2256 270,663.7122 " fill="none" id="ViewModel-backto-AndroidViewModel" style="stroke:#A80036;stroke-width:1.8;"/><polygon fill="none" points="257.4,592.7058,270,556.7058,282.6,592.7058,257.4,592.7058" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[72c277b929338bc693b179b4178ec220]
+@startuml
+'https://plantuml.com/class-diagram
+package Jetpack-ViewModel #ff0{
+
+interface ViewModelStoreOwner {
+    getViewModelStore(): ViewModelStore
+}
+
+interface HasDefaultViewModelProviderFactory {
+    getDefaultViewModelProviderFactory():ViewModelProvider.Factory
+}
+
+interface SavedStateRegistryOwner {
+    getSavedStateRegistry():SavedStateRegistry
+}
+
+class FragmentViewLifecycleOwner {
+}
+class ComponentActivity {}
+class Fragment {
+    ~ FragmentViewLifecycleOwner mViewLifecycleOwner
+}
+
+
+FragmentViewLifecycleOwner ..* Fragment
+ViewModelStoreOwner <|.. FragmentViewLifecycleOwner
+ViewModelStoreOwner <|... ComponentActivity
+HasDefaultViewModelProviderFactory <|.. FragmentViewLifecycleOwner
+SavedStateRegistryOwner <|.. FragmentViewLifecycleOwner
+
+class ViewModelProvider {
+    - Factory mFactory
+    - ViewModelStore mViewModelStore
+
+    ViewModelProvider(ViewModelStoreOwner owner)
+    ViewModelProvider(ViewModelStoreOwner owner, Factory factory)
+    ViewModelProvider(ViewModelStore store, Factory factory)
+
+    get(String key, Class<T> modelClass): <T extends ViewModel> T
+}
+
+interface Factory {
+create(@NonNull Class<T> modelClass): <T extends ViewModel> T
+}
+
+ViewModelProvider +- - Factory
+
+class NewInstanceFactory {
+}
+
+class AndroidViewModelFactory {
+}
+
+Factory <|.. NewInstanceFactory
+NewInstanceFactory <|- - AndroidViewModelFactory
+
+class ViewModelStore {
+    - HashMap<String, ViewModel> mMap
+    ~ void put(String key, ViewModel viewModel)
+    ~ get(String key): ViewModel
+}
+
+ViewModelStore *.. ViewModel
+
+abstract class ViewModel {
+    ~ onCleared()
+}
+
+abstract class AndroidViewModel {
+    - Application mApplication
+}
+
+ViewModel <|- - AndroidViewModel
+}
+@enduml
+
+@startuml
+package Jetpack-ViewModel #ff0{
+
+interface ViewModelStoreOwner {
+    getViewModelStore(): ViewModelStore
+}
+
+interface HasDefaultViewModelProviderFactory {
+    getDefaultViewModelProviderFactory():ViewModelProvider.Factory
+}
+
+interface SavedStateRegistryOwner {
+    getSavedStateRegistry():SavedStateRegistry
+}
+
+class FragmentViewLifecycleOwner {
+}
+class ComponentActivity {}
+class Fragment {
+    ~ FragmentViewLifecycleOwner mViewLifecycleOwner
+}
+
+
+FragmentViewLifecycleOwner ..* Fragment
+ViewModelStoreOwner <|.. FragmentViewLifecycleOwner
+ViewModelStoreOwner <|... ComponentActivity
+HasDefaultViewModelProviderFactory <|.. FragmentViewLifecycleOwner
+SavedStateRegistryOwner <|.. FragmentViewLifecycleOwner
+
+class ViewModelProvider {
+    - Factory mFactory
+    - ViewModelStore mViewModelStore
+
+    ViewModelProvider(ViewModelStoreOwner owner)
+    ViewModelProvider(ViewModelStoreOwner owner, Factory factory)
+    ViewModelProvider(ViewModelStore store, Factory factory)
+
+    get(String key, Class<T> modelClass): <T extends ViewModel> T
+}
+
+interface Factory {
+create(@NonNull Class<T> modelClass): <T extends ViewModel> T
+}
+
+ViewModelProvider +- - Factory
+
+class NewInstanceFactory {
+}
+
+class AndroidViewModelFactory {
+}
+
+Factory <|.. NewInstanceFactory
+NewInstanceFactory <|- - AndroidViewModelFactory
+
+class ViewModelStore {
+    - HashMap<String, ViewModel> mMap
+    ~ void put(String key, ViewModel viewModel)
+    ~ get(String key): ViewModel
+}
+
+ViewModelStore *.. ViewModel
+
+abstract class ViewModel {
+    ~ onCleared()
+}
+
+abstract class AndroidViewModel {
+    - Application mApplication
+}
+
+ViewModel <|- - AndroidViewModel
+}
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 20:40:07 CST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: zh
+Country: CN
+--></g></svg>

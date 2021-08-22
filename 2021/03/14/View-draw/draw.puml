@@ -1,0 +1,32 @@
+@startuml
+
+title
+Android View 绘制流程
+
+end title
+
+package ViewRootImpl #ff8 {
+:performTraversals();
+:performDraw();
+:draw();
+if (支持硬件加速) then (yes)
+    :ThreadedRenderer 实现;
+    stop
+else 
+    :drawSoftware();
+endif
+}
+
+package View #ff5 {
+:draw(Canvas canvas);
+:drawBackground;
+:onDraw;
+
+}
+
+package ViewGroup #ff8 {
+:dispatchDraw;
+}
+
+
+@enduml

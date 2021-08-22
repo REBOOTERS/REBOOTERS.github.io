@@ -13,39 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: true,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.json',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
 
   <meta name="description" content="人生不止眼前的苟且，还有诗与远方和田野">
 <meta property="og:type" content="website">
@@ -64,8 +38,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -108,17 +83,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">诗与远方</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -126,30 +90,46 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">诗与远方</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -157,29 +137,34 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
   </div>
+</div>
+
+    </div>
+  </div>
+
 </div>
     </header>
 
@@ -197,14 +182,1025 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/22/UML-%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/">
 
-  <div class="posts-expand">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/22/UML-%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">UML 类图基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-05-22 21:52:06" itemprop="dateCreated datePublished" datetime="2019-05-22T21:52:06+08:00">2019-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <img src="/2019/05/22/UML-%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/Aggregation_1.png" width="60%" height="40%/">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>UML（Unified Modeling Language 统一建模语言）是用来对软件密集系统进行可视化建模的一种语言。</p>
+</blockquote>
+<p><strong>简单来说，UML 类图就是用来表示一个软件系统中各个类的特征及相互关系的图</strong>。这里说的软件系统可能很庞大，是一个实实在在的复杂软件架构（如 Android 系统），也可能只是某种抽象表示（比如设计模式）。</p>
+<p>下面就以 Java 语言为例，看看如何用 UML 类图表示 Java 中类、接口及其复杂的关系。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/05/22/UML-%E5%9F%BA%E7%A1%80%E7%BB%93%E6%9E%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/%E5%85%B3%E4%BA%8E%E3%80%8A%E7%BB%BF%E7%9A%AE%E4%B9%A6%E3%80%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/10/%E5%85%B3%E4%BA%8E%E3%80%8A%E7%BB%BF%E7%9A%AE%E4%B9%A6%E3%80%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/" class="post-title-link" itemprop="url">关于《绿皮书》的一些感想</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-10 14:16:26" itemprop="dateCreated datePublished" datetime="2019-03-10T14:16:26+08:00">2019-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-15 21:48:19" itemprop="dateModified" datetime="2020-01-15T21:48:19+08:00">2020-01-15</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>255</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <img src="/2019/03/10/%E5%85%B3%E4%BA%8E%E3%80%8A%E7%BB%BF%E7%9A%AE%E4%B9%A6%E3%80%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/p2549177902.webp">
+
+<p>很久没有看到这样的电影了，看完的时候，内心真的很舒服。好久没有这样的感受了，太多的台词太经典了，尤其是那句 <strong>世界上有太多孤独的人害怕先踏出第一步（the world’s full of lonely people afraid to make the first move ）</strong> ,心真的颤了一下。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/03/10/%E5%85%B3%E4%BA%8E%E3%80%8A%E7%BB%BF%E7%9A%AE%E4%B9%A6%E3%80%8B%E7%9A%84%E4%B8%80%E4%BA%9B%E6%84%9F%E6%83%B3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/03/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9-%E5%8F%88%E7%AC%A8%E5%8F%88%E6%85%A2%E5%B9%B3%E5%A4%A9%E4%B8%8B%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/03/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9-%E5%8F%88%E7%AC%A8%E5%8F%88%E6%85%A2%E5%B9%B3%E5%A4%A9%E4%B8%8B%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/" class="post-title-link" itemprop="url">读《曾国藩 又笨又慢平天下》的一些感想</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-03 15:12:15" itemprop="dateCreated datePublished" datetime="2019-03-03T15:12:15+08:00">2019-03-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-05-19 19:00:46" itemprop="dateModified" datetime="2019-05-19T19:00:46+08:00">2019-05-19</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对曾国藩一直不是很了解，只是在近代历史故事里，总能听到他的名字。尤其这两年曾国藩似乎成为励志人物，曾国藩家书，曾国藩各种事迹被翻出，各种名家大师都会推荐我们去读曾国藩，了解他这一生的故事。因此，就从这本从国家图书馆借来的书，了解一下这位历史名人的一些故事。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/03/03/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9-%E5%8F%88%E7%AC%A8%E5%8F%88%E6%85%A2%E5%B9%B3%E5%A4%A9%E4%B8%8B%E3%80%8B%E8%AF%BB%E5%90%8E%E6%84%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/2019-Book&Movie%20List/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/06/2019-Book&Movie%20List/" class="post-title-link" itemprop="url">2019-Book&Movie List</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-06 11:49:23" itemprop="dateCreated datePublished" datetime="2019-01-06T11:49:23+08:00">2019-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-01 15:31:25" itemprop="dateModified" datetime="2020-01-01T15:31:25+08:00">2020-01-01</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h2><ul>
+<li><p>book read once </p>
+<ul>
+<li><input checked disabled type="checkbox"> <strong>人类简史 ❤️❤️❤️❤️❤️</strong></li>
+<li><input checked disabled type="checkbox"> 曾国藩 又笨又慢平天下 ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 基督山伯爵 - 大仲马 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>美国简史</strong> ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 士兵突击</li>
+<li><input checked disabled type="checkbox"> 长脖子女人</li>
+<li><input checked disabled type="checkbox"> 白鹿原</li>
+<li><input checked disabled type="checkbox"> Google 方法 ❤️❤️❤️❤️</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>book on bed</p>
+<ul>
+<li><input disabled type="checkbox"> <strong>原则(pending)</strong></li>
+<li><input disabled type="checkbox"> <strong>软技能(reading)</strong></li>
+<li><input disabled type="checkbox"> 并发编程之美 （reading)</li>
+<li><input disabled type="checkbox"> Kotlin 实战 （reading）</li>
+<li><input checked disabled type="checkbox"> Android 设计模式</li>
+<li><input disabled type="checkbox"> Java8 实战 </li>
+<li><input disabled type="checkbox"> <strong>算法（第 4 版）</strong></li>
+<li><input disabled type="checkbox"> Think in Java</li>
+<li><input disabled type="checkbox"> Head First 设计模式 （reading)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Movie"><a href="#Movie" class="headerlink" title="Movie"></a>Movie</h2><ul>
+<li><input checked disabled type="checkbox"> <strong>无名之辈 ❤️❤️❤️❤️❤️</strong></li>
+<li><input checked disabled type="checkbox"> 狗十三 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>流浪地球 ❤️❤️❤️❤️</strong></li>
+<li><input checked disabled type="checkbox"> 来电狂响 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 绿皮书 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 白蛇缘起 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 掠食城市 ❤️</li>
+<li><input checked disabled type="checkbox"> 新喜剧之王 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 疯狂外星人 ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>飞驰人生</strong> ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>复仇者联盟 4</strong> ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>X战警 火凤凰</strong> ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>辛德勒的名单</strong> ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 调音师 ❤️</li>
+<li><input checked disabled type="checkbox"> 三傻大闹宝莱坞 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 蜘蛛侠：英雄远征 ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 惊奇队长 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 绝杀慕尼黑 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 冠军 ❤</li>
+<li><input checked disabled type="checkbox"> 黑客帝国 (一) ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 黑客帝国 (二) ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 黑客帝国 (三) ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 无间道 (一)  ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 无间道 (二)  ❤️❤️❤️❤</li>
+<li><input checked disabled type="checkbox"> 无间道 (三)  ❤️❤️❤️❤️❤</li>
+<li><input checked disabled type="checkbox"> 一个母亲的复仇 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 楚门的世界 ❤️❤️❤️❤️❤</li>
+<li><input checked disabled type="checkbox"> 肖申克的救赎 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 战斗天使阿丽塔 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 寄生虫 ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 飞屋环游记 ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 疾速备战 ❤</li>
+<li><input checked disabled type="checkbox"> 全民追女王 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 血观音 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 作家的谎言 ❤️❤️</li>
+<li><input checked disabled type="checkbox"> 无所不能 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 过春天 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>速度与激情-特别行动</strong> ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> Hello 树先生 ❤️❤️❤️❤</li>
+<li><input checked disabled type="checkbox"> 安娜 ❤️❤️❤❤️</li>
+<li><input checked disabled type="checkbox"> 英雄 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>哪吒</strong> ❤️❤</li>
+<li><input disabled type="checkbox"> <strong>江湖儿女</strong></li>
+<li><input checked disabled type="checkbox"> <strong>我和我的祖国</strong> ❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>中国机长</strong> ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>攀登者</strong> ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>叶问 4</strong> ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>勇敢者游戏2</strong> ❤️❤️❤️</li>
+<li><input disabled type="checkbox"> 沉睡魔咒 2 （abandon）</li>
+<li><input checked disabled type="checkbox"> 海市蜃楼 ❤️❤️❤️❤️</li>
+<li><input disabled type="checkbox"> 嗝嗝老师 （abandon）</li>
+<li><input disabled type="checkbox"> 印度暴徒 （abandon）</li>
+<li><input checked disabled type="checkbox"> 飞龙再生 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 周末同床 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 新龙门客栈 ❤️❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 罗小黑战记 ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 鬼影特攻：以暴制暴 6  ❤️❤️❤️❤️</li>
+</ul>
+<blockquote>
+<p>time ≈ 2.2h * 38 = 83.6h </p>
+</blockquote>
+<h2 id="Tv"><a href="#Tv" class="headerlink" title="Tv"></a>Tv</h2><ul>
+<li><input checked disabled type="checkbox"> 铁齿铜牙纪晓岚 第三部 （43 * 45 min = 1935 ≈ 32.2h)</li>
+<li><input checked disabled type="checkbox"> 铁齿铜牙纪晓岚 第四部 （43 * 45 min = 1935 ≈ 32.2h)</li>
+<li><input checked disabled type="checkbox"> 每周英超精华 （ 30 * 50 = 1500 = 25h)</li>
+<li><input checked disabled type="checkbox"> 王牌对王牌 （10 * 1.6h = 16h)</li>
+<li><input checked disabled type="checkbox"> 士兵突击 (10 * 45 = 450 = 9h)</li>
+<li><input checked disabled type="checkbox"> <strong>王朝</strong> ❤️❤️❤️❤️❤️❤️❤️❤️ 5h</li>
+<li><input checked disabled type="checkbox"> <strong>一个星球，七个世界</strong> ❤️❤️❤️❤️❤️❤️❤️❤️</li>
+<li><input disabled type="checkbox"> <strong>越南战争</strong> (watching)</li>
+<li><input checked disabled type="checkbox"> <strong>计算机科学的奥秘 B站</strong> ❤️❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> <strong>第三帝国最后的秘密</strong></li>
+<li><input checked disabled type="checkbox"> <strong>触及真心</strong> （16 * 70 = 1120 ≈ 18.6h) ❤️❤️❤️</li>
+<li><input checked disabled type="checkbox"> 我们与恶的距离  10h </li>
+<li><input checked disabled type="checkbox"> 长安十二时辰 (48 * 42 min ≈ 33.6h)</li>
+<li><input disabled type="checkbox"> 每周天下足球 (52 * 2h = 104h)</li>
+<li><input disabled type="checkbox"> 真探</li>
+<li><input checked disabled type="checkbox"> 生活大爆炸最终季 (24 * 22 = 528 ≈ 8.8h)</li>
+<li><input checked disabled type="checkbox"> 小谢尔顿第二季 (22 * 22 = 484 ≈ 8h)</li>
+<li><input checked disabled type="checkbox"> 摩登家庭第九季 (22 * 22 = 484 ≈ 8h)</li>
+<li><input checked disabled type="checkbox"> 神盾局特工第六季 (13 h) </li>
+<li><input checked disabled type="checkbox"> <strong>无耻之徒第九季</strong> (14 * 55 = 770 ≈ 12.8h) </li>
+<li><input checked disabled type="checkbox"> 超感警探第一季（22 * 43 = 946 ≈ 15.7h）</li>
+<li><input checked disabled type="checkbox"> 超感警探第二季（22 * 43 = 946 ≈ 15.7h）</li>
+<li><input checked disabled type="checkbox"> 超感警探第三季 (22 * 43 = 946 ≈ 15.7h)</li>
+<li><input checked disabled type="checkbox"> 超感警探第四季 (24 * 43 = 1032 ≈ 17.2h)</li>
+<li><input checked disabled type="checkbox"> 超感警探第五季 (22 * 43 = 1032 ≈ 15.7h)</li>
+<li><input checked disabled type="checkbox"> 超感警探第六季 (watching)</li>
+<li><input checked disabled type="checkbox"> 摩登家庭最终季 (截至 第9集)</li>
+<li><input checked disabled type="checkbox"> 无耻之徒第十季 (截至 第6集)</li>
+</ul>
+<blockquote>
+<p>time ≈ 215h + 104h </p>
+</blockquote>
+<p><strong>（截止 2019 年 9 月 15 日）</strong></p>
+<h2 id="时间都去哪儿了"><a href="#时间都去哪儿了" class="headerlink" title="时间都去哪儿了"></a>时间都去哪儿了</h2><ul>
+<li><p>每天 = 24h </p>
+</li>
+<li><p>每周 = 7 * 24h = 168h </p>
+</li>
+<li><p>每年 = 52 * 168h = 8736h </p>
+</li>
+<li><p>每月 ≈ 8736 / 12 = 728 h </p>
+</li>
+</ul>
+<p>sleep_every_day = 8h<br>year_sleep = 8h * 7 * 52 = 2912h </p>
+<p>work_every_day = 10h<br>year_work = 10h * 5 * 52 = 2600h </p>
+<p>every_year_real_free_time = 8736 - 2912 - 2600 = 3224h</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/01/Some-One-Like-You/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/01/Some-One-Like-You/" class="post-title-link" itemprop="url">Some One Like You</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-01-01 22:03:12" itemprop="dateCreated datePublished" datetime="2019-01-01T22:03:12+08:00">2019-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-01 15:45:01" itemprop="dateModified" datetime="2020-01-01T15:45:01+08:00">2020-01-01</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录一下每一个月干了些啥吧。</p>
+<h2 id="七月-Result"><a href="#七月-Result" class="headerlink" title="七月 Result"></a>七月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单实现 GIF 图的倒序播放</td>
+<td>无间道电影三部</td>
+<td>kotlin 实战阅读</td>
+</tr>
+<tr>
+<td>ARouter API 简单分析</td>
+<td>长安十二时辰1~26集</td>
+<td>软技能阅读</td>
+</tr>
+<tr>
+<td>ASM 代码插桩简单尝试</td>
+<td>一个复仇的母亲</td>
+<td>基督山伯爵 1~21 章</td>
+</tr>
+<tr>
+<td>react 入门</td>
+<td></td>
+<td>原则阅读 36%</td>
+</tr>
+<tr>
+<td>JavaScript 入门</td>
+<td></td>
+<td>《白鹿原》听书1~38章</td>
+</tr>
+</tbody></table>
+<h2 id="八月-todo"><a href="#八月-todo" class="headerlink" title="八月 todo"></a>八月 todo</h2><ul>
+<li>study<ul>
+<li><input disabled type="checkbox"> <strong>TimeFly</strong> </li>
+<li><input disabled type="checkbox"> asm 插桩 blog </li>
+<li><input disabled type="checkbox"> arouter 插桩分析 blog</li>
+<li><input disabled type="checkbox"> fragment + viewpager 分析 blog</li>
+<li><input disabled type="checkbox"> react + JavaScript 熟练</li>
+</ul>
+</li>
+<li>entertainment<ul>
+<li><input disabled type="checkbox"> 看海</li>
+<li><input checked disabled type="checkbox"> 骑车去二环</li>
+<li><input checked disabled type="checkbox"> 长安十二时辰完结</li>
+</ul>
+</li>
+<li>else<ul>
+<li><input checked disabled type="checkbox"> effective java 阅读</li>
+<li><input checked disabled type="checkbox"> 《白鹿原》听书 39~60 章</li>
+<li><input disabled type="checkbox"> 基督山伯爵读完，并写读后感</li>
+<li><input disabled type="checkbox"> <strong>我们与恶的距离 blog</strong></li>
+<li><input disabled type="checkbox"> kotlin 实战 blog </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>综上： 需要写 6 篇 blog ,本月以读书为主，多看一点书，好久没看书了。</p>
+</blockquote>
+<h2 id="八月-Result"><a href="#八月-Result" class="headerlink" title="八月 Result"></a>八月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>read</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>javac vs kotlinc</td>
+<td>楚门的世界</td>
+<td>基督山伯爵 22-99</td>
+<td>🚴二环骑行</td>
+</tr>
+<tr>
+<td>javascript</td>
+<td>肖申克的救赎</td>
+<td>《白鹿原》听书39~99章</td>
+<td></td>
+</tr>
+<tr>
+<td>css</td>
+<td>战斗天使阿丽塔</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TimeFly Structure</td>
+<td>寄生虫</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ASM demo</td>
+<td>飞屋环游记</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>长安十二时辰 27-48（完结）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>神盾局特工 6-13（第六季完结)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="九月-todo"><a href="#九月-todo" class="headerlink" title="九月 todo"></a>九月 todo</h2><ul>
+<li>study<ul>
+<li><input disabled type="checkbox"> <strong>TimeFly Release And Publish</strong> </li>
+<li><input disabled type="checkbox"> asm 插桩 blog </li>
+<li><input disabled type="checkbox"> arouter 插桩分析 blog</li>
+<li><input disabled type="checkbox"> c </li>
+</ul>
+</li>
+<li>entertainment<ul>
+<li><input disabled type="checkbox"> 越南战争纪录片</li>
+</ul>
+</li>
+<li>read<ul>
+<li><input checked disabled type="checkbox"> 《白鹿原》听书 100-118 章（完结）</li>
+<li><input disabled type="checkbox"> 基督山伯爵（100-118） 并写读后感</li>
+<li><input disabled type="checkbox"> Java 虚拟机</li>
+</ul>
+</li>
+<li>else<ul>
+<li><input disabled type="checkbox"> <strong>我们与恶的距离 blog</strong></li>
+<li><input disabled type="checkbox"> 基督山伯爵读后感</li>
+<li><input disabled type="checkbox"> StreetView 数据统计和视频合成 Feature</li>
+</ul>
+</li>
+</ul>
+<h2 id="九月-Result"><a href="#九月-Result" class="headerlink" title="九月 Result"></a>九月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>read</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TimeFly 1.0.1 上线</td>
+<td>速度与激情-特别行动</td>
+<td>基督山伯爵 完结</td>
+<td>自动化抓取下载地址</td>
+</tr>
+<tr>
+<td>网站备案完成</td>
+<td>血观音</td>
+<td>《白鹿原》完结</td>
+<td></td>
+</tr>
+<tr>
+<td>云服务器部署完成</td>
+<td>过春天</td>
+<td>Android 设计模式 Done</td>
+<td></td>
+</tr>
+<tr>
+<td>计算机科学的奥秘 1-20 集</td>
+<td>无所不能</td>
+<td>Head First Java Done</td>
+<td></td>
+</tr>
+<tr>
+<td>Java &amp; Android 图片合成视频技术</td>
+<td>作家的谎言</td>
+<td>软技能</td>
+<td></td>
+</tr>
+<tr>
+<td>ffmpeg</td>
+<td></td>
+<td>晓说第一季听书</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>10 月 todo </p>
+<p>本月由于回家，时间已过半，优先将之前未完成的 TODO 酌情补充完成，估计就差不多了。</p>
+<h2 id="十月-Result"><a href="#十月-Result" class="headerlink" title="十月 Result"></a>十月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>read</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VideModel 源码解读</td>
+<td>Hello 树先生</td>
+<td>Google 方法 80%</td>
+<td>国庆回家 10 天</td>
+</tr>
+<tr>
+<td>Android 开发高手课（极客时间）学习 1-10</td>
+<td>安娜</td>
+<td>C 程序设计语言 30%</td>
+<td>bash-bot 脚本，薅羊毛</td>
+</tr>
+<tr>
+<td></td>
+<td>哪吒</td>
+<td></td>
+<td>StreetView 发布两个版本，集成 push功能，日活提升</td>
+</tr>
+<tr>
+<td></td>
+<td>计算机科学速成课（B 站视频）done</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>超感警探第四季 done</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="十一月-Result"><a href="#十一月-Result" class="headerlink" title="十一月 Result"></a>十一月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>read</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gradle Transform 插桩学习</td>
+<td>英雄</td>
+<td>Google 方法读完</td>
+<td></td>
+</tr>
+<tr>
+<td>Android 开发高手课（极客时间）学习 11-30</td>
+<td>攀登者</td>
+<td>C 程序设计语言读完</td>
+<td>bash-bot 脚本，薅羊毛</td>
+</tr>
+<tr>
+<td></td>
+<td>罗小黑战记</td>
+<td>Head First 设计模式 20%</td>
+<td>StreetView 发布一个版本，更新 SDK,减小包体积</td>
+</tr>
+<tr>
+<td></td>
+<td>奇葩说第六季 ing</td>
+<td>Android 进阶解密阅读 20%</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>超感警探第五季 done</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>超感警探第六季 ing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>电影《飞龙再生》</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>电影《周末同床》</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="十二月-TODO"><a href="#十二月-TODO" class="headerlink" title="十二月 TODO"></a>十二月 TODO</h2><ul>
+<li><p>study</p>
+<ul>
+<li>jar 生成 blog</li>
+<li>asm blog </li>
+<li>gradle transform blog </li>
+</ul>
+</li>
+<li><p>read</p>
+<ul>
+<li>kotlin 实战 notes </li>
+<li>java 8 实战</li>
+</ul>
+</li>
+<li><p>else</p>
+<ul>
+<li>年终 review </li>
+</ul>
+</li>
+</ul>
+<h2 id="十二月-Result"><a href="#十二月-Result" class="headerlink" title="十二月 Result"></a>十二月 Result</h2><table>
+<thead>
+<tr>
+<th>study</th>
+<th>entertainment</th>
+<th>read</th>
+<th>else</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Java字节码处理 asm 学习</td>
+<td>我和我的祖国</td>
+<td></td>
+<td>年终 review 公众号章发布</td>
+</tr>
+<tr>
+<td>jar 文件生成学习</td>
+<td>中国机长</td>
+<td></td>
+<td>年终相册盘点 公众号发布</td>
+</tr>
+<tr>
+<td></td>
+<td>鬼影特攻：以暴制暴6</td>
+<td></td>
+<td>知乎写回答，创作者等级达到 V3</td>
+</tr>
+<tr>
+<td></td>
+<td>叶问4</td>
+<td>Head First 设计模式 40%</td>
+<td>StreetView 发布2个版本,对界面做了一些调整</td>
+</tr>
+<tr>
+<td></td>
+<td>奇葩说第六季 ing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>吐槽大会第五季 ing</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>灵书妙探第一季 ing</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>这一年，看剧和看视频的时间花费的太多了，多看点书吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/RxJava2%20%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E7%9A%84%EF%BC%88%E4%B8%8B%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="九尾灵狐">
+      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="诗与远方">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/08/RxJava2%20%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E7%9A%84%EF%BC%88%E4%B8%8B%EF%BC%89/" class="post-title-link" itemprop="url">RxJava2 是如何实现线程切换的（下）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-08 21:59:48" itemprop="dateCreated datePublished" datetime="2018-05-08T21:59:48+08:00">2018-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-07-23 08:35:41" itemprop="dateModified" datetime="2019-07-23T08:35:41+08:00">2019-07-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">Android 进阶</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过前一篇的<a target="_blank" rel="noopener" href="https://juejin.im/post/5a6751af6fb9a01cb2571794">RxJava2 是如何实现线程切换的 (上)</a>我们已经知道了在RxJava中，subscribeOn 将上游线程切换到<strong>指定的子线程</strong>是如何实现的。这里就接着来看，observeOn 是如何将下游线程切换到指定线程的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/08/RxJava2%20%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E7%9A%84%EF%BC%88%E4%B8%8B%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/01/2018-Book&Movie%20List/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -217,15 +1213,15 @@
       <meta itemprop="name" content="诗与远方">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2018/03/01/2018-Book&Movie%20List/" class="post-title-link" itemprop="url">2018-Book&Movie List</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -233,7 +1229,7 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2020-01-01 15:06:04" itemprop="dateModified" datetime="2020-01-01T15:06:04+08:00">2020-01-01</time>
@@ -242,14 +1238,14 @@
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
+                <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
               <span>295</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
+                <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               <span>1 分钟</span>
@@ -326,10 +1322,10 @@
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/RxJava2%20%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E7%9A%84%EF%BC%88%E4%B8%8A%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -342,15 +1338,15 @@
       <meta itemprop="name" content="诗与远方">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2018/01/23/RxJava2%20%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E7%9A%84%EF%BC%88%E4%B8%8A%EF%BC%89/" class="post-title-link" itemprop="url">RxJava2 是如何实现线程切换的 (上)</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -358,37 +1354,35 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-07-23 08:35:41" itemprop="dateModified" datetime="2019-07-23T08:35:41+08:00">2019-07-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">Android 进阶</span></a>
                 </span>
             </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
+                <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
               <span>16k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
+                <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>27 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -423,10 +1417,10 @@
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/%E4%BB%8E%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%87%BA%E5%8F%91%EF%BC%8C%E8%81%8A%E8%81%8ARxJava/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -439,15 +1433,15 @@
       <meta itemprop="name" content="诗与远方">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2018/01/12/%E4%BB%8E%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%87%BA%E5%8F%91%EF%BC%8C%E8%81%8A%E8%81%8ARxJava/" class="post-title-link" itemprop="url">从观察者模式出发，聊聊RxJava2</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -455,37 +1449,35 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
+                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">Android 进阶</span></a>
                 </span>
             </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
+                <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
               <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
+                <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>21 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -523,10 +1515,10 @@
   
   
 
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -539,15 +1531,15 @@
       <meta itemprop="name" content="诗与远方">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           
             <a href="/2018/01/07/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">代理模式</a>
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -555,37 +1547,35 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
-                  </a>
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
                 </span>
             </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
+                <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
               <span>8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
+                <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>13 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -621,597 +1611,10 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/28/Android%20%E6%8F%92%E4%BB%B6%E5%8C%96%E5%92%8C%E7%83%AD%E4%BF%AE%E5%A4%8D%E7%9A%84%E5%89%8D%E7%94%9F%E4%BB%8A%E4%B8%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/11/28/Android%20%E6%8F%92%E4%BB%B6%E5%8C%96%E5%92%8C%E7%83%AD%E4%BF%AE%E5%A4%8D%E7%9A%84%E5%89%8D%E7%94%9F%E4%BB%8A%E4%B8%96/" class="post-title-link" itemprop="url">Android 插件化和热修复的前生今世</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-11-28 09:16:47" itemprop="dateCreated datePublished" datetime="2017-11-28T09:16:47+08:00">2017-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>11 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在Android开发中，插件化和热修复的话题越来越多的被大家提及，同时随着技术的迭代，各种框架的发展更新，插件化和热修复的框架似乎已经日趋成熟，许多开发者也把这两项技术运用到实际开发协作和正式的产品当中。因此，我们势必需要了解一下这两门技术。</p>
-<h2 id="插件化和热修复"><a href="#插件化和热修复" class="headerlink" title="插件化和热修复"></a>插件化和热修复</h2><p>首先需要明确的一点，<strong>插件化和热修复</strong>不是同一个概念，虽然站在技术实现的角度来说，他们都是从系统加载器的角度出发，无论是采用hook方式，亦或是代理方式或者是其他底层实现，都是通过“<strong>欺骗</strong>”Android 系统的方式来让<strong>宿主</strong>正常的加载和运行<strong>插件（补丁）</strong>中的内容；但是二者的出发点是不同的。<strong>插件化</strong>顾名思义，更多是想把需要实现的模块或功能当做一个独立的提取出来，减少<strong>宿主</strong>的规模，当需要使用到相应的功能时再去加载相应的模块。<strong>热修复</strong>则往往是从修复bug的角度出发，强调的是在不需要二次安装应用的前提下修复已知的bug。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/11/28/Android%20%E6%8F%92%E4%BB%B6%E5%8C%96%E5%92%8C%E7%83%AD%E4%BF%AE%E5%A4%8D%E7%9A%84%E5%89%8D%E7%94%9F%E4%BB%8A%E4%B8%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/23/%E8%87%AA%E5%AE%9A%E4%B9%89View%E9%AB%98%E4%BB%BF%E6%87%82%E7%90%83%E5%B8%9D%E6%88%91%E6%98%AF%E6%95%99%E7%BB%83%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/07/23/%E8%87%AA%E5%AE%9A%E4%B9%89View%E9%AB%98%E4%BB%BF%E6%87%82%E7%90%83%E5%B8%9D%E6%88%91%E6%98%AF%E6%95%99%E7%BB%83%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">自定义View高仿懂球帝我是教练效果</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-07-23 23:16:47" itemprop="dateCreated datePublished" datetime="2017-07-23T23:16:47+08:00">2017-07-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>18k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>30 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这几天很多欧洲球队来中国进行热身赛，不知道喜欢足球的各位小伙伴们有没有看球。喜欢足球的朋友可能知道懂球帝APP，鄙人也经常使用这个应用，里面有一个我是教练的功能挺好玩,就是可以模拟教练员的身份，排兵布阵；本着好奇心简单模仿了一下，在这里和大家分享。</p>
-<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>老规矩，先上效果图看看模仿的像不。</p>
-<p><img src="https://user-gold-cdn.xitu.io/2017/7/23/68d1796a8b77eaee289378a8686b508f" alt="add_player"></p>
-<p><img src="https://user-gold-cdn.xitu.io/2017/7/23/bd8a6abef46a6e25d06a447ec5e68c87" alt="move_player"></p>
-<p>玩过我是教练这个功能的小伙伴可以对比一下。</p>
-<p>总的来说，这样的一个效果，其实很简单，就是一个view随着手指在屏幕上移动的效果，外加一个图片替换的动画。但就是这些看似简单的效果，在实现的过程中也是遇到了很多坑，涨了许多新姿势。好了，废话不说，代码走起(｡◕ˇ∀ˇ◕)。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/07/23/%E8%87%AA%E5%AE%9A%E4%B9%89View%E9%AB%98%E4%BB%BF%E6%87%82%E7%90%83%E5%B8%9D%E6%88%91%E6%98%AF%E6%95%99%E7%BB%83%E6%95%88%E6%9E%9C/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/%E4%BB%BF%E7%AE%80%E4%B9%A6%E9%95%BF%E6%8C%89%E6%96%87%E7%AB%A0%E7%94%9F%E6%88%90%E5%9B%BE%E7%89%87%E6%95%88%E6%9E%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/03/19/%E4%BB%BF%E7%AE%80%E4%B9%A6%E9%95%BF%E6%8C%89%E6%96%87%E7%AB%A0%E7%94%9F%E6%88%90%E5%9B%BE%E7%89%87%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">仿简书长按文章生成图片效果</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-03-19 22:07:46" itemprop="dateCreated datePublished" datetime="2017-03-19T22:07:46+08:00">2017-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-01 15:46:41" itemprop="dateModified" datetime="2020-01-01T15:46:41+08:00">2020-01-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>11 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用简书APP的同学都知道，简书有这样一个功能；文章页长按内容时底部会出现一个<strong>生成图片分享</strong>的按钮，点击之后就可以将当前的文章生成一张长图片；这张图片可以保存到本地或分享给好友，同时还可为图片设置成为白和黑两种风格，很有艺术范。个人一直很喜欢这个功能。</p>
-<p>但是从某一个版本开始，这个功能开始有bug了，生成的图片只有底部的固定标题，而没有文章内容，长图也变成了小短图。向简书意见反馈后，得到的回复是，使用点击分享按钮生成图片功能；分享菜单包含的生成长图功能的确是可以的。但是，还是很怀念之前长按生成图片的功能，所以作为一名程序猿；怀着好奇的心情，决定自己去实现这样一个功能.</p>
-<h2 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h2><p>老规矩，首先看一下实现后的效果；虽然整体没有简书有范，个人感觉还是挺像的。</p>
-<p><img src="https://user-gold-cdn.xitu.io/2017/3/19/5bfdffd406bed1f24293ff9cc5ffe3c8" alt="效果图"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/19/%E4%BB%BF%E7%AE%80%E4%B9%A6%E9%95%BF%E6%8C%89%E6%96%87%E7%AB%A0%E7%94%9F%E6%88%90%E5%9B%BE%E7%89%87%E6%95%88%E6%9E%9C/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/2017-booklist/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/03/01/2017-booklist/" class="post-title-link" itemprop="url">2017 booklist</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-03-01 11:49:23" itemprop="dateCreated datePublished" datetime="2017-03-01T11:49:23+08:00">2017-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>96</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li>尤瓦尔·赫拉利-人类简史 Done</li>
-<li>肯·福莱特-世纪三部曲-巨人的陨落 Done</li>
-<li>肯·福莱特-世纪三部曲-世界的凛冬 Done</li>
-<li>肯·福莱特-世纪三部曲-永恒的边缘 Done</li>
-</ul>
-<p>todo</p>
-<ul>
-<li>刘慈欣-三体 Delayed</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/" class="post-title-link" itemprop="url">Android MVP 十分钟入门！</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-01-24 18:07:46" itemprop="dateCreated datePublished" datetime="2017-01-24T18:07:46+08:00">2017-01-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言##"></a>前言##</h2><p>在日常开发APP 的过程中，随着业务的扩展，规模的变化。我们的代码规模也会逐渐变得庞大，每一个类里的代码也会逐渐增多。尤其是Activity和Fragment ，由于Context 的存在，基本上所有对视图的操作我们只能在Activity和Fragment中完成；即便是对某些逻辑进行封装，Activity和Fragment 依旧会显得过于臃肿。因此，我们需要换一种思路去写代码，这个时候MVP模式就应用而生了！那么MVP 怎么用呢，下面就来说一说。</p>
-<p>假设你现在如要实现下图中的功能：</p>
-<p><img src="https://lc-mhke0kuv.cn-n1.lcfile.com/ddbae96177704862aa4c.jpg"></p>
-<p>这个需求很简单，就是点击按钮，下载一张图片，显示下载进度；下载完成后，在ImageView中显示这张图片。<br>下面我们就分别用传统的方式（也就是所谓的MVC)和MVP 模式分别取实现这个功能。然后分析一下MVP 到底好在哪里。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/24/Android%20MVP%20%E5%8D%81%E5%88%86%E9%92%9F%E5%85%A5%E9%97%A8%EF%BC%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="九尾灵狐">
-      <meta itemprop="description" content="人生不止眼前的苟且，还有诗与远方和田野">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="诗与远方">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">仿知乎首页学习CoordinateLayout</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-12-22 19:16:47" itemprop="dateCreated datePublished" datetime="2016-12-22T19:16:47+08:00">2016-12-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-05-19 17:22:10" itemprop="dateModified" datetime="2019-05-19T17:22:10+08:00">2019-05-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index">
-                    <span itemprop="name">Android 进阶</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>21k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>36 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="前言"><a href="#前言" class="headerlink" title="前言###"></a>前言###</h3><p>第一次接触CoordinateLayout的时候深深的被其炫酷的特效所吸引；想着什么时候在实际项目中可以使用一下，无奈实际项目因行业特点，并不需要使用到CoordinateLayout这么高端的交互体验；所以本着学习的态度，便用CoordinateLayout模仿了一下知乎首页效果，这也是现在掘金APP首页的效果；这种效果其实很友好，能让用户最大限度的使用到手机屏幕。</p>
-<p>好了，废话不多说，先看看模仿效果。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/12/22/%E4%BB%BF%E7%9F%A5%E4%B9%8E%E9%A6%96%E9%A1%B5%E5%AD%A6%E4%B9%A0CoordinateLayout%E7%94%A8%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-  </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1221,7 +1624,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -1279,7 +1682,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1292,17 +1695,17 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -1322,29 +1725,28 @@
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">478k</span>
+    <span title="站点总字数">591k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:17</span>
+    <span title="站点阅读时长">8:57</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         

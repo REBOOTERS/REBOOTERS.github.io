@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="966.6px" preserveAspectRatio="none" style="width:1272px;height:966px;background:#FFFFFF;" version="1.1" viewBox="0 0 1272 966" width="1272.6px" zoomAndPan="magnify"><defs><filter height="300%" id="f1whgjas9ls705" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="3.6"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="7.2" dy="7.2" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e96479d4cb78514c569de8d835991e72]
+cluster Jetpack-LiveData--><polygon fill="#FFFF00" filter="url(#f1whgjas9ls705)" points="28.8,10.8,257.4,10.8,270,53.2969,1242,53.2969,1242,954,28.8,954,28.8,10.8" style="stroke:#000000;stroke-width:2.7;"/><line style="stroke:#000000;stroke-width:2.7;" x1="28.8" x2="270" y1="53.2969" y2="53.2969"/><text fill="#000000" font-family="sans-serif" font-size="25.2" font-weight="bold" lengthAdjust="spacing" textLength="217.8" x="36" y="40.5598">Jetpack-LiveData</text><!--MD5=[d40932010816485ec57b44b6eea2392a]
+class Observer--><rect codeLine="4" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="111.3047" id="Observer" style="stroke:#A80036;stroke-width:2.7;" width="169.2" x="57.6" y="162.9"/><ellipse cx="84.6" cy="191.7" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M86.4,186.3 L86.4,197.1 L90,197.1 L90.8719,197.1 L91.8,198.225 L91.8,198.9 L91.8,199.575 L90.8719,200.7 L90,200.7 L79.2,200.7 L78.3281,200.7 L77.4,199.575 L77.4,198.9 L77.4,198.225 L78.3281,197.1 L79.2,197.1 L82.8,197.1 L82.8,186.3 L79.2,186.3 L78.3281,186.3 L77.4,185.175 L77.4,184.5 L77.4,183.825 L78.3281,182.7 L79.2,182.7 L90,182.7 L90.8719,182.7 L91.8,183.825 L91.8,184.5 L91.8,185.175 L90.8719,186.3 L90,186.3 L86.4,186.3 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="91.8" x="109.8" y="200.5383">Observer</text><rect fill="#FFFFFF" height="30.7688" style="stroke:#000000;stroke-width:1.8;stroke-dasharray:2.0,2.0;" width="16.2" x="216" y="157.5"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="12.6" x="217.8" y="181.7227">T</text><line style="stroke:#A80036;stroke-width:2.7;" x1="59.4" x2="225" y1="220.5" y2="220.5"/><line style="stroke:#A80036;stroke-width:2.7;" x1="59.4" x2="225" y1="234.9" y2="234.9"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="135" x="68.4" y="262.6541">onChanged(T t)</text><!--MD5=[ffba378a1c010b51a71cc4d93cb7ef20]
+class LiveData--><rect codeLine="8" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="285.6375" id="LiveData" style="stroke:#A80036;stroke-width:2.7;" width="619.2" x="289.8" y="75.6"/><ellipse cx="537.75" cy="104.4" fill="#A9DCDF" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M540.9,107.1 L534.9656,107.1 L534.1781,108.9 L534.1781,108.9 L535.0219,108.9 L535.95,110.025 L535.95,110.7 L535.95,111.375 L535.0219,112.5 L534.1781,112.5 L530.775,112.5 L529.6781,112.5 L528.75,111.375 L528.75,110.7 L528.75,110.025 L529.6781,108.9 L530.775,108.9 L534.9375,98.1 L533.3625,98.1 L531.4781,98.1 L530.55,96.975 L530.55,96.3 L530.55,95.625 L531.4781,94.5 L533.3625,94.5 L539.9719,94.5 L544.8094,108.9 L545.8219,108.9 L545.8219,108.9 L546.75,110.025 L546.75,110.7 L546.75,111.375 L545.8219,112.5 L544.8094,112.5 L541.4063,112.5 L540.4781,112.5 L539.55,111.375 L539.55,110.7 L539.55,110.025 L540.4781,108.9 L541.4063,108.9 L541.4063,108.9 L540.9,107.1 Z M539.9156,103.5 L537.75,97.0594 L535.8938,103.5 L539.9156,103.5 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="88.2" x="574.65" y="113.2383">LiveData</text><rect fill="#FFFFFF" height="30.7688" style="stroke:#000000;stroke-width:1.8;stroke-dasharray:2.0,2.0;" width="16.2" x="898.2" y="70.2"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="12.6" x="900" y="94.4227">T</text><line style="stroke:#A80036;stroke-width:2.7;" x1="291.6" x2="907.2" y1="133.2" y2="133.2"/><ellipse cx="309.6" cy="153" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="192.6" x="325.8" y="160.9541">START_VERSION = -1</text><ellipse cx="309.6" cy="177.9047" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="144" x="325.8" y="185.8588">Object NOT_SET</text><line style="stroke:#A80036;stroke-width:2.7;" x1="291.6" x2="907.2" y1="197.4094" y2="197.4094"/><ellipse cx="309.6" cy="217.2094" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="154.8" x="325.8" y="225.1635">setValue(T value)</text><ellipse cx="309.6" cy="242.1141" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="165.6" x="325.8" y="250.0682">postValue(T value)</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="0" x="331.2" y="274.9729"/><ellipse cx="309.6" cy="291.9234" fill="#84BE84" rx="5.4" ry="5.4" style="stroke:#038048;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="572.4" x="325.8" y="299.8775">observe(LifecycleOwner owner, Observer&lt;? super T&gt; observer)</text><ellipse cx="309.6" cy="316.8281" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="480.6" x="325.8" y="324.7822">dispatchingValue(@Nullable ObserverWrapper initiator)</text><rect fill="#F24D5C" height="10.8" style="stroke:#C82930;stroke-width:1.8;" width="10.8" x="304.2" y="336.3328"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="383.4" x="325.8" y="349.6869">considerNotify(ObserverWrapper observer)</text><!--MD5=[5903a2f7553e30e40f95946aadf8b110]
+class ObserverWrapper--><rect codeLine="20" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="235.8281" id="ObserverWrapper" style="stroke:#A80036;stroke-width:2.7;" width="428.4" x="478.8" y="469.8"/><ellipse cx="597.15" cy="498.6" fill="#A9DCDF" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M600.3,501.3 L594.3656,501.3 L593.5781,503.1 L593.5781,503.1 L594.4219,503.1 L595.35,504.225 L595.35,504.9 L595.35,505.575 L594.4219,506.7 L593.5781,506.7 L590.175,506.7 L589.0781,506.7 L588.15,505.575 L588.15,504.9 L588.15,504.225 L589.0781,503.1 L590.175,503.1 L594.3375,492.3 L592.7625,492.3 L590.8781,492.3 L589.95,491.175 L589.95,490.5 L589.95,489.825 L590.8781,488.7 L592.7625,488.7 L599.3719,488.7 L604.2094,503.1 L605.2219,503.1 L605.2219,503.1 L606.15,504.225 L606.15,504.9 L606.15,505.575 L605.2219,506.7 L604.2094,506.7 L600.8063,506.7 L599.8781,506.7 L598.95,505.575 L598.95,504.9 L598.95,504.225 L599.8781,503.1 L600.8063,503.1 L600.8063,503.1 L600.3,501.3 Z M599.3156,497.7 L597.15,491.2594 L595.2938,497.7 L599.3156,497.7 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="176.4" x="634.05" y="507.4383">ObserverWrapper</text><line style="stroke:#A80036;stroke-width:2.7;" x1="480.6" x2="905.4" y1="527.4" y2="527.4"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="289.8" x="489.6" y="555.1541">Observer&lt;? super T&gt; mObserver</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="144" x="489.6" y="580.0588">boolean mActive</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="320.4" x="489.6" y="604.9635">int mLastVersion = START_VERSION</text><line style="stroke:#A80036;stroke-width:2.7;" x1="480.6" x2="905.4" y1="616.5141" y2="616.5141"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="302.4" x="489.6" y="644.2682">abstract shouldBeActive():boolean</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="406.8" x="489.6" y="669.1729">isAttachedTo(LifecycleOwner owner):boolean</text><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="358.2" x="489.6" y="694.0775">activeStateChanged(boolean newActive)</text><!--MD5=[3bd16a47e33cd9f0df4c61a2b0dc0302]
+class AlwaysActiveObserver--><rect codeLine="30" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="111.3047" id="AlwaysActiveObserver" style="stroke:#A80036;stroke-width:2.7;" width="271.8" x="729.9" y="813.6"/><ellipse cx="756.9" cy="842.4" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M760.5,836.1 Q760.8656,835.2 761.2875,834.75 Q761.7094,834.3 762.1875,834.3 Q763.0313,834.3 763.5656,834.8063 Q764.1,835.3125 764.1,836.4938 L764.1,839.3063 Q764.1,840.4875 763.5938,840.9938 Q763.0875,841.5 762.3,841.5 Q761.5969,841.5 761.1469,841.1906 Q760.6969,840.8813 760.5,840.0656 Q760.4156,839.5031 760.1063,839.1938 Q759.5438,838.6031 758.5313,838.2656 Q757.5188,837.9 756.5063,837.9 Q755.2406,837.9 754.1719,838.4063 Q753.1313,838.9125 752.3156,840.0375 Q751.5,841.1625 751.5,842.7094 L751.5,844.3688 Q751.5,846.225 753.0188,847.4625 Q754.5375,848.7 757.2375,848.7 Q758.8406,848.7 759.9656,848.3344 Q760.6125,848.1375 761.3438,847.4906 Q761.8219,847.125 762.075,847.0125 Q762.3281,846.9 762.6375,846.9 Q763.2281,846.9 763.65,847.3781 Q764.1,847.8281 764.1,848.475 Q764.1,849.0938 763.4813,849.825 Q762.5813,850.8938 761.1469,851.4844 Q759.2625,852.3 756.9563,852.3 Q754.2563,852.3 752.0906,851.2313 Q750.3469,850.3875 749.1094,848.5594 Q747.9,846.7313 747.9,844.5656 L747.9,842.5969 Q747.9,840.3469 748.9688,838.3781 Q750.0656,836.4094 751.95,835.3688 Q753.8625,834.3 756,834.3 Q757.2938,834.3 758.4188,834.75 Q759.5438,835.2 760.5,836.1 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="214.2" x="782.1" y="851.2383">AlwaysActiveObserver</text><line style="stroke:#A80036;stroke-width:2.7;" x1="731.7" x2="999.9" y1="871.2" y2="871.2"/><line style="stroke:#A80036;stroke-width:2.7;" x1="731.7" x2="999.9" y1="885.6" y2="885.6"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="207" x="740.7" y="913.3541">shouldBeActive() = true</text><!--MD5=[6ca744ff27bd2e4ec9bd39aa60a6f694]
+class LifecycleEventObserver--><rect codeLine="34" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="86.4" id="LifecycleEventObserver" style="stroke:#A80036;stroke-width:2.7;" width="291.6" x="57.6" y="544.5"/><ellipse cx="84.6" cy="573.3" fill="#B4A7E5" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M86.4,567.9 L86.4,578.7 L90,578.7 L90.8719,578.7 L91.8,579.825 L91.8,580.5 L91.8,581.175 L90.8719,582.3 L90,582.3 L79.2,582.3 L78.3281,582.3 L77.4,581.175 L77.4,580.5 L77.4,579.825 L78.3281,578.7 L79.2,578.7 L82.8,578.7 L82.8,567.9 L79.2,567.9 L78.3281,567.9 L77.4,566.775 L77.4,566.1 L77.4,565.425 L78.3281,564.3 L79.2,564.3 L90,564.3 L90.8719,564.3 L91.8,565.425 L91.8,566.1 L91.8,566.775 L90.8719,567.9 L90,567.9 L86.4,567.9 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="234" x="109.8" y="582.1383">LifecycleEventObserver</text><line style="stroke:#A80036;stroke-width:2.7;" x1="59.4" x2="347.4" y1="602.1" y2="602.1"/><line style="stroke:#A80036;stroke-width:2.7;" x1="59.4" x2="347.4" y1="616.5" y2="616.5"/><!--MD5=[7b9b977ce5fc00775c52f5e232cb2f71]
+class LifecycleBoundObserver--><rect codeLine="35" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="111.3047" id="LifecycleBoundObserver" style="stroke:#A80036;stroke-width:2.7;" width="297" x="265.5" y="813.6"/><ellipse cx="292.5" cy="842.4" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M296.1,836.1 Q296.4656,835.2 296.8875,834.75 Q297.3094,834.3 297.7875,834.3 Q298.6313,834.3 299.1656,834.8063 Q299.7,835.3125 299.7,836.4938 L299.7,839.3063 Q299.7,840.4875 299.1938,840.9938 Q298.6875,841.5 297.9,841.5 Q297.1969,841.5 296.7469,841.1906 Q296.2969,840.8813 296.1,840.0656 Q296.0156,839.5031 295.7063,839.1938 Q295.1438,838.6031 294.1313,838.2656 Q293.1188,837.9 292.1063,837.9 Q290.8406,837.9 289.7719,838.4063 Q288.7313,838.9125 287.9156,840.0375 Q287.1,841.1625 287.1,842.7094 L287.1,844.3688 Q287.1,846.225 288.6188,847.4625 Q290.1375,848.7 292.8375,848.7 Q294.4406,848.7 295.5656,848.3344 Q296.2125,848.1375 296.9438,847.4906 Q297.4219,847.125 297.675,847.0125 Q297.9281,846.9 298.2375,846.9 Q298.8281,846.9 299.25,847.3781 Q299.7,847.8281 299.7,848.475 Q299.7,849.0938 299.0813,849.825 Q298.1813,850.8938 296.7469,851.4844 Q294.8625,852.3 292.5563,852.3 Q289.8563,852.3 287.6906,851.2313 Q285.9469,850.3875 284.7094,848.5594 Q283.5,846.7313 283.5,844.5656 L283.5,842.5969 Q283.5,840.3469 284.5688,838.3781 Q285.6656,836.4094 287.55,835.3688 Q289.4625,834.3 291.6,834.3 Q292.8938,834.3 294.0188,834.75 Q295.1438,835.2 296.1,836.1 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="239.4" x="317.7" y="851.2383">LifecycleBoundObserver</text><line style="stroke:#A80036;stroke-width:2.7;" x1="267.3" x2="560.7" y1="871.2" y2="871.2"/><ellipse cx="285.3" cy="891" fill="#000000" rx="5.4" ry="5.4" style="stroke:#000000;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="221.4" x="301.5" y="898.9541">LifecycleOwner mOwner</text><line style="stroke:#A80036;stroke-width:2.7;" x1="267.3" x2="560.7" y1="910.5047" y2="910.5047"/><!--MD5=[f052e030d74ea82fc0965ba2b7cbfa23]
+class MutableLiveData--><rect codeLine="48" fill="#FEFECE" filter="url(#f1whgjas9ls705)" height="136.2094" id="MutableLiveData" style="stroke:#A80036;stroke-width:2.7;" width="241.2" x="972" y="150.3"/><ellipse cx="999" cy="179.1" fill="#ADD1B2" rx="19.8" ry="19.8" style="stroke:#A80036;stroke-width:1.8;"/><path d="M1002.6,172.8 Q1002.9656,171.9 1003.3875,171.45 Q1003.8094,171 1004.2875,171 Q1005.1313,171 1005.6656,171.5063 Q1006.2,172.0125 1006.2,173.1938 L1006.2,176.0063 Q1006.2,177.1875 1005.6938,177.6938 Q1005.1875,178.2 1004.4,178.2 Q1003.6969,178.2 1003.2469,177.8906 Q1002.7969,177.5813 1002.6,176.7656 Q1002.5156,176.2031 1002.2063,175.8938 Q1001.6438,175.3031 1000.6313,174.9656 Q999.6188,174.6 998.6063,174.6 Q997.3406,174.6 996.2719,175.1063 Q995.2313,175.6125 994.4156,176.7375 Q993.6,177.8625 993.6,179.4094 L993.6,181.0688 Q993.6,182.925 995.1188,184.1625 Q996.6375,185.4 999.3375,185.4 Q1000.9406,185.4 1002.0656,185.0344 Q1002.7125,184.8375 1003.4438,184.1906 Q1003.9219,183.825 1004.175,183.7125 Q1004.4281,183.6 1004.7375,183.6 Q1005.3281,183.6 1005.75,184.0781 Q1006.2,184.5281 1006.2,185.175 Q1006.2,185.7938 1005.5813,186.525 Q1004.6813,187.5938 1003.2469,188.1844 Q1001.3625,189 999.0563,189 Q996.3563,189 994.1906,187.9313 Q992.4469,187.0875 991.2094,185.2594 Q990,183.4313 990,181.2656 L990,179.2969 Q990,177.0469 991.0688,175.0781 Q992.1656,173.1094 994.05,172.0688 Q995.9625,171 998.1,171 Q999.3938,171 1000.5188,171.45 Q1001.6438,171.9 1002.6,172.8 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="21.6" lengthAdjust="spacing" textLength="163.8" x="1024.2" y="187.9383">MutableLiveData</text><rect fill="#FFFFFF" height="30.7688" style="stroke:#000000;stroke-width:1.8;stroke-dasharray:2.0,2.0;" width="16.2" x="1202.4" y="144.9"/><text fill="#000000" font-family="sans-serif" font-size="21.6" font-style="italic" lengthAdjust="spacing" textLength="12.6" x="1204.2" y="169.1227">T</text><line style="stroke:#A80036;stroke-width:2.7;" x1="973.8" x2="1211.4" y1="207.9" y2="207.9"/><line style="stroke:#A80036;stroke-width:2.7;" x1="973.8" x2="1211.4" y1="222.3" y2="222.3"/><ellipse cx="991.8" cy="242.1" fill="#84BE84" rx="5.4" ry="5.4" style="stroke:#038048;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="154.8" x="1008" y="250.0541">setValue(T value)</text><ellipse cx="991.8" cy="267.0047" fill="#84BE84" rx="5.4" ry="5.4" style="stroke:#038048;stroke-width:1.8;"/><text fill="#000000" font-family="sans-serif" font-size="19.8" lengthAdjust="spacing" textLength="165.6" x="1008" y="274.9588">postValue(T value)</text><!--MD5=[a2329fa02038dc6ef5e67c5404a5b99c]
+link Observer to LiveData--><path codeLine="39" d="M227.0322,218.7 C240.0624,218.7 253.0926,218.7 266.1228,218.7 " fill="none" id="Observer-to-LiveData" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="289.5786,218.7,278.7786,211.5,267.9786,218.7,278.7786,225.9,289.5786,218.7" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[45ddd762a9f8eea423565752dc46f04d]
+reverse link LiveData to ObserverWrapper--><path codeLine="40" d="M642.6252,389.2446 C649.5858,416.421 656.6544,444.0114 663.2064,469.5912 " fill="none" id="LiveData-backto-ObserverWrapper" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><ellipse cx="639.2947" cy="376.2466" fill="#FFFFFF" rx="14.4" ry="14.4" style="stroke:#A80036;stroke-width:1.8;"/><line style="stroke:#A80036;stroke-width:1.8;" x1="642.8672" x2="635.7222" y1="390.1964" y2="362.2968"/><line style="stroke:#A80036;stroke-width:1.8;" x1="625.3449" x2="653.2445" y1="379.8191" y2="372.6741"/><!--MD5=[a57c8bba727ad2307d86e081651c7af4]
+reverse link LiveData to AlwaysActiveObserver--><path codeLine="41" d="M873.1134,381.0906 C899.7084,407.3904 922.9482,436.9536 939.6,469.8 C996.7698,582.57 937.0584,733.4244 896.5674,813.0539 " fill="none" id="LiveData-backto-AlwaysActiveObserver" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><ellipse cx="863.7318" cy="372.337" fill="#FFFFFF" rx="14.4" ry="14.4" style="stroke:#A80036;stroke-width:1.8;"/><line style="stroke:#A80036;stroke-width:1.8;" x1="874.2618" x2="853.2018" y1="382.1593" y2="362.5146"/><line style="stroke:#A80036;stroke-width:1.8;" x1="853.9095" x2="873.5542" y1="382.867" y2="361.8069"/><!--MD5=[f4dfa6d4a28cec09455f50ec6d19aee2]
+reverse link LiveData to LifecycleBoundObserver--><path codeLine="42" d="M483.6942,385.3512 C468.9252,412.5636 455.733,441.2394 446.4,469.8 C407.8728,587.6946 407.3832,735.2082 410.5728,813.281 " fill="none" id="LiveData-backto-LifecycleBoundObserver" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><ellipse cx="489.9172" cy="374.3814" fill="#FFFFFF" rx="14.4" ry="14.4" style="stroke:#A80036;stroke-width:1.8;"/><line style="stroke:#A80036;stroke-width:1.8;" x1="482.813" x2="497.0214" y1="386.907" y2="361.8558"/><line style="stroke:#A80036;stroke-width:1.8;" x1="477.3916" x2="502.4428" y1="367.2772" y2="381.4856"/><!--MD5=[c56e35731ecf770764e2d34ff9018d6b]
+reverse link ObserverWrapper to AlwaysActiveObserver--><path codeLine="44" d="M784.4184,736.6266 C801.396,763.9488 818.1126,790.8534 831.9366,813.1021 " fill="none" id="ObserverWrapper-backto-AlwaysActiveObserver" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="773.5788,743.0562,765.2808,705.8286,794.9844,729.756,773.5788,743.0562" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[dfd839bd5625726b72842da47f6029a8]
+reverse link ObserverWrapper to LifecycleBoundObserver--><path codeLine="45" d="M550.7064,731.3346 C521.4888,760.4568 492.435,789.417 468.675,813.1021 " fill="none" id="ObserverWrapper-backto-LifecycleBoundObserver" style="stroke:#A80036;stroke-width:1.8;stroke-dasharray:7.0,7.0;"/><polygon fill="none" points="541.9026,722.3184,576.2952,705.8286,559.6938,740.1672,541.9026,722.3184" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[2f3c4ae8bdfad04a1108f9ae98b351b7]
+reverse link LifecycleEventObserver to LifecycleBoundObserver--><path codeLine="46" d="M256.7952,660.0078 C292.8294,707.5926 339.6798,769.4586 372.8322,813.2366 " fill="none" id="LifecycleEventObserver-backto-LifecycleBoundObserver" style="stroke:#A80036;stroke-width:1.8;"/><polygon fill="none" points="246.618,667.44,234.9288,631.134,266.7078,652.2264,246.618,667.44" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[26f4d65875d6beb6209cf02cbfa5a14b]
+reverse link LiveData to MutableLiveData--><path codeLine="53" d="M945.1494,218.7 C953.919,218.7 962.6886,218.7 971.4582,218.7 " fill="none" id="LiveData-backto-MutableLiveData" style="stroke:#A80036;stroke-width:1.8;"/><polygon fill="none" points="945.0954,231.3,909.0954,218.7,945.0954,206.1,945.0954,231.3" style="stroke:#A80036;stroke-width:1.8;"/><!--MD5=[8573e2b68bbc24439413c41b21e6f6aa]
+@startuml
+'https://plantuml.com/class-diagram
+package Jetpack-LiveData #ff0 {
+
+interface Observer<T> {
+    onChanged(T t)
+}
+
+abstract class LiveData<T> {
+    * START_VERSION = -1
+    * Object NOT_SET
+
+    * setValue(T value)
+    * postValue(T value)
+
+    + observe(LifecycleOwner owner, Observer<? super T> observer)
+    * dispatchingValue(@Nullable ObserverWrapper initiator)
+    - considerNotify(ObserverWrapper observer)
+}
+
+abstract class ObserverWrapper {
+    Observer<? super T> mObserver
+    boolean mActive
+    int mLastVersion = START_VERSION
+
+    abstract shouldBeActive():boolean
+    isAttachedTo(LifecycleOwner owner):boolean
+    activeStateChanged(boolean newActive)
+}
+
+class AlwaysActiveObserver {
+    shouldBeActive() = true
+}
+
+interface LifecycleEventObserver {}
+class LifecycleBoundObserver {
+    * LifecycleOwner mOwner
+}
+
+Observer .* LiveData
+LiveData +.. ObserverWrapper
+LiveData +.. AlwaysActiveObserver
+LiveData +.. LifecycleBoundObserver
+
+ObserverWrapper <|.. AlwaysActiveObserver
+ObserverWrapper <|.. LifecycleBoundObserver
+LifecycleEventObserver <|- - LifecycleBoundObserver
+
+class MutableLiveData<T> {
+    + setValue(T value)
+    + postValue(T value)
+}
+
+LiveData <|- MutableLiveData
+}
+@enduml
+
+@startuml
+package Jetpack-LiveData #ff0 {
+
+interface Observer<T> {
+    onChanged(T t)
+}
+
+abstract class LiveData<T> {
+    * START_VERSION = -1
+    * Object NOT_SET
+
+    * setValue(T value)
+    * postValue(T value)
+
+    + observe(LifecycleOwner owner, Observer<? super T> observer)
+    * dispatchingValue(@Nullable ObserverWrapper initiator)
+    - considerNotify(ObserverWrapper observer)
+}
+
+abstract class ObserverWrapper {
+    Observer<? super T> mObserver
+    boolean mActive
+    int mLastVersion = START_VERSION
+
+    abstract shouldBeActive():boolean
+    isAttachedTo(LifecycleOwner owner):boolean
+    activeStateChanged(boolean newActive)
+}
+
+class AlwaysActiveObserver {
+    shouldBeActive() = true
+}
+
+interface LifecycleEventObserver {}
+class LifecycleBoundObserver {
+    * LifecycleOwner mOwner
+}
+
+Observer .* LiveData
+LiveData +.. ObserverWrapper
+LiveData +.. AlwaysActiveObserver
+LiveData +.. LifecycleBoundObserver
+
+ObserverWrapper <|.. AlwaysActiveObserver
+ObserverWrapper <|.. LifecycleBoundObserver
+LifecycleEventObserver <|- - LifecycleBoundObserver
+
+class MutableLiveData<T> {
+    + setValue(T value)
+    + postValue(T value)
+}
+
+LiveData <|- MutableLiveData
+}
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 20:40:07 CST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: zh
+Country: CN
+--></g></svg>

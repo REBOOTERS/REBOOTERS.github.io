@@ -13,39 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: true,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.json',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
 
   <meta name="description" content="人生不止眼前的苟且，还有诗与远方和田野">
 <meta property="og:type" content="website">
@@ -64,8 +38,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: false
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -108,17 +83,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">诗与远方</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -126,30 +90,46 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">诗与远方</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -157,29 +137,34 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
   </div>
+</div>
+
+    </div>
+  </div>
+
 </div>
     </header>
 
@@ -197,7 +182,7 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content tag">
             
 
   
@@ -206,14 +191,14 @@
   <div class="post-block">
     <div class="posts-collapse">
       <div class="collection-title">
-        <h1 class="collection-header">Kotlin
+        <h2 class="collection-header">Kotlin
           <small>标签</small>
-        </h1>
+        </h2>
       </div>
 
       
     <div class="collection-year">
-      <h1 class="collection-header">2021</h1>
+      <span class="collection-header">2021</span>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -227,16 +212,16 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/04/09/Kotlin-Syntactic-Sugar/" itemprop="url">
             <span itemprop="name">Kotlin Syntactic Sugar</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
     <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+      <span class="collection-header">2020</span>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -250,11 +235,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/03/04/Kotlin-%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E4%BA%8C/" itemprop="url">
             <span itemprop="name">Kotlin 实战读书笔记(二)</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -270,11 +255,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/03/03/Kotlin-%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E4%B8%80/" itemprop="url">
             <span itemprop="name">Kotlin 实战读书笔记(一)</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -290,16 +275,16 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/02/25/kotlin-%E5%92%8C-java-%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%BC%82/" itemprop="url">
             <span itemprop="name">Kotlin 和 Java 的细微差异与坑 （持续更新）</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
     <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
+      <span class="collection-header">2019</span>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -313,11 +298,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2019/08/24/kotlinc-vs-javac/" itemprop="url">
             <span itemprop="name">kotlinc vs javac</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -337,7 +322,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -395,7 +380,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -408,17 +393,17 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -438,29 +423,28 @@
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">478k</span>
+    <span title="站点总字数">591k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:17</span>
+    <span title="站点阅读时长">8:57</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         

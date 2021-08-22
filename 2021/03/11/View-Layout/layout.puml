@@ -1,0 +1,26 @@
+@startuml
+
+title
+Android View 测量流程
+
+end title
+
+package ViewRootImpl #ff8 {
+:performTraversals();
+:performLayout();
+}
+fork
+package View #ff5 {
+:layout;
+:onLayout();
+}
+fork again
+package ViewGroup #ff1 {
+:layout;
+:onLayout;
+note right: abstract
+}
+fork end
+
+
+@enduml

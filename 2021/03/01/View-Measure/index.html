@@ -13,39 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: true,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.json',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
 
   <meta name="description" content="前言Android View 体系 Measure 流程分析，结合 View、ViewGroup 梳理 Android 中测量 View 大小的具体实现。">
 <meta property="og:type" content="article">
@@ -54,15 +28,17 @@
 <meta property="og:site_name" content="诗与远方">
 <meta property="og:description" content="前言Android View 体系 Measure 流程分析，结合 View、ViewGroup 梳理 Android 中测量 View 大小的具体实现。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2021/03/01/View-Measure/measure.svg">
 <meta property="og:image" content="http://yoursite.com/2021/03/01/View-Measure/with_content.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/01/View-Measure/frames.png">
 <meta property="og:image" content="http://yoursite.com/2021/03/01/View-Measure/measure.svg">
 <meta property="article:published_time" content="2021-03-01T05:40:44.000Z">
-<meta property="article:modified_time" content="2021-08-01T10:14:40.160Z">
+<meta property="article:modified_time" content="2021-08-22T13:20:36.262Z">
 <meta property="article:author" content="九尾灵狐">
-<meta property="article:tag" content="Android;自定义View">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="自定义View">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2021/03/01/View-Measure/with_content.png">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/01/View-Measure/measure.svg">
 
 <link rel="canonical" href="http://yoursite.com/2021/03/01/View-Measure/">
 
@@ -71,8 +47,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -115,17 +92,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">诗与远方</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -133,30 +99,46 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">诗与远方</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -164,29 +146,34 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
   </div>
+</div>
+
+    </div>
+  </div>
+
 </div>
     </header>
 
@@ -204,14 +191,13 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content post posts-expand">
             
 
-  <div class="posts-expand">
-      
+    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/01/View-Measure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -231,7 +217,7 @@
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
@@ -239,10 +225,10 @@
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-01 18:14:40" itemprop="dateModified" datetime="2021-08-01T18:14:40+08:00">2021-08-01</time>
+                <time title="修改时间：2021-08-22 21:20:36" itemprop="dateModified" datetime="2021-08-22T21:20:36+08:00">2021-08-22</time>
               </span>
 
           
@@ -255,17 +241,17 @@
             </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
+                <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>14k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
+                <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
+              <span>13 分钟</span>
             </span>
 
         </div>
@@ -277,7 +263,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Android View 体系 Measure 流程分析，结合 View、ViewGroup 梳理 Android 中测量 View 大小的具体实现。</p>
+        <img src="/2021/03/01/View-Measure/measure.svg" width="50%">
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Android View 体系 Measure 流程分析，结合 View、ViewGroup 梳理 Android 中测量 View 大小的具体实现。</p>
 <a id="more"></a>
 
 <h3 id="到底是从哪里开始了-measure"><a href="#到底是从哪里开始了-measure" class="headerlink" title="到底是从哪里开始了 measure ?"></a>到底是从哪里开始了 measure ?</h3><img src="/2021/03/01/View-Measure/with_content.png" width="60%/">
@@ -318,8 +306,32 @@
 <p>ViewGroup 中 setMeasuredDimension 会根据 LinearLayout/RelativeLayout 等不同的特性，程序不同的实现逻辑。但整体是思路是一致的。</p>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>至此，我们了解了 View measure 的整体流程。</p>
 <p>通过 WindowManager 将 DecorView 添加到 ViewRootImpl 的过程中，会主动调用 requestLayout 。在这个过程中会触发 measureHierarchy() 方法，开始整个 ViewTree 的绘制流程。</p>
-<p>在绘制流程中，不同类型的 View 会经历不同的流程。不包括子view的 view 只负责自身大小的测量，同时一定要调用 setMeasuredDimension 方法保存大小。包含子view 的 ViewGroup 类型的 View ，同时会测量所有 view 的大小，一般是使用 measureChildWithMargins 方法。根据具体执行结果，计算自身的宽高并通过 measureChildWithMargins 保存。</p>
-<h3 id="哪些场景会触发-view-的测量-？"><a href="#哪些场景会触发-view-的测量-？" class="headerlink" title="哪些场景会触发 view 的测量 ？"></a>哪些场景会触发 view 的测量 ？</h3>
+<p>在绘制流程中，不同类型的 View 会经历不同的流程。不包括子view的 view 只负责自身大小的测量，同时一定要调用 setMeasuredDimension 方法保存大小。包含子view 的 ViewGroup 类型的 View ，同时会测量所有 view 的大小，一般是使用 measureChildWithMargins 方法。根据具体执行结果，计算自身的宽高并通过 <code>setMeasuredDimension</code> 保存。</p>
+<h3 id="哪些场景会触发-view-的测量-？"><a href="#哪些场景会触发-view-的测量-？" class="headerlink" title="哪些场景会触发 view 的测量 ？"></a>哪些场景会触发 view 的测量 ？</h3><p>调用 <code>view.requestLayout</code> 一定会触发 View 的测量过程吗？</p>
+<p>我们可以看一下 <code>requestLayout</code> 的实现。</p>
+<h4 id="View-requestLayout"><a href="#View-requestLayout" class="headerlink" title="View.requestLayout()"></a>View.requestLayout()</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 在 view 的 measure 方法中会创建这个 mMeasureCache ，实现 measure 缓存策略</span></span><br><span class="line">        <span class="keyword">if</span> (mMeasureCache != <span class="keyword">null</span>) mMeasureCache.clear();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据 attachInfo 信息确定，当前 view 是发起 requestLayout 的 view </span></span><br><span class="line">        <span class="keyword">if</span> (mAttachInfo != <span class="keyword">null</span> &amp;&amp; mAttachInfo.mViewRequestingLayout == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Only trigger request-during-layout logic if this is the view requesting it,</span></span><br><span class="line">            <span class="comment">// not the views in its parent hierarchy</span></span><br><span class="line">            ViewRootImpl viewRoot = getViewRootImpl();</span><br><span class="line">            <span class="keyword">if</span> (viewRoot != <span class="keyword">null</span> &amp;&amp; viewRoot.isInLayout()) &#123; </span><br><span class="line">                <span class="comment">// ViewRootImpl 正在进行 layout 操作</span></span><br><span class="line">                <span class="keyword">if</span> (!viewRoot.requestLayoutDuringLayout(<span class="keyword">this</span>)) &#123;</span><br><span class="line">                <span class="comment">// 在 layout 的过程中，如果需要调用了 requestLayout ,那么就进行不继续进行了，</span></span><br><span class="line">                <span class="comment">// 而是在 layout 阶段进行一次完整的 measure/layout 过程。</span></span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            mAttachInfo.mViewRequestingLayout = <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 标志位写 1 </span></span><br><span class="line">        mPrivateFlags |= PFLAG_FORCE_LAYOUT;</span><br><span class="line">        mPrivateFlags |= PFLAG_INVALIDATED;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mParent != <span class="keyword">null</span> &amp;&amp; !mParent.isLayoutRequested()) &#123;</span><br><span class="line">            <span class="comment">// 递归的向上调用</span></span><br><span class="line">            mParent.requestLayout();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mAttachInfo != <span class="keyword">null</span> &amp;&amp; mAttachInfo.mViewRequestingLayout == <span class="keyword">this</span>) &#123;</span><br><span class="line">            mAttachInfo.mViewRequestingLayout = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Called by &#123;<span class="doctag">@link</span> android.view.View#requestLayout()&#125; if the view hierarchy is currently</span></span><br><span class="line"><span class="comment">     * undergoing a layout pass. requestLayout() should not generally be called during layout,</span></span><br><span class="line"><span class="comment">     * unless the container hierarchy knows what it is doing (i.e., it is fine as long as</span></span><br><span class="line"><span class="comment">     * all children in that container hierarchy are measured and laid out at the end of the layout</span></span><br><span class="line"><span class="comment">     * pass for that container). If requestLayout() is called anyway, we handle it correctly</span></span><br><span class="line"><span class="comment">     * by registering all requesters during a frame as it proceeds. At the end of the frame,</span></span><br><span class="line"><span class="comment">     * we check all of those views to see if any still have pending layout requests, which</span></span><br><span class="line"><span class="comment">     * indicates that they were not correctly handled by their container hierarchy. If that is</span></span><br><span class="line"><span class="comment">     * the case, we clear all such flags in the tree, to remove the buggy flag state that leads</span></span><br><span class="line"><span class="comment">     * to blank containers, and force a second request/measure/layout pass in this frame. If</span></span><br><span class="line"><span class="comment">     * more requestLayout() calls are received during that second layout pass, we post those</span></span><br><span class="line"><span class="comment">     * requests to the next frame to avoid possible infinite loops.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;The return value from this method indicates whether the request should proceed</span></span><br><span class="line"><span class="comment">     * (if it is a request during the first layout pass) or should be skipped and posted to the</span></span><br><span class="line"><span class="comment">     * next frame (if it is a request during the second layout pass).&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> view the view that requested the layout.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true if request should proceed, false otherwise.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">requestLayoutDuringLayout</span><span class="params">(<span class="keyword">final</span> View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (view.mParent == <span class="keyword">null</span> || view.mAttachInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// Would not normally trigger another layout, so just let it pass through as usual</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将当前 view 添加到这个集合中</span></span><br><span class="line">        <span class="keyword">if</span> (!mLayoutRequesters.contains(view)) &#123;</span><br><span class="line">            mLayoutRequesters.add(view);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 在 performLayout 阶段，mLayoutRequesters 中需要测量的 view 的数量大于 0，那么这个值</span></span><br><span class="line">        <span class="comment">// 会设置为 true ,其余情况均是 false</span></span><br><span class="line">        <span class="keyword">if</span> (!mHandlingLayoutInLayoutRequest) &#123;</span><br><span class="line">            <span class="comment">// Let the request proceed normally; it will be processed in a second layout pass</span></span><br><span class="line">            <span class="comment">// if necessary</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Don&#x27;t let the request proceed during the second layout pass.</span></span><br><span class="line">            <span class="comment">// It will post to the next frame instead.</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在调用 requestLayout 的时候，系统会兼容处理恰好在 layout 阶段调用的这种情况。具体处理逻辑 requestLayoutDuringLayout 的注释已经很清楚了。</p>
+<p>正常情况下会设置当前 view 的 <code>PFLAG_FORCE_LAYOUT</code>、<code>PFLAG_INVALIDATED</code> 这两个标志位。并依次递归的向上调用 requestLayout。直达到达最顶层的 parent<br>ViewRootImpl. 这样就又回到了一个完整的测量流程。</p>
+<p>那么为什么要设置这两个标志位呢？各自又有什么用呢？以及什么时候去除这个标志位？ 我们可以从他们被使用的情况做一下总结。</p>
+<h5 id="PFLAG-FORCE-LAYOUT-的意义"><a href="#PFLAG-FORCE-LAYOUT-的意义" class="headerlink" title="PFLAG_FORCE_LAYOUT 的意义"></a>PFLAG_FORCE_LAYOUT 的意义</h5><ul>
+<li><p>measure 阶段</p>
+<p>从上面 <code>measure </code> 方法执行的过程可以看到 <code>final boolean forceLayout = (mPrivateFlags &amp; PFLAG_FORCE_LAYOUT) == PFLAG_FORCE_LAYOUT</code> ,有这个标志位的话，那么会忽略缓存，进行一次完成的 onMeasure() 的调用。</p>
+</li>
+<li><p>清除</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">layout() &#123;</span><br><span class="line">  mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 layout 结束，准确来说是在 onLayout 执行完之后，清除标志位。</p>
+</li>
+<li><p>isLayoutRequested</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Indicates whether or not this view&#x27;s layout will be requested during</span></span><br><span class="line"><span class="comment"> * the next hierarchy layout pass.&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> true if the layout will be forced during next layout pass</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isLayoutRequested</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (mPrivateFlags &amp; PFLAG_FORCE_LAYOUT) == PFLAG_FORCE_LAYOUT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>isLayoutValid</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if laid-out and not about to do another layout.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isLayoutValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> isLaidOut() &amp;&amp; ((mPrivateFlags &amp; PFLAG_FORCE_LAYOUT) == <span class="number">0</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>PFLAG_INVALIDATED 是和绘制相关的，这里就暂时不展开了，等分析 draw 流程的时候再看，这里只要记住在 requestLayout 的时候设置了这个标志位即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以看到 View measure 的细节特别多，相比 layout 和 draw 只会执行一次，measure 会由于 ViewGroup 自身的实现及子 view 的 LayoutParams 等因素执行多次。因此会使得整个流程更加的复杂，每一次去阅读源码都会看到一些新的内容。所以，View Measure 的了解绝非到此为止，在之后使用的过程中可以不断挖掘更多的内容。</p>
+
     </div>
 
     
@@ -327,7 +339,7 @@
     
         <div class="reward-container">
   <div>加个鸡腿呗.</div>
-  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     打赏
   </button>
   <div id="qr" style="display: none;">
@@ -348,7 +360,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Android-%E8%87%AA%E5%AE%9A%E4%B9%89View/" rel="tag"># Android;自定义View</a>
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/" rel="tag"># 自定义View</a>
           </div>
 
         
@@ -361,8 +374,8 @@
       <i class="fa fa-chevron-left"></i> Activity 为什么能显示 UI
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/03/16/InspectUI-Code-Review/" rel="next" title="InspectUI Code Review">
-      InspectUI Code Review <i class="fa fa-chevron-right"></i>
+    <a href="/2021/03/11/View-Layout/" rel="next" title="View Layout">
+      View Layout <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -372,7 +385,6 @@
   
   
 
-  </div>
 
 
           </div>
@@ -380,7 +392,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -423,7 +435,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%8E%E5%93%AA%E9%87%8C%E5%BC%80%E5%A7%8B%E4%BA%86-measure"><span class="nav-number">1.1.</span> <span class="nav-text">到底是从哪里开始了 measure ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E9%87%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">测量流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#performTraversals"><span class="nav-number">1.2.1.</span> <span class="nav-text">performTraversals</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measureHierarchy"><span class="nav-number">1.2.2.</span> <span class="nav-text">measureHierarchy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#performMeasure"><span class="nav-number">1.2.3.</span> <span class="nav-text">performMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measure"><span class="nav-number">1.2.4.</span> <span class="nav-text">measure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onMeasure"><span class="nav-number">1.2.5.</span> <span class="nav-text">onMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FrameLayout-onMeasure"><span class="nav-number">1.2.6.</span> <span class="nav-text">FrameLayout.onMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measureChildWithMargins"><span class="nav-number">1.2.7.</span> <span class="nav-text">measureChildWithMargins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">1.2.8.</span> <span class="nav-text">整体流程图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%E4%BC%9A%E8%A7%A6%E5%8F%91-view-%E7%9A%84%E6%B5%8B%E9%87%8F-%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">哪些场景会触发 view 的测量 ？</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%8E%E5%93%AA%E9%87%8C%E5%BC%80%E5%A7%8B%E4%BA%86-measure"><span class="nav-number">1.1.</span> <span class="nav-text">到底是从哪里开始了 measure ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E9%87%8F%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">测量流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#performTraversals"><span class="nav-number">1.2.1.</span> <span class="nav-text">performTraversals</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measureHierarchy"><span class="nav-number">1.2.2.</span> <span class="nav-text">measureHierarchy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#performMeasure"><span class="nav-number">1.2.3.</span> <span class="nav-text">performMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measure"><span class="nav-number">1.2.4.</span> <span class="nav-text">measure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onMeasure"><span class="nav-number">1.2.5.</span> <span class="nav-text">onMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FrameLayout-onMeasure"><span class="nav-number">1.2.6.</span> <span class="nav-text">FrameLayout.onMeasure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#measureChildWithMargins"><span class="nav-number">1.2.7.</span> <span class="nav-text">measureChildWithMargins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">1.2.8.</span> <span class="nav-text">整体流程图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%9C%BA%E6%99%AF%E4%BC%9A%E8%A7%A6%E5%8F%91-view-%E7%9A%84%E6%B5%8B%E9%87%8F-%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">哪些场景会触发 view 的测量 ？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#View-requestLayout"><span class="nav-number">1.4.1.</span> <span class="nav-text">View.requestLayout()</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#PFLAG-FORCE-LAYOUT-%E7%9A%84%E6%84%8F%E4%B9%89"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">PFLAG_FORCE_LAYOUT 的意义</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -439,7 +451,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -452,17 +464,17 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -482,29 +494,28 @@
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">478k</span>
+    <span title="站点总字数">591k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:17</span>
+    <span title="站点阅读时长">8:57</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         

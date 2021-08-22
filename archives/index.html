@@ -13,39 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: true,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.json',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
 
   <meta name="description" content="人生不止眼前的苟且，还有诗与远方和田野">
 <meta property="og:type" content="website">
@@ -64,8 +38,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: false
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -108,17 +83,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">诗与远方</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -126,30 +90,46 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">诗与远方</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -157,29 +137,34 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
   </div>
+</div>
+
+    </div>
+  </div>
+
 </div>
     </header>
 
@@ -197,7 +182,7 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content archive">
             
 
   
@@ -207,13 +192,33 @@
     <div class="posts-collapse">
       <div class="collection-title">
         
-        <span class="collection-header">不错! 目前共计 78 篇日志。 继续努力。</span>
+        <span class="collection-header">很好! 目前共计 85 篇日志。 继续努力。</span>
       </div>
 
       
     <div class="collection-year">
-      <h1 class="collection-header">2021</h1>
+      <span class="collection-header">2021</span>
     </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-08-22T21:15:03+08:00"
+              content="2021-08-22">
+          08-22
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/08/22/%E5%A4%8F%E5%A4%A9%E7%9A%84%E5%A4%8F%E5%A4%A9/" itemprop="url">
+            <span itemprop="name">夏天的夏天</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
 
   <article itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -226,11 +231,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/08/09/%E9%98%85%E8%AF%BB%E4%BB%A3%E7%A0%81%E7%9A%84%E6%8A%80%E5%B7%A7/" itemprop="url">
             <span itemprop="name">阅读代码的技巧</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -246,11 +251,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/07/31/Java-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%97%B6%E6%9C%BA/" itemprop="url">
             <span itemprop="name">Java 代码执行时机</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -266,11 +271,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/06/07/IntelliJ-Idea-%E5%AE%9E%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE/" itemprop="url">
             <span itemprop="name">IntelliJ Idea 实用快捷键</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -286,11 +291,31 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/05/01/Bitmap-Next/" itemprop="url">
             <span itemprop="name">Bitmap Next</span>
           </a>
-      </h2>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-04-17T22:35:26+08:00"
+              content="2021-04-17">
+          04-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/04/17/Handler-Again/" itemprop="url">
+            <span itemprop="name">Handler Again</span>
+          </a>
+      </div>
 
     </header>
   </article>
@@ -306,11 +331,31 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/04/09/Kotlin-Syntactic-Sugar/" itemprop="url">
             <span itemprop="name">Kotlin Syntactic Sugar</span>
           </a>
-      </h2>
+      </div>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-03-17T22:32:59+08:00"
+              content="2021-03-17">
+          03-17
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/03/17/Net-And-More/" itemprop="url">
+            <span itemprop="name">Net And More</span>
+          </a>
+      </div>
 
     </header>
   </article>
@@ -326,11 +371,11 @@
         </time>
       </div>
 
-      <h2 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2021/03/16/InspectUI-Code-Review/" itemprop="url">
             <span itemprop="name">InspectUI Code Review</span>
           </a>
-      </h2>
+      </div>
 
     </header>
   </article>
@@ -340,77 +385,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2021-03-01T13:40:44+08:00"
-              content="2021-03-01">
-          03-01
+              datetime="2021-03-15T10:51:47+08:00"
+              content="2021-03-15">
+          03-15
         </time>
       </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/03/01/View-Measure/" itemprop="url">
-            <span itemprop="name">View Measure</span>
+      <div class="post-title">
+          <a class="post-title-link" href="/2021/03/15/Android-Jetpack-Core/" itemprop="url">
+            <span itemprop="name">Android Jetpack Core</span>
           </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-02-26T13:50:12+08:00"
-              content="2021-02-26">
-          02-26
-        </time>
       </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/02/26/Activity-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E6%98%BE%E7%A4%BA-UI/" itemprop="url">
-            <span itemprop="name">Activity 为什么能显示 UI</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-02-20T13:34:05+08:00"
-              content="2021-02-20">
-          02-20
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/02/20/Android-%E5%8E%9F%E7%94%9F%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-Flutter/" itemprop="url">
-            <span itemprop="name">Android 原生项目集成 Flutter</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-02-05T19:43:53+08:00"
-              content="2021-02-05">
-          02-05
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2021/02/05/Java%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8/" itemprop="url">
-            <span itemprop="name">Java 之 goto, 标签的使用</span>
-          </a>
-      </h2>
 
     </header>
   </article>
@@ -424,7 +409,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -434,7 +419,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -492,7 +477,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -505,17 +490,17 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -535,29 +520,28 @@
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">478k</span>
+    <span title="站点总字数">591k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:17</span>
+    <span title="站点阅读时长">8:57</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         

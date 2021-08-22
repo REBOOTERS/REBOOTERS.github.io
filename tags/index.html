@@ -13,39 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('http://yoursite.com').hostname,
-    root: '/',
-    scheme: 'Gemini',
-    version: '7.7.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: true,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.json',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
 
   <meta name="description" content="人生不止眼前的苟且，还有诗与远方和田野">
 <meta property="og:type" content="website">
@@ -66,13 +40,14 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: false
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
   <title>tags | 诗与远方
-  </title>
+</title>
   
 
 
@@ -111,17 +86,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">诗与远方</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -129,30 +93,46 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">诗与远方</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -160,29 +140,34 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
   </div>
+</div>
+
+    </div>
+  </div>
+
 </div>
     </header>
 
@@ -202,10 +187,9 @@
   
   
 
-          <div class="content">
+          <div class="content page posts-expand">
             
 
-  <div class="posts-expand">
     
     
     
@@ -228,10 +212,10 @@
       <div class="post-body">
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-              目前共计 52 个标签
+              目前共计 59 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/APT/" style="font-size: 21px; color: #6f6f6f">APT</a> <a href="/tags/ARouter/" style="font-size: 12px; color: #ccc">ARouter</a> <a href="/tags/ASM/" style="font-size: 18px; color: #8e8e8e">ASM</a> <a href="/tags/Android/" style="font-size: 21px; color: #6f6f6f">Android</a> <a href="/tags/Android-Touch-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91/" style="font-size: 12px; color: #ccc">Android Touch 事件分发</a> <a href="/tags/Android-%E5%8A%A8%E7%94%BB/" style="font-size: 12px; color: #ccc">Android 动画</a> <a href="/tags/Android-Bitmap/" style="font-size: 12px; color: #ccc">Android;Bitmap</a> <a href="/tags/Android-%E8%87%AA%E5%AE%9A%E4%B9%89View/" style="font-size: 12px; color: #ccc">Android;自定义View</a> <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 15px; color: #adadad">Android源码</a> <a href="/tags/C-C/" style="font-size: 12px; color: #ccc">C/C++</a> <a href="/tags/Dart/" style="font-size: 12px; color: #ccc">Dart</a> <a href="/tags/Debug/" style="font-size: 12px; color: #ccc">Debug</a> <a href="/tags/EventBus/" style="font-size: 12px; color: #ccc">EventBus</a> <a href="/tags/GIF/" style="font-size: 12px; color: #ccc">GIF</a> <a href="/tags/Git/" style="font-size: 12px; color: #ccc">Git</a> <a href="/tags/Glide/" style="font-size: 12px; color: #ccc">Glide</a> <a href="/tags/Gradle/" style="font-size: 12px; color: #ccc">Gradle</a> <a href="/tags/Java/" style="font-size: 30px; color: #111">Java</a> <a href="/tags/Java-%E5%9F%BA%E7%A1%80/" style="font-size: 12px; color: #ccc">Java 基础</a> <a href="/tags/Java-%E7%BC%96%E8%A7%A3%E7%A0%81/" style="font-size: 12px; color: #ccc">Java,编解码</a> <a href="/tags/Kotlin/" style="font-size: 24px; color: #4f4f4f">Kotlin</a> <a href="/tags/OKR/" style="font-size: 18px; color: #8e8e8e">OKR</a> <a href="/tags/Python/" style="font-size: 12px; color: #ccc">Python</a> <a href="/tags/RecyclerView/" style="font-size: 15px; color: #adadad">RecyclerView</a> <a href="/tags/Router/" style="font-size: 12px; color: #ccc">Router</a> <a href="/tags/RxJava2/" style="font-size: 18px; color: #8e8e8e">RxJava2</a> <a href="/tags/RxJava%EF%BC%8CRetrofit/" style="font-size: 12px; color: #ccc">RxJava，Retrofit</a> <a href="/tags/SugarAdapter/" style="font-size: 15px; color: #adadad">SugarAdapter</a> <a href="/tags/UML/" style="font-size: 12px; color: #ccc">UML</a> <a href="/tags/View/" style="font-size: 12px; color: #ccc">View</a> <a href="/tags/flutter/" style="font-size: 15px; color: #adadad">flutter</a> <a href="/tags/idea/" style="font-size: 12px; color: #ccc">idea</a> <a href="/tags/jar/" style="font-size: 12px; color: #ccc">jar</a> <a href="/tags/mvp-mvc/" style="font-size: 12px; color: #ccc">mvp/mvc</a> <a href="/tags/python/" style="font-size: 12px; color: #ccc">python</a> <a href="/tags/%E4%B8%89%E6%96%B9%E5%BA%93%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" style="font-size: 24px; color: #4f4f4f">三方库源码分析</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 12px; color: #ccc">单元测试</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 15px; color: #adadad">反射</a> <a href="/tags/%E5%9F%BA%E7%A1%80/" style="font-size: 12px; color: #ccc">基础</a> <a href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/" style="font-size: 12px; color: #ccc">插件化</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 24px; color: #4f4f4f">注解</a> <a href="/tags/%E7%83%AD%E4%BF%AE%E5%A4%8D/" style="font-size: 12px; color: #ccc">热修复</a> <a href="/tags/%E7%90%86%E6%83%B3/" style="font-size: 15px; color: #adadad">理想</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 15px; color: #adadad">生活</a> <a href="/tags/%E7%94%B5%E5%BD%B1%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 12px; color: #ccc">电影观后感</a> <a href="/tags/%E7%BB%BC%E8%89%BA/" style="font-size: 12px; color: #ccc">综艺</a> <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/" style="font-size: 18px; color: #8e8e8e">自定义View</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">设计模式</a> <a href="/tags/%E8%AF%97%E4%B8%8E%E8%BF%9C%E6%96%B9/" style="font-size: 27px; color: #303030">诗与远方</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 21px; color: #6f6f6f">读书</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 15px; color: #adadad">音视频</a> <a href="/tags/%E9%AB%98%E6%95%88%E5%B7%A5%E4%BD%9C/" style="font-size: 21px; color: #6f6f6f">高效工作</a>
+              <a href="/tags/APT/" style="font-size: 18.75px; color: #868686">APT</a> <a href="/tags/ARouter/" style="font-size: 12px; color: #ccc">ARouter</a> <a href="/tags/ASM/" style="font-size: 16.5px; color: #9d9d9d">ASM</a> <a href="/tags/Android/" style="font-size: 30px; color: #111">Android</a> <a href="/tags/Android-Touch-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91/" style="font-size: 12px; color: #ccc">Android Touch 事件分发</a> <a href="/tags/Android-%E5%8A%A8%E7%94%BB/" style="font-size: 12px; color: #ccc">Android 动画</a> <a href="/tags/Android%E6%BA%90%E7%A0%81/" style="font-size: 14.25px; color: #b5b5b5">Android源码</a> <a href="/tags/Bitmap/" style="font-size: 12px; color: #ccc">Bitmap</a> <a href="/tags/C-C/" style="font-size: 12px; color: #ccc">C/C++</a> <a href="/tags/Dart/" style="font-size: 12px; color: #ccc">Dart</a> <a href="/tags/Debug/" style="font-size: 12px; color: #ccc">Debug</a> <a href="/tags/EventBus/" style="font-size: 12px; color: #ccc">EventBus</a> <a href="/tags/Framework/" style="font-size: 12px; color: #ccc">Framework</a> <a href="/tags/GIF/" style="font-size: 12px; color: #ccc">GIF</a> <a href="/tags/Git/" style="font-size: 12px; color: #ccc">Git</a> <a href="/tags/Glide/" style="font-size: 12px; color: #ccc">Glide</a> <a href="/tags/Gradle/" style="font-size: 12px; color: #ccc">Gradle</a> <a href="/tags/HTTP/" style="font-size: 12px; color: #ccc">HTTP</a> <a href="/tags/HTTPS/" style="font-size: 12px; color: #ccc">HTTPS</a> <a href="/tags/Handler/" style="font-size: 14.25px; color: #b5b5b5">Handler</a> <a href="/tags/Java/" style="font-size: 27.75px; color: #282828">Java</a> <a href="/tags/Java-%E5%9F%BA%E7%A1%80/" style="font-size: 12px; color: #ccc">Java 基础</a> <a href="/tags/Kotlin/" style="font-size: 21px; color: #6f6f6f">Kotlin</a> <a href="/tags/MVVM/" style="font-size: 12px; color: #ccc">MVVM</a> <a href="/tags/OKR/" style="font-size: 16.5px; color: #9d9d9d">OKR</a> <a href="/tags/Python/" style="font-size: 12px; color: #ccc">Python</a> <a href="/tags/RecyclerView/" style="font-size: 14.25px; color: #b5b5b5">RecyclerView</a> <a href="/tags/Router/" style="font-size: 12px; color: #ccc">Router</a> <a href="/tags/RxJava2/" style="font-size: 16.5px; color: #9d9d9d">RxJava2</a> <a href="/tags/RxJava%EF%BC%8CRetrofit/" style="font-size: 12px; color: #ccc">RxJava，Retrofit</a> <a href="/tags/SugarAdapter/" style="font-size: 14.25px; color: #b5b5b5">SugarAdapter</a> <a href="/tags/UML/" style="font-size: 12px; color: #ccc">UML</a> <a href="/tags/View/" style="font-size: 12px; color: #ccc">View</a> <a href="/tags/flutter/" style="font-size: 14.25px; color: #b5b5b5">flutter</a> <a href="/tags/idea/" style="font-size: 12px; color: #ccc">idea</a> <a href="/tags/jar/" style="font-size: 12px; color: #ccc">jar</a> <a href="/tags/mvp-mvc/" style="font-size: 12px; color: #ccc">mvp/mvc</a> <a href="/tags/python/" style="font-size: 12px; color: #ccc">python</a> <a href="/tags/%E4%B8%89%E6%96%B9%E5%BA%93%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" style="font-size: 21px; color: #6f6f6f">三方库源码分析</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E6%9E%B6%E6%9E%84/" style="font-size: 12px; color: #ccc">代码架构</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 12px; color: #ccc">单元测试</a> <a href="/tags/%E5%8F%8D%E5%B0%84/" style="font-size: 14.25px; color: #b5b5b5">反射</a> <a href="/tags/%E5%9F%BA%E7%A1%80/" style="font-size: 12px; color: #ccc">基础</a> <a href="/tags/%E6%8F%92%E4%BB%B6%E5%8C%96/" style="font-size: 12px; color: #ccc">插件化</a> <a href="/tags/%E6%B3%A8%E8%A7%A3/" style="font-size: 21px; color: #6f6f6f">注解</a> <a href="/tags/%E7%83%AD%E4%BF%AE%E5%A4%8D/" style="font-size: 12px; color: #ccc">热修复</a> <a href="/tags/%E7%90%86%E6%83%B3/" style="font-size: 14.25px; color: #b5b5b5">理想</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 16.5px; color: #9d9d9d">生活</a> <a href="/tags/%E7%94%B5%E5%BD%B1%E8%A7%82%E5%90%8E%E6%84%9F/" style="font-size: 12px; color: #ccc">电影观后感</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81/" style="font-size: 12px; color: #ccc">系统源码</a> <a href="/tags/%E7%BB%BC%E8%89%BA/" style="font-size: 12px; color: #ccc">综艺</a> <a href="/tags/%E7%BC%96%E8%A7%A3%E7%A0%81/" style="font-size: 12px; color: #ccc">编解码</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12px; color: #ccc">网络</a> <a href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/" style="font-size: 23.25px; color: #575757">自定义View</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 12px; color: #ccc">设计模式</a> <a href="/tags/%E8%AF%97%E4%B8%8E%E8%BF%9C%E6%96%B9/" style="font-size: 25.5px; color: #404040">诗与远方</a> <a href="/tags/%E8%AF%BB%E4%B9%A6/" style="font-size: 18.75px; color: #868686">读书</a> <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91/" style="font-size: 14.25px; color: #b5b5b5">音视频</a> <a href="/tags/%E9%AB%98%E6%95%88%E5%B7%A5%E4%BD%9C/" style="font-size: 18.75px; color: #868686">高效工作</a>
             </div>
           </div>
         
@@ -245,7 +229,6 @@
     
     
     
-  </div>
 
 
           </div>
@@ -253,7 +236,7 @@
 
 <script>
   window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
+    let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
       activeClass = localStorage.getItem('comments_active') || activeClass;
     }
@@ -311,7 +294,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -324,17 +307,17 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">52</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/REBOOTERS" title="GitHub → https://github.com/REBOOTERS" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:yingkongshi11@gmail.com" title="E-Mail → mailto:yingkongshi11@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -354,29 +337,28 @@
       <div class="footer-inner">
         
 
+        
+
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">九尾灵狐</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
+      <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">478k</span>
+    <span title="站点总字数">591k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">13:17</span>
+    <span title="站点阅读时长">8:57</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v5.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
         
